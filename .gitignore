@@ -1,0 +1,24 @@
+# Debug & screenshots
+*.png
+debug-*.jpg
+audit.md
+text.txt
+text-2.txt
+index-v1-backup.html
+ig-post1-snapshot.yml
+
+# Playwright MCP
+.playwright-mcp/
+
+# Claude
+.claude/
+
+# macOS
+.DS_Store
+
+# Source files (not for web)
+Рендера/
+Планування/
+
+# Keep essential images
+!img/**

@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ЖК Lakeview — Квартири та комерція біля озера | Львів, вул. В. Великого</title>
+<meta name="description" content="ЖК Lakeview — сімейний комплекс бізнес-класу біля озера у Львові. Квартири від 44 м² — $1600/м². Розстрочка від забудовника. Комерція на 1 поверсі.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --em:#0F4C3A;--em-d:#0A3528;--em-l:#1A6B52;
+  --gold:#C5A55A;--gold-l:#D4BA7A;--gold-d:#A8893E;
+  --txt:#1A1A1C;--txt2:#4A4A4E;--txt3:#8A8A8E;
+  --bg:#FAFAF8;--bg2:#F4F2ED;--card:#FFF;--border:#E8E6E1;
+  --r:16px;--r2:24px;
+  --sh:0 8px 32px rgba(0,0,0,.06);--sh2:0 24px 80px rgba(0,0,0,.1);
+  --f1:'Cormorant Garamond',Georgia,serif;
+  --f2:'Outfit',system-ui,sans-serif;
+  --t:.4s cubic-bezier(.25,.46,.45,.94);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--f2);color:var(--txt);background:var(--bg);line-height:1.65;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+input,select{font-family:inherit}
+.ctn{max-width:1320px;margin:0 auto;padding:0 28px}
+
+/* ═══ HEADER ═══ */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 28px;transition:all var(--t)}
+.hdr.sc{background:rgba(250,250,248,.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 1px 0 var(--border)}
+.hdr-in{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:80px;transition:height var(--t)}
+.hdr.sc .hdr-in{height:64px}
+.logo{font-family:var(--f1);font-size:26px;font-weight:600;letter-spacing:.14em;color:#fff;transition:color var(--t)}
+.hdr.sc .logo{color:var(--em)}
+.nav{display:flex;gap:24px}
+.nav a{font-size:14px;font-weight:500;letter-spacing:.02em;color:rgba(255,255,255,.95);transition:color var(--t);position:relative;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+.nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--gold);transition:width var(--t)}
+.nav a:hover::after{width:100%}
+.hdr.sc .nav a{color:var(--txt2)}.hdr.sc .nav a:hover{color:var(--em)}
+.hdr-r{display:flex;align-items:center;gap:16px}
+.hdr-ph{font-size:14px;font-weight:600;color:#fff;transition:color var(--t);text-shadow:0 1px 8px rgba(0,0,0,.3)}
+.hdr.sc .hdr-ph{color:var(--txt)}
+.btn-cb{padding:10px 24px;border:1.5px solid var(--gold);border-radius:100px;font-size:13px;font-weight:600;color:var(--gold);transition:all var(--t)}
+.btn-cb:hover{background:var(--gold);color:#fff}
+.hdr.sc .btn-cb{border-color:var(--em);color:var(--em)}.hdr.sc .btn-cb:hover{background:var(--em);color:#fff}
+.mob-tog{display:none;flex-direction:column;gap:5px;padding:8px}
+.mob-tog span{width:22px;height:2px;background:#fff;border-radius:2px;transition:all var(--t)}
+.hdr.sc .mob-tog span{background:var(--txt)}
+
+/* ═══ MOBILE NAV ═══ */
+.mob-nav{position:fixed;inset:0;background:var(--em-d);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;opacity:0;pointer-events:none;transition:opacity var(--t)}
+.mob-nav.open{opacity:1;pointer-events:all}
+.mob-nav a{font-family:var(--f1);font-size:24px;color:#fff}
+.mob-x{position:absolute;top:20px;right:24px;font-size:36px;color:#fff}
+
+/* ═══ CALLBACK MODAL ═══ */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-ov.open{display:flex}
+.modal-box{background:#fff;border-radius:var(--r2);padding:44px;max-width:440px;width:90%;position:relative}
+.modal-box h3{font-family:var(--f1);font-size:28px;font-weight:500;margin-bottom:6px}
+.modal-box p{font-size:15px;color:var(--txt2);margin-bottom:24px}
+.modal-box .fg2 label{color:var(--txt2)}
+.modal-box .fg2 input{background:var(--bg2);border:1.5px solid var(--border);color:var(--txt);border-radius:12px;padding:14px 16px;width:100%;font-size:15px;outline:none;margin-bottom:12px}
+.modal-box .fg2 input:focus{border-color:var(--em)}
+.modal-box .fg2 input::placeholder{color:var(--txt3)}
+.modal-close{position:absolute;top:16px;right:16px;font-size:28px;color:var(--txt3);line-height:1}
+.btn-modal{width:100%;padding:15px;background:var(--em);color:#fff;font-size:15px;font-weight:600;border-radius:12px;transition:all var(--t);margin-top:4px}
+.btn-modal:hover{background:var(--em-l);transform:translateY(-1px)}
+
+/* ═══ HERO ═══ */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;padding-bottom:64px;overflow:hidden}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.03)}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,30,22,.7) 0%,rgba(6,30,22,.45) 20%,rgba(6,30,22,.55) 45%,rgba(6,30,22,.92) 75%,rgba(6,30,22,.97) 100%)}
+.hero-c{position:relative;z-index:2;max-width:1320px;margin:0 auto;padding:0 28px;width:100%}
+.hero-tags{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;animation:fu .7s ease-out .2s both}
+.hero-tag{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);border-radius:100px;font-size:13px;font-weight:500;color:#fff;backdrop-filter:blur(10px)}
+.hero-tag.gold{background:rgba(197,165,90,.2);border-color:rgba(197,165,90,.4);color:var(--gold-l)}
+.hero-tag .dot{width:7px;height:7px;border-radius:50%;background:#4ADE80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-family:var(--f1);font-size:clamp(36px,5.2vw,72px);font-weight:500;line-height:1.08;color:#fff;max-width:760px;margin-bottom:20px;animation:fu .7s ease-out .3s both;text-shadow:0 2px 24px rgba(0,0,0,.4)}
+.hero h1 em{font-style:italic;color:var(--gold-l)}
+.hero-p{font-size:17px;line-height:1.7;color:rgba(255,255,255,.9);max-width:520px;margin-bottom:36px;font-weight:400;animation:fu .7s ease-out .45s both;text-shadow:0 1px 12px rgba(0,0,0,.3)}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;animation:fu .7s ease-out .55s both}
+.bp{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;background:var(--gold);color:#fff;font-size:15px;font-weight:600;border-radius:100px;border:2px solid var(--gold);transition:all var(--t)}
+.bp:hover{background:var(--gold-d);border-color:var(--gold-d);transform:translateY(-2px);box-shadow:0 12px 36px rgba(197,165,90,.3)}
+.bs{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;background:rgba(255,255,255,.08);backdrop-filter:blur(6px);color:#fff;font-size:15px;font-weight:500;border-radius:100px;border:1.5px solid rgba(255,255,255,.2);transition:all var(--t)}
+.bs:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.35);transform:translateY(-2px)}
+.bi{width:16px;height:16px;transition:transform var(--t)}
+.bp:hover .bi,.bs:hover .bi{transform:translateX(3px)}
+.hero-nums{display:grid;grid-template-columns:repeat(5,1fr);gap:32px;margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);animation:fu .7s ease-out .7s both}
+.hn-v{font-family:var(--f1);font-size:32px;font-weight:500;color:var(--gold-l);line-height:1}
+.hn-l{font-size:13px;color:rgba(255,255,255,.65);margin-top:4px}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ SECTIONS ═══ */
+.sec{padding:100px 0}
+.sl{display:inline-flex;align-items:center;gap:12px;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.sl::before{content:'';width:28px;height:1.5px;background:var(--gold)}
+.st{font-family:var(--f1);font-size:clamp(28px,3.5vw,48px);font-weight:400;line-height:1.14;color:var(--txt);margin-bottom:14px}
+.st em{font-style:italic;color:var(--em)}
+.sd{font-size:17px;line-height:1.7;color:var(--txt2);max-width:560px;font-weight:400}
+
+/* ═══ FEATURES ═══ */
+.fg{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:48px;margin-bottom:64px}
+.fc{padding:32px 24px;background:var(--card);border-radius:var(--r2);border:1px solid var(--border);transition:all var(--t);position:relative;overflow:hidden}
+.fc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--em),var(--gold));opacity:0;transition:opacity var(--t)}
+.fc:hover{transform:translateY(-3px);box-shadow:var(--sh2)}.fc:hover::before{opacity:1}
+.fi{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--em),var(--em-l));display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.fi svg{width:22px;height:22px;color:#fff;stroke-width:1.8}
+.fc h3{font-family:var(--f1);font-size:20px;font-weight:600;margin-bottom:8px}
+.fc p{font-size:15px;color:var(--txt2);line-height:1.6}
+
+/* ═══ PLANS TABS ═══ */
+.tabs{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+.tab{padding:10px 22px;border-radius:100px;font-size:14px;font-weight:600;color:var(--txt2);background:var(--card);border:1.5px solid var(--border);transition:all var(--t)}
+.tab.act,.tab:hover{background:var(--em);color:#fff;border-color:var(--em)}
+.plans-g{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pc{background:var(--card);border-radius:var(--r2);overflow:hidden;border:1px solid var(--border);transition:all var(--t);cursor:pointer}
+.pc:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.pc-img{aspect-ratio:4/3;overflow:hidden;position:relative}
+.pc-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.pc:hover .pc-img img{transform:scale(1.05)}
+.pc-badge{position:absolute;top:12px;left:12px;padding:5px 12px;background:var(--em);color:#fff;font-size:12px;font-weight:600;border-radius:100px}
+.pc-avail{position:absolute;top:12px;right:12px;padding:5px 10px;background:rgba(74,222,128,.9);color:#fff;font-size:11px;font-weight:600;border-radius:100px}
+.pc-b{padding:18px 20px 12px}
+.pc-b h4{font-family:var(--f1);font-size:22px;font-weight:600;margin-bottom:2px}
+.pc-b span{font-size:14px;color:var(--txt2)}
+.pc-f{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-top:1px solid var(--border)}
+.pc-price{font-family:var(--f1);font-size:18px;font-weight:600;color:var(--em)}
+.pc-link{font-size:13px;font-weight:600;color:var(--gold);display:flex;align-items:center;gap:4px;transition:gap var(--t)}
+.pc-link:hover{gap:8px}
+
+/* ═══ APARTMENT MODAL ═══ */
+.apt-modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:10001;display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px)}
+.apt-modal-ov.open{display:flex}
+.apt-modal{display:grid;grid-template-columns:1.15fr .85fr;max-width:960px;width:100%;max-height:90vh;border-radius:20px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.5);position:relative;animation:modalIn .35s ease-out}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.apt-close{position:absolute;top:14px;right:14px;z-index:3;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.4);backdrop-filter:blur(6px);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;transition:background var(--t);line-height:1}
+.apt-close:hover{background:rgba(0,0,0,.65)}
+.apt-left{background:var(--bg2);display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto;max-height:90vh}
+.apt-left img{max-width:100%;max-height:80vh;object-fit:contain;border-radius:8px}
+.apt-right{background:#fff;padding:36px 32px;overflow-y:auto;max-height:90vh;display:flex;flex-direction:column}
+.apt-type{display:inline-block;padding:5px 14px;background:var(--em);color:#fff;font-size:12px;font-weight:600;border-radius:100px;margin-bottom:12px;width:fit-content}
+.apt-title{font-family:var(--f1);font-size:30px;font-weight:600;color:var(--txt);margin-bottom:20px;line-height:1.2}
+.apt-details{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
+.apt-det{padding:12px 14px;background:var(--bg2);border-radius:10px}
+.apt-det-l{display:block;font-size:12px;color:var(--txt3);margin-bottom:2px}
+.apt-det-v{font-size:16px;font-weight:600;color:var(--txt)}
+.apt-det-price{background:linear-gradient(135deg,rgba(15,76,58,.08),rgba(15,76,58,.04))}
+.apt-det-price .apt-det-v{color:var(--em);font-family:var(--f1);font-size:20px}
+.apt-form-wrap{border-top:1px solid var(--border);padding-top:24px;margin-bottom:16px;flex:1}
+.apt-form-wrap h4{font-size:16px;font-weight:600;color:var(--txt);margin-bottom:14px}
+.apt-field{margin-bottom:10px}
+.apt-field input{width:100%;padding:13px 16px;background:var(--bg2);border:1.5px solid var(--border);border-radius:11px;font-size:15px;color:var(--txt);outline:none;transition:border-color var(--t)}
+.apt-field input::placeholder{color:var(--txt3)}
+.apt-field input:focus{border-color:var(--em)}
+.apt-submit{width:100%;padding:15px;background:var(--gold);color:#fff;font-size:15px;font-weight:600;border-radius:11px;border:none;cursor:pointer;transition:all var(--t);margin-top:4px}
+.apt-submit:hover{background:var(--gold-d);transform:translateY(-1px);box-shadow:0 6px 20px rgba(197,165,90,.3)}
+.apt-note{font-size:12px;color:var(--txt3);text-align:center;margin-top:8px}
+.apt-call{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border:1.5px solid var(--border);border-radius:11px;font-size:14px;font-weight:600;color:var(--em);transition:all var(--t)}
+.apt-call:hover{border-color:var(--em);background:rgba(15,76,58,.04)}
+@media(max-width:768px){
+  .apt-modal{grid-template-columns:1fr;max-height:95vh}
+  .apt-left{max-height:40vh;padding:16px}
+  .apt-right{padding:24px 20px;max-height:55vh}
+  .apt-details{grid-template-columns:1fr 1fr}
+}
+
+/* ═══ CONDITIONS ═══ */
+.cond-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+.cond-card{padding:32px 24px;background:var(--card);border-radius:var(--r2);border:1px solid var(--border);text-align:center}
+.cond-card .ci-icon{width:52px;height:52px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.cond-card .ci-icon svg{width:24px;height:24px;color:var(--em);stroke-width:1.8}
+.cond-card h4{font-family:var(--f1);font-size:20px;font-weight:600;margin-bottom:6px}
+.cond-card p{font-size:15px;color:var(--txt2);line-height:1.55}
+.cond-card .val{font-family:var(--f1);font-size:28px;font-weight:600;color:var(--em);margin-bottom:4px}
+
+/* ═══ LEAD FORMS ═══ */
+.lfw{background:linear-gradient(135deg,var(--em-d),var(--em));border-radius:var(--r2);padding:48px;position:relative;overflow:hidden}
+.lfw::before{content:'';position:absolute;top:-40%;right:-15%;width:360px;height:360px;background:radial-gradient(circle,rgba(197,165,90,.1) 0%,transparent 70%);pointer-events:none}
+.lfw .sl{color:var(--gold-l)}.lfw .sl::before{background:var(--gold-l)}
+.lfw h3{font-family:var(--f1);font-size:28px;font-weight:400;color:#fff;margin-bottom:6px}
+.lfw>p{font-size:15px;color:rgba(255,255,255,.6);margin-bottom:24px;max-width:480px;line-height:1.6}
+.lfw .proof{font-size:13px;color:rgba(255,255,255,.4);margin-top:14px;display:flex;align-items:center;gap:6px}
+.lfw .proof svg{width:14px;height:14px;color:var(--gold)}
+/* Form scarcity badge */
+.lfw-scarcity{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(197,165,90,.12);border:1px solid rgba(197,165,90,.2);border-radius:10px;font-size:13px;font-weight:600;color:var(--gold-l);margin-bottom:24px}
+.lfw-scarcity .sc-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+.lf{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.fg2{flex:1;min-width:160px}
+.fg2 label{display:block;font-size:13px;font-weight:500;color:rgba(255,255,255,.6);letter-spacing:.03em;margin-bottom:6px}
+.fg2 input,.fg2 select{width:100%;padding:14px 16px;background:rgba(255,255,255,.09);border:1.5px solid rgba(255,255,255,.13);border-radius:12px;color:#fff;font-size:15px;outline:none;transition:all var(--t)}
+.fg2 input::placeholder{color:rgba(255,255,255,.3)}
+.fg2 select{appearance:none;cursor:pointer}.fg2 select option{background:var(--em-d);color:#fff}
+.fg2 input:focus,.fg2 select:focus{border-color:var(--gold);background:rgba(255,255,255,.13)}
+.bf{padding:14px 28px;background:var(--gold);color:#fff;font-size:15px;font-weight:600;border-radius:12px;transition:all var(--t);white-space:nowrap;border:2px solid var(--gold);height:52px}
+.bf:hover{background:var(--gold-d);border-color:var(--gold-d);transform:translateY(-1px);box-shadow:0 8px 24px rgba(197,165,90,.3)}
+.privacy{font-size:12px;color:rgba(255,255,255,.35);margin-top:10px;white-space:nowrap}
+.fs{display:none;align-items:center;gap:10px;padding:16px 20px;background:rgba(255,255,255,.1);border-radius:12px;color:var(--gold-l);font-weight:500;font-size:15px;animation:fu .4s ease-out}
+.fs.vis{display:flex}
+.fs svg{width:22px;height:22px;flex-shrink:0}
+
+/* ═══ CTA SPLIT BLOCK ═══ */
+.cta-split{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh2);min-height:520px}
+.cta-split-img{position:relative;overflow:hidden}
+.cta-split-img img{width:100%;height:100%;object-fit:cover;transition:transform 8s ease}
+.cta-split:hover .cta-split-img img{transform:scale(1.06)}
+.cta-split-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,53,40,.7) 0%,transparent 50%);display:flex;align-items:flex-end;padding:36px}
+.cta-split-quote{font-family:var(--f1);font-size:22px;font-style:italic;color:#fff;line-height:1.35;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.cta-split-form{background:linear-gradient(160deg,var(--em-d) 0%,var(--em) 100%);padding:44px 40px;display:flex;flex-direction:column;justify-content:center;position:relative}
+.cta-split-form::before{content:'';position:absolute;top:-30%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(197,165,90,.08) 0%,transparent 70%);pointer-events:none}
+.cta-split-form .sl{color:var(--gold-l)}.cta-split-form .sl::before{background:var(--gold-l)}
+.cta-field{margin-bottom:14px}
+.cta-field label{display:block;font-size:13px;font-weight:500;color:rgba(255,255,255,.55);margin-bottom:5px}
+.cta-field input,.cta-field select{width:100%;padding:14px 16px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;color:#fff;font-size:15px;outline:none;transition:all var(--t)}
+.cta-field input::placeholder{color:rgba(255,255,255,.3)}
+.cta-field select{appearance:none;cursor:pointer}
+.cta-field select option{background:var(--em-d);color:#fff}
+.cta-field input:focus,.cta-field select:focus{border-color:var(--gold);background:rgba(255,255,255,.12)}
+.cta-submit{width:100%;padding:16px;background:var(--gold);color:#fff;font-size:16px;font-weight:600;border-radius:12px;margin-top:6px;transition:all var(--t);border:none;cursor:pointer;letter-spacing:.01em}
+.cta-submit:hover{background:var(--gold-d);transform:translateY(-1px);box-shadow:0 8px 28px rgba(197,165,90,.35)}
+.cta-proof{display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.4);margin-top:14px}
+@media(max-width:768px){
+  .cta-split{grid-template-columns:1fr;min-height:auto}
+  .cta-split-img{height:240px}
+  .cta-split-form{padding:32px 24px}
+}
+
+/* ═══ LOCATION ═══ */
+.loc-sec{background:var(--bg2)}
+.loc-hero{position:relative;border-radius:var(--r2);overflow:hidden;margin-top:40px;box-shadow:var(--sh2)}
+.loc-hero img{width:100%;aspect-ratio:21/9;object-fit:cover}
+.loc-ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(15,76,58,.8) 0%,transparent 55%);display:flex;align-items:flex-end;padding:40px}
+.loc-tags{display:flex;gap:10px;flex-wrap:wrap}
+.lt{display:flex;align-items:center;gap:7px;padding:9px 16px;background:rgba(255,255,255,.1);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);border-radius:100px;color:#fff;font-size:14px;font-weight:500}
+.lt svg{width:16px;height:16px;color:var(--gold-l)}
+.loc-infra{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+.li{text-align:center;padding:24px 14px;background:var(--card);border-radius:var(--r);border:1px solid var(--border)}
+.li-v{font-family:var(--f1);font-size:32px;font-weight:500;color:var(--em);line-height:1}
+.li-u{font-size:14px;color:var(--txt2);margin-top:5px}
+
+/* ═══ CONSTRUCTION ═══ */
+.con-top{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:48px}
+.dev-box{padding:32px;background:var(--card);border-radius:var(--r2);border:1px solid var(--border)}
+.dev-box h4{font-family:var(--f1);font-size:22px;font-weight:600;color:var(--em);margin-bottom:10px}
+.dev-box p{font-size:15px;line-height:1.65;color:var(--txt2)}
+/* Timeline */
+.timeline{display:flex;gap:0;margin-bottom:48px;position:relative}
+.timeline::before{content:'';position:absolute;top:22px;left:0;right:0;height:3px;background:var(--border);border-radius:2px}
+.tl-item{flex:1;text-align:center;position:relative;padding-top:44px}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:var(--border);position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:1;border:3px solid var(--bg2)}
+.tl-item.done .tl-dot{background:var(--em)}
+.tl-item.current .tl-dot{background:var(--gold);box-shadow:0 0 0 4px rgba(197,165,90,.3);animation:pulse 2s infinite}
+.tl-item h5{font-size:13px;font-weight:600;color:var(--txt);margin-bottom:2px}
+.tl-item span{font-size:12px;color:var(--txt3)}
+.tl-item.done h5{color:var(--em)}
+.tl-item.current h5{color:var(--gold-d);font-weight:700}
+/* Construction Grid */
+.con-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:220px;gap:12px}
+.ci{border-radius:var(--r);overflow:hidden;position:relative;cursor:pointer}
+.ci img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s ease}
+.ci::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.08) 50%,transparent 100%);transition:opacity .4s ease;pointer-events:none}
+.ci:hover img{transform:scale(1.06)}
+.ci:hover::after{opacity:.7}
+.ci:hover .ci-zoom{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.ci:first-child{grid-column:1/3;grid-row:1/3}
+.ci-label{position:absolute;bottom:12px;left:12px;padding:6px 14px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:8px;color:#fff;font-size:12px;font-weight:500;z-index:1;letter-spacing:.02em}
+.ci-zoom{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s ease,transform .3s ease;z-index:2;border:1px solid rgba(255,255,255,.25)}
+.ci-zoom svg{width:20px;height:20px;color:#fff}
+.con-more{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:24px;font-size:14px;color:var(--txt3);font-weight:500;transition:color var(--t);cursor:pointer}
+.con-more:hover{color:var(--em)}
+.con-more svg{width:16px;height:16px;transition:transform .3s ease}
+.con-more:hover svg{transform:translateX(4px)}
+/* Construction Lightbox */
+.lb-ov{position:fixed;inset:0;z-index:9999;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s ease}
+.lb-ov.open{opacity:1;visibility:visible}
+.lb-ov.open .lb-img{transform:scale(1);opacity:1}
+.lb-close{position:absolute;top:20px;right:24px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .3s ease;z-index:3}
+.lb-close:hover{background:rgba(255,255,255,.2)}
+.lb-close svg{width:20px;height:20px;color:#fff}
+.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .3s ease,transform .3s ease;z-index:3}
+.lb-arrow:hover{background:rgba(255,255,255,.18)}
+.lb-arrow svg{width:22px;height:22px;color:#fff}
+.lb-prev{left:20px}.lb-prev:hover{transform:translateY(-50%) translateX(-2px)}
+.lb-next{right:20px}.lb-next:hover{transform:translateY(-50%) translateX(2px)}
+.lb-content{max-width:90vw;max-height:80vh;position:relative;display:flex;flex-direction:column;align-items:center}
+.lb-img{max-width:100%;max-height:72vh;object-fit:contain;border-radius:8px;transform:scale(.94);opacity:0;transition:transform .4s cubic-bezier(.25,.46,.45,.94),opacity .35s ease;user-select:none;-webkit-user-drag:none}
+.lb-caption{margin-top:16px;text-align:center}
+.lb-caption h4{font-family:var(--f1);font-size:20px;font-weight:600;color:#fff;margin-bottom:2px}
+.lb-caption span{font-size:13px;color:rgba(255,255,255,.5)}
+.lb-counter{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:13px;color:rgba(255,255,255,.4);letter-spacing:.05em}
+
+/* ═══ COMMERCIAL ═══ */
+.com-hero{position:relative;border-radius:var(--r2);overflow:hidden;margin-top:48px;min-height:420px;display:flex;align-items:flex-end}
+.com-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+.com-hero:hover img{transform:scale(1.03)}
+.com-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,10,.7) 0%,rgba(10,10,10,.25) 50%,rgba(10,10,10,.05) 100%);pointer-events:none}
+.com-metrics{position:relative;z-index:1;display:flex;gap:24px;padding:36px 40px;width:100%}
+.com-metric{flex:1;text-align:center;padding:20px 16px;background:rgba(255,255,255,.1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:14px;border:1px solid rgba(255,255,255,.15)}
+.com-metric strong{display:block;font-family:var(--f1);font-size:28px;font-weight:600;color:var(--gold-l);margin-bottom:4px}
+.com-metric span{font-size:13px;color:rgba(255,255,255,.75);line-height:1.4}
+.com-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+.com-card{padding:28px 24px;background:var(--card);border-radius:var(--r2);border:1px solid var(--border);transition:box-shadow var(--t),transform var(--t)}
+.com-card:hover{box-shadow:var(--sh);transform:translateY(-2px)}
+.com-card-ic{width:44px;height:44px;border-radius:12px;background:var(--em);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.com-card-ic svg{width:20px;height:20px;color:#fff}
+.com-card h4{font-size:17px;font-weight:600;margin-bottom:6px;color:var(--txt)}
+.com-card p{font-size:14px;color:var(--txt2);line-height:1.6}
+
+/* ═══ GALLERY ═══ */
+.gal-sec{background:var(--txt);color:#fff;overflow:hidden}
+.gal-sec .st{color:#fff}.gal-sec .sd{color:rgba(255,255,255,.55)}
+.gal-scroll{display:flex;gap:14px;overflow-x:auto;padding-bottom:14px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:40px}
+.gal-scroll::-webkit-scrollbar{display:none}
+.gal-item{flex:0 0 360px;aspect-ratio:3/4;border-radius:var(--r);overflow:hidden;scroll-snap-align:start}
+.gal-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.gal-item:hover img{transform:scale(1.05)}
+.gal-hint{text-align:center;margin-top:16px;font-size:13px;color:rgba(255,255,255,.35)}
+
+/* ═══ TRUST DOCS ═══ */
+.trust-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+.tb{padding:20px;background:var(--card);border-radius:var(--r);border:1px solid var(--border);display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;color:var(--txt)}
+.tb svg{width:20px;height:20px;color:var(--em);flex-shrink:0}
+
+/* ═══ FOOTER ═══ */
+.ftr{background:var(--em-d);color:rgba(255,255,255,.8);padding:64px 0 32px}
+.ftr-g{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.4fr;gap:40px;margin-bottom:44px}
+.ftr-logo{font-family:var(--f1);font-size:26px;font-weight:600;letter-spacing:.1em;color:#fff;margin-bottom:10px}
+.ftr-tl{font-size:14px;color:rgba(255,255,255,.38);line-height:1.6;max-width:240px}
+.ftr h5{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.ftr-ls{list-style:none}.ftr-ls li{margin-bottom:10px}
+.ftr-ls a{font-size:14px;color:rgba(255,255,255,.55);transition:color var(--t)}.ftr-ls a:hover{color:var(--gold-l)}
+.ftr-ci{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:14px}
+.ftr-ci svg{width:16px;height:16px;color:var(--gold);flex-shrink:0}
+.ftr-fm{display:flex;gap:8px}
+.ftr-fm input{flex:1;padding:12px 14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:14px;outline:none}
+.ftr-fm input::placeholder{color:rgba(255,255,255,.28)}.ftr-fm input:focus{border-color:var(--gold)}
+.ftr-fm button{padding:12px 18px;background:var(--gold);color:#fff;border-radius:10px;font-size:14px;font-weight:600;transition:background var(--t)}.ftr-fm button:hover{background:var(--gold-d)}
+.ftr-bot{padding-top:24px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;font-size:13px;color:rgba(255,255,255,.25)}
+
+/* ═══ STICKY MOBILE CTA ═══ */
+.sticky-mob{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;padding:10px 16px;background:rgba(250,250,248,.96);backdrop-filter:blur(16px);border-top:1px solid var(--border);gap:8px}
+.sticky-mob a{flex:1;text-align:center;padding:13px;border-radius:12px;font-size:14px;font-weight:600;transition:all var(--t)}
+.sticky-mob .sm-call{background:var(--em);color:#fff}
+.sticky-mob .sm-msg{background:var(--gold);color:#fff}
+
+/* ═══ REVEAL ═══ */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease-out,transform .6s ease-out}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv1{transition-delay:.08s}.rv2{transition-delay:.16s}.rv3{transition-delay:.24s}.rv4{transition-delay:.32s}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1024px){
+  .fg,.cond-grid{grid-template-columns:repeat(2,1fr)}
+  .con-top{grid-template-columns:1fr}
+  .com-cards{grid-template-columns:repeat(3,1fr)}
+  .con-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:180px}
+  .ci:first-child{grid-column:1/2;grid-row:1/2}
+  .loc-infra,.trust-bar,.ftr-g{grid-template-columns:repeat(2,1fr)}
+  .hero-nums{grid-template-columns:repeat(3,1fr);gap:20px}
+  .timeline{flex-wrap:wrap;gap:4px}.tl-item{flex:0 0 calc(33%-4px)}
+  .lb-prev{left:12px}.lb-next{right:12px}
+}
+@media(max-width:768px){
+  .sec{padding:64px 0}
+  .nav,.hdr-ph{display:none}.mob-tog{display:flex}
+  .sticky-mob{display:flex}
+  body{padding-bottom:64px}
+  .hero{min-height:100svh;padding-bottom:40px}
+  .hero h1{font-size:32px}
+  .hero-nums{grid-template-columns:repeat(2,1fr);gap:16px}
+  .hero-ctas{flex-direction:column}.hero-ctas a{text-align:center;justify-content:center}
+  .fg,.cond-grid,.loc-infra,.trust-bar,.com-cards{grid-template-columns:1fr}
+  .com-metrics{flex-wrap:wrap;padding:20px 16px;gap:10px}
+  .com-metric{flex:0 0 calc(50% - 5px)}
+  .com-hero{min-height:320px}
+  .plans-g{grid-template-columns:1fr}
+  .lfw{padding:28px 18px}
+  .lf{flex-direction:column}.fg2{min-width:100%}.bf{width:100%}
+  .privacy{white-space:normal}
+  .gal-item{flex:0 0 280px}
+  .con-grid{grid-template-columns:1fr;grid-auto-rows:200px}
+  .ci:first-child{grid-column:auto;grid-row:auto}
+  .loc-hero img{aspect-ratio:16/10}
+  .loc-ov{padding:20px}.loc-tags{flex-direction:column}
+  .ftr-g{grid-template-columns:1fr;gap:28px}
+  .ftr-bot{flex-direction:column;gap:8px;text-align:center}
+  .timeline{flex-direction:column;gap:0}
+  .timeline::before{top:0;bottom:0;left:22px;width:3px;height:100%;right:auto}
+  .tl-item{flex:none;text-align:left;padding:8px 0 8px 52px;padding-top:8px}
+  .tl-dot{top:12px;left:16px;transform:none}
+  .lb-arrow{width:40px;height:40px}.lb-arrow svg{width:18px;height:18px}
+  .lb-prev{left:8px}.lb-next{right:8px}
+  .lb-img{max-height:65vh}
+  .lb-close{top:12px;right:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mn">
+  <button class="mob-x" onclick="cmn()">&times;</button>
+  <a href="#apartments" onclick="cmn()">Квартири</a>
+  <a href="#conditions" onclick="cmn()">Умови</a>
+  <a href="#location" onclick="cmn()">Локація</a>
+  <a href="#construction" onclick="cmn()">Будівництво</a>
+  <a href="#commercial" onclick="cmn()">Комерція</a>
+  <a href="tel:+380669900390" style="color:var(--gold-l)">+38 066 990 03 90</a>
+</div>
+
+<!-- CALLBACK MODAL -->
+<div class="modal-ov" id="cbModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <h3>Замовити дзвінок</h3>
+    <p>Залиште номер — передзвонимо протягом 15 хвилин.</p>
+    <form id="fCB" onsubmit="return hs(event,'fCB')">
+      <div class="fg2"><label>Ваше ім'я</label><input type="text" placeholder="Олександр" required></div>
+      <div class="fg2"><label>Телефон</label><input type="tel" placeholder="+380 __ ___ __ __" required pattern="\+?[0-9\s\-]{10,}"></div>
+      <button type="submit" class="btn-modal">Зателефонуйте мені</button>
+    </form>
+    <div class="fs" id="fCB-s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зателефонуємо найближчим часом.</div>
+    <p class="privacy" style="color:var(--txt3);margin-top:12px">Натискаючи кнопку, ви погоджуєтесь з обробкою персональних даних</p>
+  </div>
+</div>
+
+<!-- APARTMENT MODAL -->
+<div class="apt-modal-ov" id="aptModal">
+  <div class="apt-modal">
+    <button class="apt-close" onclick="closeApt()">&times;</button>
+    <div class="apt-left">
+      <img id="apt-img" src="" alt="">
+    </div>
+    <div class="apt-right">
+      <div class="apt-type" id="apt-type"></div>
+      <h3 class="apt-title" id="apt-title"></h3>
+      <div class="apt-details">
+        <div class="apt-det"><span class="apt-det-l">Секція</span><span class="apt-det-v" id="apt-section"></span></div>
+        <div class="apt-det"><span class="apt-det-l">Поверх</span><span class="apt-det-v" id="apt-floor"></span></div>
+        <div class="apt-det"><span class="apt-det-l">Площа</span><span class="apt-det-v" id="apt-area"></span></div>
+        <div class="apt-det apt-det-price"><span class="apt-det-l">Ціна</span><span class="apt-det-v" id="apt-price"></span></div>
+      </div>
+      <div class="apt-form-wrap">
+        <h4>Дізнатися більше про цю квартиру</h4>
+        <form id="fApt" onsubmit="return hsApt(event)">
+          <input type="hidden" id="apt-hidden" name="apartment" value="">
+          <div class="apt-field"><input type="text" name="name" placeholder="Ваше ім'я" required></div>
+          <div class="apt-field"><input type="tel" name="phone" placeholder="+380 __ ___ __ __" required pattern="\+?[0-9\s\-]{10,}"></div>
+          <button type="submit" class="apt-submit">Отримати консультацію</button>
+          <p class="apt-note">Менеджер зателефонує протягом 15 хвилин</p>
+        </form>
+        <div class="fs" id="fApt-s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зв'яжемось найближчим часом.</div>
+      </div>
+      <a href="tel:+380669900390" class="apt-call">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Зателефонувати зараз
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="hdr" id="hdr">
+  <div class="hdr-in">
+    <a href="#" class="logo">LAKEVIEW</a>
+    <nav class="nav">
+      <a href="#apartments">Квартири</a>
+      <a href="#conditions">Умови купівлі</a>
+      <a href="#location">Локація</a>
+      <a href="#construction">Будівництво</a>
+      <a href="#commercial">Комерція</a>
+    </nav>
+    <div class="hdr-r">
+      <a href="tel:+380669900390" class="hdr-ph">+38 066 990 03 90</a>
+      <button class="btn-cb" onclick="openModal()">Замовити дзвінок</button>
+      <button class="mob-tog" onclick="omn()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-bg"><img src="img/renders/hero.jpg" alt="ЖК Lakeview — вигляд з вулиці" loading="eager"></div>
+  <div class="hero-ov"></div>
+  <div class="hero-c">
+    <div class="hero-tags">
+      <div class="hero-tag"><span class="dot"></span> Будівництво активне</div>
+      <div class="hero-tag gold">вул. В. Великого, 2а — Львів</div>
+      <div class="hero-tag gold">від $1600/м²</div>
+    </div>
+    <h1>Сімейний ЖК<br>бізнес-класу<br>біля <em>озера</em></h1>
+    <p class="hero-p">Від 44 м² з видом на озеро. Розстрочка від забудовника. Броньовані двері, вікна та штукатурка вже включені в ціну.</p>
+    <div class="hero-ctas">
+      <a href="#res-form" class="bp">Отримати каталог планувань <svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+      <a href="#commercial" class="bs">Комерційні приміщення <svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+    </div>
+    <div class="hero-nums">
+      <div><div class="hn-v">4</div><div class="hn-l">секції</div></div>
+      <div><div class="hn-v">44–183</div><div class="hn-l">м² площі</div></div>
+      <div><div class="hn-v">$1600</div><div class="hn-l">від / м²</div></div>
+      <div><div class="hn-v">2 рівні</div><div class="hn-l">паркінг</div></div>
+      <div><div class="hn-v">2027</div><div class="hn-l">здача комплексу</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RESIDENTIAL ═══ -->
+<section class="sec" id="apartments">
+  <div class="ctn">
+    <div class="rv"><div class="sl">Квартири</div>
+    <h2 class="st">Ранкова кава з видом на <em>озеро</em></h2>
+    <p class="sd">Вільне планування, енергоефективні технології та все необхідне для переїзду — вже включено в ціну квартири.</p></div>
+
+    <div class="fg">
+      <div class="fc rv rv1">
+        <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Охорона 24/7</h3>
+        <p>Закрита територія, відеоспостереження та контрольований доступ — діти безпечно граються у дворі.</p>
+      </div>
+      <div class="fc rv rv2">
+        <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></div>
+        <h3>Фітнес-центр</h3>
+        <p>Тренажерний зал та зони для групових занять — не потрібно витрачати час на дорогу.</p>
+      </div>
+      <div class="fc rv rv3">
+        <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v1m0 16v1m-8-9H3m18 0h-1"/><circle cx="12" cy="12" r="4"/></svg></div>
+        <h3>Економія на опаленні</h3>
+        <p>Індивідуальне опалення, утеплені стіни та панорамне скління з енергозбереженням — до 40% економії.</p>
+      </div>
+      <div class="fc rv rv4">
+        <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>
+        <h3>Все включено</h3>
+        <p>Штукатурка стін, броньовані двері, якісні вікна, лічильники та електрика — заїжджайте і плануйте ремонт.</p>
+      </div>
+    </div>
+
+    <div class="rv"><div class="sl">Планування</div>
+    <h3 class="st" style="margin-bottom:24px">Оберіть свою <em>квартиру</em></h3></div>
+
+    <div class="tabs rv" id="tabs">
+      <button class="tab act" onclick="showTab('all',this)">Всі</button>
+      <button class="tab" onclick="showTab('1k',this)">1-кімнатні</button>
+      <button class="tab" onclick="showTab('2k',this)">2-кімнатні</button>
+      <button class="tab" onclick="showTab('3k',this)">3-кімнатні</button>
+    </div>
+
+    <div class="plans-g" id="plans-all">
+      <div class="pc rv rv1" data-type="1k" onclick="openApt(this)">
+        <div class="pc-img"><img src="img/plans/s4-174-1k-46m2.jpg" alt="1-кімнатна 46.61 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div></div>
+        <div class="pc-b"><h4>46.61 м²</h4><span>Секція 4 · поверх 3</span></div>
+        <div class="pc-f"><span class="pc-price">від $74 576</span><span class="pc-link">Збільшити план →</span></div>
+      </div>
+      <div class="pc rv rv2" data-type="1k" onclick="openApt(this)">
+        <div class="pc-img"><img src="img/plans/s1-039-1k-53m2.jpg" alt="1-кімнатна 53.19 м², секція 1" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div></div>
+        <div class="pc-b"><h4>53.19 м²</h4><span>Секція 1 · поверх 10</span></div>
+        <div class="pc-f"><span class="pc-price">від $85 104</span><span class="pc-link">Збільшити план →</span></div>
+      </div>
+      <div class="pc rv rv3" data-type="1k" onclick="openApt(this)">
+        <div class="pc-img"><img src="img/plans/s4-185-1k-60m2.jpg" alt="1-кімнатна 60.09 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div></div>
+        <div class="pc-b"><h4>60.09 м²</h4><span>Секція 4 · поверх 4</span></div>
+        <div class="pc-f"><span class="pc-price">від $96 144</span><span class="pc-link">Збільшити план →</span></div>
+      </div>
+      <div class="pc rv rv1" data-type="2k" onclick="openApt(this)">
+        <div class="pc-img"><img src="img/plans/s2-074-2k-68m2.jpg" alt="2-кімнатна 68.08 м², секція 2" loading="lazy"><div class="pc-badge">2-кімнатна</div><div class="pc-avail">Вільна</div></div>
+        <div class="pc-b"><h4>68.08 м²</h4><span>Секція 2 · поверх 8</span></div>
+        <div class="pc-f"><span class="pc-price">від $108 928</span><span class="pc-link">Збільшити план →</span></div>
+      </div>
+      <div class="pc rv rv2" data-type="2k" onclick="openApt(this)">
+        <div class="pc-img"><img src="img/plans/s1-001-2k-70m2.jpg" alt="2-кімнатна 70.56 м², секція 1" loading="lazy"><div class="pc-badge">2-кімнатна</div></div>
+        <div class="pc-b"><h4>70.56 м²</h4><span>Секція 1 · поверх 3</span></div>
+        <div class="pc-f"><span class="pc-price">від $112 896</span><span class="pc-link">Збільшити план →</span></div>
+      </div>
+      <div class="pc rv rv3" data-type="3k" onclick="openApt(this)">
+        <div class="pc-img"><img src="img/plans/s4-244-3k-90m2.jpg" alt="3-кімнатна 90.16 м², секція 4" loading="lazy"><div class="pc-badge">3-кімнатна</div><div class="pc-avail">Вільна</div></div>
+        <div class="pc-b"><h4>90.16 м²</h4><span>Секція 4 · поверх 12</span></div>
+        <div class="pc-f"><span class="pc-price">від $144 256</span><span class="pc-link">Збільшити план →</span></div>
+      </div>
+      <div class="pc rv rv1" data-type="2k" onclick="openApt(this)">
+        <div class="pc-img"><img src="img/plans/s3-168-2k-78m2.jpg" alt="2-кімнатна 78.35 м², секція 3" loading="lazy"><div class="pc-badge">2-кімнатна</div></div>
+        <div class="pc-b"><h4>78.35 м²</h4><span>Секція 3 · поверх 15</span></div>
+        <div class="pc-f"><span class="pc-price">від $125 360</span><span class="pc-link">Збільшити план →</span></div>
+      </div>
+      <div class="pc rv rv2" data-type="1k" onclick="openApt(this)">
+        <div class="pc-img"><img src="img/plans/s4-177-1k-62m2.jpg" alt="1-кімнатна 62.97 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div></div>
+        <div class="pc-b"><h4>62.97 м²</h4><span>Секція 4 · поверх 3</span></div>
+        <div class="pc-f"><span class="pc-price">від $100 752</span><span class="pc-link">Збільшити план →</span></div>
+      </div>
+      <div class="pc rv rv3" data-type="3k" onclick="openApt(this)">
+        <div class="pc-img"><img src="img/plans/s3-133-2k-77m2.jpg" alt="3-кімнатна 77 м², секція 3" loading="lazy"><div class="pc-badge">3-кімнатна</div></div>
+        <div class="pc-b"><h4>77.73 м²</h4><span>Секція 3 · поверх 9</span></div>
+        <div class="pc-f"><span class="pc-price">від $124 368</span><span class="pc-link">Збільшити план →</span></div>
+      </div>
+    </div>
+
+    <div class="cta-split rv" id="res-form" style="margin-top:48px">
+      <div class="cta-split-img">
+        <img src="img/renders/terrace.jpg" alt="Тераса з видом на озеро у ЖК Lakeview">
+        <div class="cta-split-overlay">
+          <div class="cta-split-quote">"Ранкова кава з видом на озеро — щодня"</div>
+        </div>
+      </div>
+      <div class="cta-split-form">
+        <div class="sl">Каталог планувань</div>
+        <h3 style="font-family:var(--f1);font-size:28px;font-weight:500;color:#fff;margin-bottom:8px">Отримайте всі планування із цінами</h3>
+        <p style="font-size:15px;color:rgba(255,255,255,.6);margin-bottom:28px;line-height:1.6">Надішлемо PDF з усіма квартирами, поверховими планами та актуальними цінами у зручний месенджер.</p>
+        <form id="fR" onsubmit="return hs(event,'fR')">
+          <div class="cta-field">
+            <label>Ваше ім'я</label>
+            <input type="text" placeholder="Олександр" required>
+          </div>
+          <div class="cta-field">
+            <label>Телефон</label>
+            <input type="tel" placeholder="+380 __ ___ __ __" required pattern="\+?[0-9\s\-]{10,}">
+          </div>
+          <div class="cta-field">
+            <label>Месенджер</label>
+            <select><option value="telegram">Telegram</option><option value="viber">Viber</option><option value="whatsapp">WhatsApp</option></select>
+          </div>
+          <button type="submit" class="cta-submit">Отримати каталог планувань</button>
+        </form>
+        <div class="fs" id="fR-s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Каталог надійде протягом кількох хвилин.</div>
+        <div class="cta-proof"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Вже 53 сім'ї отримали каталог цього місяця</div>
+        <p style="font-size:12px;color:rgba(255,255,255,.3);margin-top:8px">Натискаючи кнопку, ви погоджуєтесь з обробкою персональних даних</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONDITIONS ═══ -->
+<section class="sec" id="conditions" style="background:var(--bg2)">
+  <div class="ctn">
+    <div class="rv"><div class="sl">Умови купівлі</div>
+    <h2 class="st">Прозорі <em>умови</em> від забудовника</h2>
+    <p class="sd">Купуйте напряму від забудовника «Вигода» — без посередників та прихованих комісій.</p></div>
+
+    <div class="cond-grid">
+      <div class="cond-card rv rv1">
+        <div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+        <div class="val">від $1600/м²</div>
+        <h4>Ціна без комісій</h4>
+        <p>Пряма ціна від забудовника. Без додаткових комісій та посередників.</p>
+      </div>
+      <div class="cond-card rv rv2">
+        <div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <div class="val">Розстрочка</div>
+        <h4>Гнучкі умови оплати</h4>
+        <p>Перший внесок від 30%. Розстрочка на період будівництва без переплат. Деталі — за запитом.</p>
+      </div>
+      <div class="cond-card rv rv3">
+        <div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div class="val">Договір</div>
+        <h4>Юридична безпека</h4>
+        <p>Інвестиційний договір із чітко прописаними термінами, площею та відповідальністю забудовника.</p>
+      </div>
+    </div>
+
+    <!-- Trust bar -->
+    <div class="trust-bar rv" style="margin-top:32px">
+      <div class="tb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Дозвіл на будівництво</div>
+      <div class="tb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Право власності на землю</div>
+      <div class="tb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Ліцензований підрядник</div>
+      <div class="tb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Проектна документація</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LOCATION ═══ -->
+<section class="sec loc-sec" id="location">
+  <div class="ctn">
+    <div class="rv"><div class="sl">Розташування</div>
+    <h2 class="st">Озеро за 50 метрів, центр за <em>10 хвилин</em></h2>
+    <p class="sd">Жити біля природи і мати все необхідне під рукою — школи, садочки, магазини та транспорт.</p></div>
+
+    <div class="loc-hero rv">
+      <img src="img/renders/aerial.jpg" alt="Панорама ЖК Lakeview та озера" loading="lazy">
+      <div class="loc-ov">
+        <div class="loc-tags">
+          <div class="lt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Озеро в 50 метрах</div>
+          <div class="lt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10 хв до центру</div>
+          <div class="lt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Школи та садочки поруч</div>
+          <div class="lt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/></svg>Транспортна розв'язка</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loc-infra">
+      <div class="li rv rv1"><div class="li-v">50 м</div><div class="li-u">до озера</div></div>
+      <div class="li rv rv2"><div class="li-v">10 хв</div><div class="li-u">до центру</div></div>
+      <div class="li rv rv3"><div class="li-v">3</div><div class="li-u">парки поруч</div></div>
+      <div class="li rv rv4"><div class="li-v">64+</div><div class="li-u">паркомісця</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONSTRUCTION ═══ -->
+<section class="sec" id="construction">
+  <div class="ctn">
+    <div class="con-top">
+      <div class="rv"><div class="sl">Будівництво</div>
+      <h2 class="st">Динаміка <em>будівництва</em></h2>
+      <p class="sd">Регулярні фотозвіти. Кожен етап — під контролем.</p></div>
+      <div class="dev-box rv">
+        <h4>Забудовник — Вигода</h4>
+        <p>Компанія «Вигода» реалізує ЖК Lakeview на вул. Володимира Великого, 2а. Усі роботи виконуються відповідно до дозвільної документації та державних будівельних норм.</p>
+        <p style="margin-top:10px"><strong>Офіс продажу:</strong> вул. В. Великого, 4 — 4-й поверх, каб. 406.</p>
+      </div>
+    </div>
+
+    <div class="timeline rv">
+      <div class="tl-item done"><div class="tl-dot"></div><h5>Фундамент</h5><span>Завершено</span></div>
+      <div class="tl-item done"><div class="tl-dot"></div><h5>Каркас</h5><span>Завершено</span></div>
+      <div class="tl-item current"><div class="tl-dot"></div><h5>Стіни та перекриття</h5><span>Зараз</span></div>
+      <div class="tl-item"><div class="tl-dot"></div><h5>Фасад та інженерія</h5><span>Далі</span></div>
+      <div class="tl-item"><div class="tl-dot"></div><h5>Здача</h5><span>2027</span></div>
+    </div>
+
+    <div class="con-grid" id="conGrid">
+      <div class="ci rv" data-idx="0"><img src="img/construction/mar-2026/mar-03.jpg" alt="Хід будівництва — березень 2026, панорама з краном" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv1" data-idx="15"><img src="img/construction/feb-2026/feb-01.jpg" alt="Фотозвіт лютий 2026 — зведення каркасу" loading="lazy"><div class="ci-label">Лютий 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv2" data-idx="27"><img src="img/construction/jan-2026/jan-01.jpg" alt="Будівництво — січень 2026, фасадні роботи" loading="lazy"><div class="ci-label">Січень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv3" data-idx="5"><img src="img/construction/mar-2026/mar-07.jpg" alt="Робітник на будмайданчику — березень 2026" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv1" data-idx="19"><img src="img/construction/feb-2026/feb-03.jpg" alt="Будівництво зимою — лютий 2026" loading="lazy"><div class="ci-label">Лютий 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv2" data-idx="38"><img src="img/construction/dec-2025/dec-01.jpg" alt="Прогрес будівництва — грудень 2025" loading="lazy"><div class="ci-label">Грудень 2025</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    </div>
+    <div class="con-more rv" onclick="openLb(0)">Переглянути всі 50 фото <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+
+    <!-- Construction Lightbox -->
+    <div class="lb-ov" id="conLb">
+      <button class="lb-close" onclick="closeLb()" aria-label="Закрити"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      <button class="lb-arrow lb-prev" onclick="lbNav(-1)" aria-label="Попередня"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="lb-content">
+        <img class="lb-img" id="lbImg" src="" alt="">
+        <div class="lb-caption"><h4 id="lbTitle"></h4><span id="lbSub"></span></div>
+      </div>
+      <button class="lb-arrow lb-next" onclick="lbNav(1)" aria-label="Наступна"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+      <div class="lb-counter" id="lbCount"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMMERCIAL ═══ -->
+<section class="sec" id="commercial" style="background:var(--bg2)">
+  <div class="ctn">
+    <div class="rv"><div class="sl">Інвестиції</div>
+    <h2 class="st">Комерція на першому поверсі:<br><em>прибуткова</em> інвестиція</h2>
+    <p class="sd">Фасадні приміщення з панорамними вітринами на вулиці з високим трафіком та готовою клієнтською базою.</p></div>
+
+    <div class="com-hero rv">
+      <img src="img/renders/closeup.jpg" alt="Комерція ЖК Lakeview — двір із кав'ярнею та терасою" loading="lazy">
+      <div class="com-metrics">
+        <div class="com-metric"><strong>від 44 м²</strong><span>Площі приміщень</span></div>
+        <div class="com-metric"><strong>500+</strong><span>Сімей — ваші клієнти</span></div>
+        <div class="com-metric"><strong>1 поверх</strong><span>Фасадний вихід</span></div>
+        <div class="com-metric"><strong>вул. В. Великого</strong><span>Високий трафік</span></div>
+      </div>
+    </div>
+
+    <div class="com-cards">
+      <div class="com-card rv">
+        <div class="com-card-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <h4>Готова клієнтська база</h4>
+        <p>Мешканці комплексу потребують кафе, салони, аптеки та магазини прямо біля дому — стабільний потік з першого дня.</p>
+      </div>
+      <div class="com-card rv rv1">
+        <div class="com-card-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <h4>Трафік вул. В. Великого</h4>
+        <p>Активний пішохідний та автомобільний рух забезпечує клієнтський потік не лише з ЖК, а й з усієї вулиці.</p>
+      </div>
+      <div class="com-card rv rv2">
+        <div class="com-card-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h4>Панорамні фасадні вітрини</h4>
+        <p>Великі вікна першого поверху — ідеальна видимість для будь-якого бізнесу з вулиці.</p>
+      </div>
+    </div>
+
+    <div class="lfw rv" id="com-form" style="margin-top:48px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px">
+        <div>
+          <div class="sl">Для бізнесу</div>
+          <h3>Забронюйте комерційне приміщення</h3>
+          <p style="color:rgba(255,255,255,.75);margin-bottom:0">Надішлемо план, ціну та умови — відповімо протягом 30 хвилин.</p>
+        </div>
+        <div class="lfw-scarcity" style="margin-bottom:0"><span class="sc-dot"></span> Залишилось 3 приміщення</div>
+      </div>
+      <form class="lf" id="fC" onsubmit="return hs(event,'fC')">
+        <div class="fg2"><label for="com-name">Ваше ім'я</label><input id="com-name" type="text" name="name" placeholder="Олександр" required autocomplete="name"></div>
+        <div class="fg2"><label for="com-tel">Телефон</label><input id="com-tel" type="tel" name="phone" placeholder="+380 __ ___ __ __" required pattern="\+?[0-9\s\-]{10,}" autocomplete="tel"></div>
+        <div class="fg2"><label for="com-biz">Тип бізнесу</label>
+          <select id="com-biz" name="business_type"><option value="" selected>Оберіть тип</option><option>Кафе / Ресторан</option><option>Салон краси</option><option>Медична клініка</option><option>Магазин</option><option>Офіс</option><option>Інше</option></select>
+        </div>
+        <button type="submit" class="bf">Отримати умови</button>
+      </form>
+      <div class="fs" id="fC-s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Менеджер зв'яжеться протягом 30 хвилин.</div>
+      <p class="privacy">Натискаючи кнопку, ви погоджуєтесь з обробкою персональних даних</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALLERY ═══ -->
+<section class="sec gal-sec" id="gallery">
+  <div class="ctn">
+    <div class="rv"><div class="sl">Галерея</div>
+    <h2 class="st" style="color:#fff">Як виглядатиме <em style="color:var(--gold-l)">Lakeview</em></h2></div>
+  </div>
+  <div class="gal-scroll">
+    <div class="gal-item"><img src="img/renders/lake-bridge.jpg" alt="Набережна з озером" loading="lazy"></div>
+    <div class="gal-item"><img src="img/renders/terrace.jpg" alt="Тераса з видом на озеро" loading="lazy"></div>
+    <div class="gal-item"><img src="img/renders/aerial.jpg" alt="Вигляд з повітря" loading="lazy"></div>
+    <div class="gal-item"><img src="img/renders/closeup.jpg" alt="Двір із кав'ярнею" loading="lazy"></div>
+    <div class="gal-item"><img src="img/renders/entrance.jpg" alt="Вхід та дитячий майданчик" loading="lazy"></div>
+    <div class="gal-item"><img src="img/renders/semi-aerial.jpg" alt="Напіваеріал" loading="lazy"></div>
+  </div>
+  <p class="gal-hint" style="padding:0 28px">← Гортайте для перегляду всіх візуалізацій →</p>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="ftr">
+  <div class="ctn">
+    <div class="ftr-g">
+      <div>
+        <div class="ftr-logo">LAKEVIEW</div>
+        <p class="ftr-tl">Сімейний ЖК бізнес-класу біля озера. Забудовник — Вигода. Львів, вул. В. Великого, 2а.</p>
+      </div>
+      <div>
+        <h5>Навігація</h5>
+        <ul class="ftr-ls">
+          <li><a href="#apartments">Квартири</a></li>
+          <li><a href="#conditions">Умови купівлі</a></li>
+          <li><a href="#location">Локація</a></li>
+          <li><a href="#construction">Будівництво</a></li>
+          <li><a href="#commercial">Комерція</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Контакти</h5>
+        <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+380669900390">+38 066 990 03 90</a></div>
+        <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:vygoda.plus@gmail.com">vygoda.plus@gmail.com</a></div>
+        <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>вул. В. Великого, 2а, Львів</div>
+        <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg><a href="https://www.instagram.com/lakeviewlviv/" target="_blank" rel="noopener">@lakeviewlviv</a></div>
+      </div>
+      <div>
+        <h5>Залишились питання?</h5>
+        <p style="font-size:14px;color:rgba(255,255,255,.4);margin-bottom:12px">Залиште номер — зателефонуємо.</p>
+        <form class="ftr-fm" id="fF" onsubmit="return hs(event,'fF')">
+          <input type="tel" placeholder="+380 __ ___ __ __" required>
+          <button type="submit">Надіслати</button>
+        </form>
+        <div class="fs" id="fF-s" style="margin-top:10px;font-size:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо!</div>
+      </div>
+    </div>
+    <div class="ftr-bot">
+      <span>&copy; 2025–2026 ЖК Lakeview. Забудовник — Вигода.</span>
+      <span>Львів, вул. Володимира Великого, 2а</span>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-mob">
+  <a href="tel:+380669900390" class="sm-call">📞 Зателефонувати</a>
+  <a href="https://t.me/" class="sm-msg" onclick="openModal();return false;">💬 Написати</a>
+</div>
+
+<script>
+/* Header scroll */
+window.addEventListener('scroll',()=>{document.getElementById('hdr').classList.toggle('sc',scrollY>50)},{passive:true});
+
+/* Mobile nav */
+function omn(){document.getElementById('mn').classList.add('open');document.body.style.overflow='hidden'}
+function cmn(){document.getElementById('mn').classList.remove('open');document.body.style.overflow=''}
+
+/* Callback modal */
+function openModal(){document.getElementById('cbModal').classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(){document.getElementById('cbModal').classList.remove('open');document.body.style.overflow=''}
+document.getElementById('cbModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+/* Apartment modal */
+function openApt(el){
+  var card=el.closest('.pc');
+  var img=card.querySelector('.pc-img img').src;
+  var badge=card.querySelector('.pc-badge').textContent;
+  var area=card.querySelector('.pc-b h4').textContent;
+  var info=card.querySelector('.pc-b span').textContent;
+  var price=card.querySelector('.pc-price').textContent;
+  var parts=info.split('·');
+  var section=parts[0]?parts[0].trim():'';
+  var floor=parts[1]?parts[1].trim():'';
+  document.getElementById('apt-img').src=img;
+  document.getElementById('apt-type').textContent=badge;
+  document.getElementById('apt-title').textContent=area;
+  document.getElementById('apt-section').textContent=section;
+  document.getElementById('apt-floor').textContent=floor;
+  document.getElementById('apt-area').textContent=area;
+  document.getElementById('apt-price').textContent=price;
+  document.getElementById('apt-hidden').value=badge+', '+area+', '+info;
+  document.getElementById('fApt').style.display='';
+  document.getElementById('fApt-s').classList.remove('vis');
+  document.getElementById('aptModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeApt(){document.getElementById('aptModal').classList.remove('open');document.body.style.overflow='';document.getElementById('apt-img').src=''}
+function hsApt(e){e.preventDefault();var f=document.getElementById('fApt');var d=new FormData(f);var o={};d.forEach(function(v,k){o[k]=v});console.log('[LEAD-APT]',o);f.style.display='none';document.getElementById('fApt-s').classList.add('vis');return false}
+document.getElementById('aptModal').addEventListener('click',function(e){if(e.target===this)closeApt()});
+
+/* Form submit — sends to console + shows success (replace with real endpoint) */
+function hs(e,id){
+  e.preventDefault();
+  var form=document.getElementById(id);
+  var data=new FormData(form);
+  var obj={};data.forEach(function(v,k){obj[k]=v});
+  console.log('[LEAD]',id,obj);
+  /* TODO: Replace with real API call:
+  fetch('https://your-endpoint.com/lead', {method:'POST', body:JSON.stringify(obj), headers:{'Content-Type':'application/json'}});
+  */
+  form.style.display='none';
+  document.getElementById(id+'-s').classList.add('vis');
+  return false;
+}
+
+/* Plan tabs */
+function showTab(type,btn){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('act')});
+  btn.classList.add('act');
+  document.querySelectorAll('.pc').forEach(function(c){
+    c.style.display=(type==='all'||c.dataset.type===type)?'':'none';
+  });
+}
+
+/* Scroll reveal */
+if('IntersectionObserver' in window){
+  var ro=new IntersectionObserver(function(entries){entries.forEach(function(en){
+    if(en.isIntersecting){en.target.classList.add('vis');ro.unobserve(en.target)}
+  })},{threshold:0.05,rootMargin:'0px 0px -20px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ro.observe(el)});
+} else {
+  document.querySelectorAll('.rv').forEach(function(el){el.classList.add('vis')});
+}
+setTimeout(function(){document.querySelectorAll('.rv:not(.vis)').forEach(function(el){el.classList.add('vis')})},2500);
+
+/* ═══ Construction Lightbox ═══ */
+var lbData=[];
+(function(){
+  var months=[
+    {dir:'mar-2026',title:'Березень 2026',sub:'Зведення стін та перекриттів',count:15},
+    {dir:'feb-2026',title:'Лютий 2026',sub:'Монтаж каркасних конструкцій',count:12},
+    {dir:'jan-2026',title:'Січень 2026',sub:'Фасадні та каркасні роботи',count:11},
+    {dir:'dec-2025',title:'Грудень 2025',sub:'Початок активного будівництва',count:12}
+  ];
+  months.forEach(function(m){
+    var prefix=m.dir.split('-')[0];
+    for(var i=1;i<=m.count;i++){
+      var num=i<10?'0'+i:i;
+      lbData.push({src:'img/construction/'+m.dir+'/'+prefix+'-'+num+'.jpg',title:m.title,sub:m.sub+' — фото '+i+'/'+m.count});
+    }
+  });
+})();
+var lbIdx=0;
+function openLb(i){
+  lbIdx=i;lbUpdate();
+  document.getElementById('conLb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLb(){
+  document.getElementById('conLb').classList.remove('open');
+  document.body.style.overflow='';
+}
+function lbNav(d){
+  lbIdx=(lbIdx+d+lbData.length)%lbData.length;
+  var img=document.getElementById('lbImg');
+  img.style.opacity='0';img.style.transform='scale(.94)';
+  setTimeout(function(){lbUpdate();img.style.opacity='1';img.style.transform='scale(1)'},200);
+}
+function lbUpdate(){
+  var d=lbData[lbIdx];
+  document.getElementById('lbImg').src=d.src;
+  document.getElementById('lbImg').alt=d.title;
+  document.getElementById('lbTitle').textContent=d.title;
+  document.getElementById('lbSub').textContent=d.sub;
+  document.getElementById('lbCount').textContent=(lbIdx+1)+' / '+lbData.length;
+}
+document.getElementById('conGrid').addEventListener('click',function(e){
+  var ci=e.target.closest('.ci');
+  if(ci&&ci.dataset.idx!==undefined)openLb(parseInt(ci.dataset.idx));
+});
+document.getElementById('conLb').addEventListener('click',function(e){if(e.target===this)closeLb()});
+/* Touch swipe for lightbox */
+(function(){
+  var lb=document.getElementById('conLb'),sx=0,sy=0;
+  lb.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  lb.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-sx;
+    var dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){dx<0?lbNav(1):lbNav(-1)}
+  },{passive:true});
+})();
+
+/* ESC key closes modals */
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){closeModal();closeApt();closeLb();cmn()}
+  if(document.getElementById('conLb').classList.contains('open')){
+    if(e.key==='ArrowLeft')lbNav(-1);
+    if(e.key==='ArrowRight')lbNav(1);
+  }
+});
+</script>
+</body>
+</html>
