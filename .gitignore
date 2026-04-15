@@ -20,5 +20,11 @@ ig-post1-snapshot.yml
 Рендера/
 Планування/
 
+# Bulletproof workflow artifacts
+thoughts/
+progress/
+specs/
+plans/
+
 # Keep essential images
 !img/**
