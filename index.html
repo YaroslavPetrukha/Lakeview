@@ -343,6 +343,86 @@ input,select{font-family:inherit}
 .ftr-fm button{padding:12px 18px;background:var(--gold);color:#fff;border-radius:10px;font-size:14px;font-weight:600;transition:background var(--t)}.ftr-fm button:hover{background:var(--gold-d)}
 .ftr-bot{padding-top:24px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;font-size:13px;color:rgba(255,255,255,.25)}
 
+/* ═══ DEVELOPER (Vygoda) ═══ */
+.dev-sec{position:relative;background:linear-gradient(180deg,var(--em-d) 0%,#072a1f 100%);color:#fff;overflow:hidden}
+.dev-sec::before{content:'';position:absolute;inset:0;opacity:.04;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:128px 128px}
+.dev-sec::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:140px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6}
+
+.dev-c{position:relative;z-index:2}
+.dev-sec .sl{color:var(--gold-l)}.dev-sec .sl::before{background:var(--gold-l)}
+.dev-sec .st{color:#fff;max-width:780px}.dev-sec .st em{color:var(--gold-l)}
+.dev-sec .sd{color:rgba(255,255,255,.7);max-width:620px}
+
+.dev-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;margin-top:56px;align-items:start}
+.dev-quote{font-family:var(--f1);font-size:clamp(20px,2vw,28px);font-weight:400;font-style:italic;line-height:1.4;color:rgba(255,255,255,.92);padding-left:22px;border-left:2px solid rgba(197,165,90,.4);margin-bottom:24px}
+.dev-quote-attr{display:block;font-family:var(--f2);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);margin-top:14px;font-style:normal}
+.dev-story{font-size:16px;line-height:1.75;color:rgba(255,255,255,.72)}
+.dev-story p+p{margin-top:14px}.dev-story strong{color:#fff;font-weight:600}
+
+.dev-panel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:34px 30px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.dev-panel-h{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.dev-panel-h::before{content:'';width:24px;height:1px;background:var(--gold-l);opacity:.5}
+.dev-nums{display:grid;grid-template-columns:1fr 1fr;gap:24px 18px}
+.dev-num-v{font-family:var(--f1);font-size:34px;font-weight:500;color:var(--gold-l);line-height:1;margin-bottom:6px}
+.dev-num-l{font-size:12px;color:rgba(255,255,255,.55);line-height:1.45}
+
+.dev-vals{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:72px}
+.dev-val{padding:30px 24px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);transition:all var(--t);position:relative;overflow:hidden}
+.dev-val::before{content:'';position:absolute;top:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-l));transition:width .5s ease}
+.dev-val:hover{background:rgba(255,255,255,.05);border-color:rgba(197,165,90,.18);transform:translateY(-3px)}
+.dev-val:hover::before{width:100%}
+.dev-val-num{display:inline-block;font-family:var(--f1);font-size:14px;font-weight:500;font-style:italic;color:rgba(197,165,90,.55);letter-spacing:.04em;margin-bottom:16px;padding-bottom:7px;border-bottom:1px solid rgba(197,165,90,.2)}
+.dev-val h4{font-family:var(--f1);font-size:21px;font-weight:600;color:#fff;margin-bottom:8px;line-height:1.2}
+.dev-val p{font-size:14px;color:rgba(255,255,255,.7);line-height:1.65}
+
+.dev-legal{display:flex;flex-wrap:wrap;gap:14px;margin-top:44px;padding:22px 28px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);align-items:center;justify-content:center}
+.dev-legal-i{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.7)}
+.dev-legal-i svg{width:16px;height:16px;color:var(--gold-l);flex-shrink:0}
+.dev-legal-i strong{color:#fff;font-weight:600}
+.dev-legal-i+.dev-legal-i{padding-left:14px;border-left:1px solid rgba(255,255,255,.1)}
+
+.dev-port{margin-top:72px}
+.dev-port-h{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:18px;margin-bottom:28px}
+.dev-port-h h3{font-family:var(--f1);font-size:clamp(22px,2.4vw,32px);font-weight:400;color:#fff;line-height:1.2}
+.dev-port-h h3 em{font-style:italic;color:var(--gold-l)}
+.dev-port-h p{font-size:13px;color:rgba(255,255,255,.5);letter-spacing:.01em}
+.dev-port-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.dev-pc{padding:22px 20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);transition:all var(--t);min-height:170px;display:flex;flex-direction:column;justify-content:space-between}
+.dev-pc:hover{background:rgba(255,255,255,.05);border-color:rgba(197,165,90,.16);transform:translateY(-2px)}
+.dev-pc.act{background:linear-gradient(135deg,rgba(197,165,90,.09),rgba(197,165,90,.02));border-color:rgba(197,165,90,.3)}
+.dev-pc-stage{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}
+.dev-pc-stage::before{content:'';width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);flex-shrink:0}
+.dev-pc.act .dev-pc-stage{color:var(--gold-l)}
+.dev-pc.act .dev-pc-stage::before{background:#4ADE80;animation:pulse 2s infinite}
+.dev-pc h4{font-family:var(--f1);font-size:18px;font-weight:600;color:#fff;line-height:1.25;margin-bottom:6px}
+.dev-pc-loc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.4}
+
+.dev-cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:52px;align-items:center;justify-content:center}
+.dev-bp{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;background:var(--gold);color:#fff;font-size:14px;font-weight:600;border-radius:100px;border:2px solid var(--gold);transition:all var(--t)}
+.dev-bp:hover{background:var(--gold-d);border-color:var(--gold-d);transform:translateY(-2px);box-shadow:0 12px 36px rgba(197,165,90,.3)}
+.dev-bs{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;background:rgba(255,255,255,.06);color:#fff;font-size:14px;font-weight:500;border-radius:100px;border:1.5px solid rgba(255,255,255,.18);transition:all var(--t)}
+.dev-bs:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.32);transform:translateY(-2px)}
+.dev-cta-meta{font-size:12px;color:rgba(255,255,255,.35);text-align:center;width:100%;margin-top:14px;line-height:1.6}
+
+@media(max-width:1024px){
+  .dev-hero{grid-template-columns:1fr;gap:32px}
+  .dev-vals{grid-template-columns:repeat(2,1fr)}
+  .dev-port-grid{grid-template-columns:repeat(2,1fr)}
+  .dev-legal{justify-content:flex-start}
+  .dev-legal-i+.dev-legal-i{padding-left:0;border-left:none}
+}
+@media(max-width:768px){
+  .dev-sec{padding:64px 0}
+  .dev-vals{grid-template-columns:1fr}
+  .dev-val{padding:24px 22px}
+  .dev-port-grid{grid-template-columns:1fr}
+  .dev-quote{font-size:18px;padding-left:16px}
+  .dev-panel{padding:26px 22px}
+  .dev-num-v{font-size:26px}
+  .dev-port-h{flex-direction:column;align-items:flex-start;gap:6px}
+  .dev-bp,.dev-bs{width:100%;justify-content:center}
+}
+
 /* ═══ STICKY MOBILE CTA ═══ */
 .sticky-mob{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;padding:10px 16px;background:rgba(250,250,248,.96);backdrop-filter:blur(16px);border-top:1px solid var(--border);gap:8px}
 .sticky-mob a{flex:1;text-align:center;padding:13px;border-radius:12px;font-size:14px;font-weight:600;transition:all var(--t)}
@@ -410,6 +490,7 @@ input,select{font-family:inherit}
   <a href="#conditions" onclick="cmn()">Умови</a>
   <a href="#location" onclick="cmn()">Локація</a>
   <a href="#construction" onclick="cmn()">Будівництво</a>
+  <a href="#developer" onclick="cmn()">Забудовник</a>
   <a href="#commercial" onclick="cmn()">Комерція</a>
   <a href="tel:+380669900390" style="color:var(--gold-l)">+38 066 990 03 90</a>
 </div>
@@ -474,6 +555,7 @@ input,select{font-family:inherit}
       <a href="#conditions">Умови купівлі</a>
       <a href="#location">Локація</a>
       <a href="#construction">Будівництво</a>
+      <a href="#developer">Забудовник</a>
       <a href="#commercial">Комерція</a>
     </nav>
     <div class="hdr-r">
@@ -701,16 +783,9 @@ input,select{font-family:inherit}
 <!-- ═══ CONSTRUCTION ═══ -->
 <section class="sec" id="construction">
   <div class="ctn">
-    <div class="con-top">
-      <div class="rv"><div class="sl">Будівництво</div>
-      <h2 class="st">Динаміка <em>будівництва</em></h2>
-      <p class="sd">Регулярні фотозвіти. Кожен етап — під контролем.</p></div>
-      <div class="dev-box rv">
-        <h4>Забудовник — Вигода</h4>
-        <p>Компанія «Вигода» реалізує ЖК Lakeview на вул. Володимира Великого, 2а. Усі роботи виконуються відповідно до дозвільної документації та державних будівельних норм.</p>
-        <p style="margin-top:10px"><strong>Офіс продажу:</strong> вул. В. Великого, 4 — 4-й поверх, каб. 406.</p>
-      </div>
-    </div>
+    <div class="rv" style="margin-bottom:48px"><div class="sl">Будівництво</div>
+    <h2 class="st">Динаміка <em>будівництва</em></h2>
+    <p class="sd">Регулярні фотозвіти. Кожен етап — під контролем. Усі роботи відповідають дозвільній документації та державним будівельним нормам.</p></div>
 
     <div class="timeline rv">
       <div class="tl-item done"><div class="tl-dot"></div><h5>Фундамент</h5><span>Завершено</span></div>
@@ -741,6 +816,133 @@ input,select{font-family:inherit}
       <button class="lb-arrow lb-next" onclick="lbNav(1)" aria-label="Наступна"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
       <div class="lb-counter" id="lbCount"></div>
     </div>
+  </div>
+</section>
+
+<!-- ═══ DEVELOPER (ВИГОДА) ═══ -->
+<section class="sec dev-sec" id="developer">
+  <div class="ctn dev-c">
+
+    <div class="rv">
+      <div class="sl">Забудовник</div>
+      <h2 class="st">Будує забудовник, який мислить <em>системно</em></h2>
+      <p class="sd">Lakeview реалізує компанія «Вигода» — для якої якість і термін не обіцянка, а зобов'язання, оформлене юридично.</p>
+    </div>
+
+    <!-- Manifesto + numbers panel -->
+    <div class="dev-hero">
+      <div class="rv">
+        <p class="dev-quote">«Системний девелопмент, у якому цінність є результатом точних рішень».
+          <span class="dev-quote-attr">— Філософія компанії</span></p>
+        <div class="dev-story">
+          <p>«Вигода» одночасно є <strong>забудовником і генеральним підрядником</strong>. Це означає одну точку відповідальності — за бюджет, терміни і виконання робіт. Власнику квартири зрозуміло, з ким говорити.</p>
+          <p>Архітектура, інженерія, благоустрій і комерційна логіка проектуються як <strong>одна система</strong>. Кожне рішення оцінюється за технічною обґрунтованістю, довгостроковим ресурсом і вартістю володіння.</p>
+        </div>
+      </div>
+
+      <div class="dev-panel rv rv1">
+        <div class="dev-panel-h">Доказова база</div>
+        <div class="dev-nums">
+          <div><div class="dev-num-v">5</div><div class="dev-num-l">проектів у портфелі компанії</div></div>
+          <div><div class="dev-num-v">2019</div><div class="dev-num-l">безстрокова ліцензія на будівництво</div></div>
+          <div><div class="dev-num-v">2&nbsp;в&nbsp;1</div><div class="dev-num-l">забудовник і генпідрядник в одній юрособі</div></div>
+          <div><div class="dev-num-v">100%</div><div class="dev-num-l">юридичний трек відкритий у публічних реєстрах</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 brand values -->
+    <div class="dev-vals">
+      <div class="dev-val rv">
+        <span class="dev-val-num">01 / Принцип</span>
+        <h4>Системність</h4>
+        <p>Архітектура, функціональність та інвестиційна доцільність — одна система. Рішення приймаються у зв'язку одне з одним, а не послідовно і розірвано.</p>
+      </div>
+      <div class="dev-val rv rv1">
+        <span class="dev-val-num">02 / Принцип</span>
+        <h4>Доцільність</h4>
+        <p>Кожне рішення оцінюється за технічною обґрунтованістю, довгостроковим ресурсом і вартістю володіння. Дорожче — лише якщо дає перевагу за цими критеріями.</p>
+      </div>
+      <div class="dev-val rv rv2">
+        <span class="dev-val-num">03 / Принцип</span>
+        <h4>Надійність</h4>
+        <p>ТОВ «БК ВИГОДА ГРУП», ЄДРПОУ 42016395, безстрокова ліцензія від 27.12.2019. Юридичний трек відкритий для перевірки через публічні реєстри.</p>
+      </div>
+      <div class="dev-val rv rv3">
+        <span class="dev-val-num">04 / Принцип</span>
+        <h4>Довгострокова цінність</h4>
+        <p>Проектуємо середовище, яке зберігає цінність на горизонті десятиліть. Не оптимізуємо показники запуску за рахунок експлуатаційної якості.</p>
+      </div>
+    </div>
+
+    <!-- Legal credentials -->
+    <div class="dev-legal rv">
+      <div class="dev-legal-i">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></svg>
+        <span><strong>ТОВ «БК ВИГОДА ГРУП»</strong></span>
+      </div>
+      <div class="dev-legal-i">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        <span>ЄДРПОУ <strong>42016395</strong></span>
+      </div>
+      <div class="dev-legal-i">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11V5l8-3 8 3v6c0 6.5-8 11-8 11z"/><path d="M9 12l2 2 4-4"/></svg>
+        <span>Ліцензія від <strong>27.12.2019</strong> · безстрокова</span>
+      </div>
+    </div>
+
+    <!-- Portfolio teaser -->
+    <div class="dev-port">
+      <div class="dev-port-h rv">
+        <h3>Портфель <em>«Вигоди»</em></h3>
+        <p>1 в активній фазі будівництва · 4 у pipeline</p>
+      </div>
+      <div class="dev-port-grid">
+        <div class="dev-pc act rv">
+          <div>
+            <div class="dev-pc-stage">Активне будівництво</div>
+            <h4>ЖК Lakeview</h4>
+          </div>
+          <div class="dev-pc-loc">Львів · здача 2027</div>
+        </div>
+        <div class="dev-pc rv rv1">
+          <div>
+            <div class="dev-pc-stage">Меморандум</div>
+            <h4>ЖК Етно Дім</h4>
+          </div>
+          <div class="dev-pc-loc">Львів</div>
+        </div>
+        <div class="dev-pc rv rv2">
+          <div>
+            <div class="dev-pc-stage">Кошторисна документація</div>
+            <h4>ЖК Маєток Винниківський</h4>
+          </div>
+          <div class="dev-pc-loc">Винники</div>
+        </div>
+        <div class="dev-pc rv rv3">
+          <div>
+            <div class="dev-pc-stage">Дозвільна документація</div>
+            <h4>Дохідний дім NTEREST</h4>
+          </div>
+          <div class="dev-pc-loc">Львів</div>
+        </div>
+        <div class="dev-pc rv rv4">
+          <div>
+            <div class="dev-pc-stage">Прорахунок кошторису</div>
+            <h4>+1 об'єкт</h4>
+          </div>
+          <div class="dev-pc-loc">Назва — після розрахунків</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="dev-cta-row rv">
+      <a href="https://yaroslavpetrukha.github.io/vugoda-website/#/" target="_blank" rel="noopener" class="dev-bp">Сайт забудовника <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      <a href="#" onclick="openModal();return false;" class="dev-bs">Замовити дзвінок</a>
+      <p class="dev-cta-meta">Офіс продажу: вул. В. Великого, 4 — 4-й поверх, каб. 406 · vygoda.sales@gmail.com</p>
+    </div>
+
   </div>
 </section>
 
@@ -834,6 +1036,7 @@ input,select{font-family:inherit}
           <li><a href="#conditions">Умови купівлі</a></li>
           <li><a href="#location">Локація</a></li>
           <li><a href="#construction">Будівництво</a></li>
+          <li><a href="#developer">Забудовник</a></li>
           <li><a href="#commercial">Комерція</a></li>
         </ul>
       </div>
