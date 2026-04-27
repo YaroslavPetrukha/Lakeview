@@ -122,11 +122,16 @@ input,select{font-family:inherit}
 .plans-g{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .pc{background:var(--card);border-radius:var(--r2);overflow:hidden;border:1px solid var(--border);transition:all var(--t);cursor:pointer}
 .pc:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
-.pc-img{aspect-ratio:4/3;overflow:hidden;position:relative}
+.pc-img{aspect-ratio:4/3;overflow:hidden;position:relative;cursor:zoom-in;background:var(--bg2)}
 .pc-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
 .pc:hover .pc-img img{transform:scale(1.05)}
-.pc-badge{position:absolute;top:12px;left:12px;padding:5px 12px;background:var(--em);color:#fff;font-size:12px;font-weight:600;border-radius:100px}
-.pc-avail{position:absolute;top:12px;right:12px;padding:5px 10px;background:rgba(74,222,128,.9);color:#fff;font-size:11px;font-weight:600;border-radius:100px}
+.pc-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(15,76,58,.12) 100%);opacity:0;transition:opacity .3s ease;pointer-events:none}
+.pc-img:hover::after{opacity:1}
+.pc-badge{position:absolute;top:12px;left:12px;padding:5px 12px;background:var(--em);color:#fff;font-size:12px;font-weight:600;border-radius:100px;z-index:2}
+.pc-avail{position:absolute;top:12px;right:12px;padding:5px 10px;background:rgba(74,222,128,.9);color:#fff;font-size:11px;font-weight:600;border-radius:100px;z-index:2}
+.pc-zoom{position:absolute;bottom:12px;right:12px;width:38px;height:38px;border-radius:50%;background:rgba(15,76,58,.9);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.18);transition:transform .3s ease,background .3s ease;z-index:2;pointer-events:none}
+.pc-zoom svg{width:16px;height:16px;color:#fff}
+.pc-img:hover .pc-zoom{transform:scale(1.08);background:var(--gold)}
 .pc-b{padding:18px 20px 12px}
 .pc-b h4{font-family:var(--f1);font-size:22px;font-weight:600;margin-bottom:2px}
 .pc-b span{font-size:14px;color:var(--txt2)}
@@ -581,7 +586,7 @@ input,select{font-family:inherit}
   <div class="apt-modal">
     <button class="apt-close" onclick="closeApt()">&times;</button>
     <div class="apt-left">
-      <img id="apt-img" src="" alt="">
+      <img id="apt-img" src="" alt="" style="cursor:zoom-in" onclick="openPlanLbDirect(this.src,this.alt,document.getElementById('apt-type').textContent,document.getElementById('apt-title').textContent+' · '+document.getElementById('apt-section').textContent+' · поверх '+document.getElementById('apt-floor').textContent)">
     </div>
     <div class="apt-right">
       <div class="apt-type" id="apt-type"></div>
@@ -699,49 +704,49 @@ input,select{font-family:inherit}
 
     <div class="plans-g" id="plans-all">
       <div class="pc rv rv1" data-type="1k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s4-174-1k-46m2.jpg" alt="1-кімнатна 46.61 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div></div>
+        <div class="pc-img" onclick="openPlanLb(event,this.parentElement)"><img src="img/plans/s4-174-1k-46m2.jpg" alt="1-кімнатна 46.61 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div><div class="pc-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div></div>
         <div class="pc-b"><h4>46.61 м²</h4><span>Секція 4 · поверх 3</span></div>
-        <div class="pc-f"><span class="pc-price">від $74 576</span><span class="pc-link">Збільшити план →</span></div>
+        <div class="pc-f"><span class="pc-price">від $74 576</span><span class="pc-link">Дізнатись деталі →</span></div>
       </div>
       <div class="pc rv rv2" data-type="1k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s1-039-1k-53m2.jpg" alt="1-кімнатна 53.19 м², секція 1" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div></div>
+        <div class="pc-img" onclick="openPlanLb(event,this.parentElement)"><img src="img/plans/s1-039-1k-53m2.jpg" alt="1-кімнатна 53.19 м², секція 1" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div><div class="pc-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div></div>
         <div class="pc-b"><h4>53.19 м²</h4><span>Секція 1 · поверх 10</span></div>
-        <div class="pc-f"><span class="pc-price">від $85 104</span><span class="pc-link">Збільшити план →</span></div>
+        <div class="pc-f"><span class="pc-price">від $85 104</span><span class="pc-link">Дізнатись деталі →</span></div>
       </div>
       <div class="pc rv rv3" data-type="1k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s4-185-1k-60m2.jpg" alt="1-кімнатна 60.09 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div></div>
+        <div class="pc-img" onclick="openPlanLb(event,this.parentElement)"><img src="img/plans/s4-185-1k-60m2.jpg" alt="1-кімнатна 60.09 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div><div class="pc-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div></div>
         <div class="pc-b"><h4>60.09 м²</h4><span>Секція 4 · поверх 4</span></div>
-        <div class="pc-f"><span class="pc-price">від $96 144</span><span class="pc-link">Збільшити план →</span></div>
+        <div class="pc-f"><span class="pc-price">від $96 144</span><span class="pc-link">Дізнатись деталі →</span></div>
       </div>
       <div class="pc rv rv1" data-type="2k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s2-074-2k-68m2.jpg" alt="2-кімнатна 68.08 м², секція 2" loading="lazy"><div class="pc-badge">2-кімнатна</div><div class="pc-avail">Вільна</div></div>
+        <div class="pc-img" onclick="openPlanLb(event,this.parentElement)"><img src="img/plans/s2-074-2k-68m2.jpg" alt="2-кімнатна 68.08 м², секція 2" loading="lazy"><div class="pc-badge">2-кімнатна</div><div class="pc-avail">Вільна</div><div class="pc-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div></div>
         <div class="pc-b"><h4>68.08 м²</h4><span>Секція 2 · поверх 8</span></div>
-        <div class="pc-f"><span class="pc-price">від $108 928</span><span class="pc-link">Збільшити план →</span></div>
+        <div class="pc-f"><span class="pc-price">від $108 928</span><span class="pc-link">Дізнатись деталі →</span></div>
       </div>
       <div class="pc rv rv2" data-type="2k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s1-001-2k-70m2.jpg" alt="2-кімнатна 70.56 м², секція 1" loading="lazy"><div class="pc-badge">2-кімнатна</div></div>
+        <div class="pc-img" onclick="openPlanLb(event,this.parentElement)"><img src="img/plans/s1-001-2k-70m2.jpg" alt="2-кімнатна 70.56 м², секція 1" loading="lazy"><div class="pc-badge">2-кімнатна</div><div class="pc-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div></div>
         <div class="pc-b"><h4>70.56 м²</h4><span>Секція 1 · поверх 3</span></div>
-        <div class="pc-f"><span class="pc-price">від $112 896</span><span class="pc-link">Збільшити план →</span></div>
+        <div class="pc-f"><span class="pc-price">від $112 896</span><span class="pc-link">Дізнатись деталі →</span></div>
       </div>
       <div class="pc rv rv3" data-type="3k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s4-244-3k-90m2.jpg" alt="3-кімнатна 90.16 м², секція 4" loading="lazy"><div class="pc-badge">3-кімнатна</div><div class="pc-avail">Вільна</div></div>
+        <div class="pc-img" onclick="openPlanLb(event,this.parentElement)"><img src="img/plans/s4-244-3k-90m2.jpg" alt="3-кімнатна 90.16 м², секція 4" loading="lazy"><div class="pc-badge">3-кімнатна</div><div class="pc-avail">Вільна</div><div class="pc-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div></div>
         <div class="pc-b"><h4>90.16 м²</h4><span>Секція 4 · поверх 12</span></div>
-        <div class="pc-f"><span class="pc-price">від $144 256</span><span class="pc-link">Збільшити план →</span></div>
+        <div class="pc-f"><span class="pc-price">від $144 256</span><span class="pc-link">Дізнатись деталі →</span></div>
       </div>
       <div class="pc rv rv1" data-type="2k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s3-168-2k-78m2.jpg" alt="2-кімнатна 78.35 м², секція 3" loading="lazy"><div class="pc-badge">2-кімнатна</div></div>
+        <div class="pc-img" onclick="openPlanLb(event,this.parentElement)"><img src="img/plans/s3-168-2k-78m2.jpg" alt="2-кімнатна 78.35 м², секція 3" loading="lazy"><div class="pc-badge">2-кімнатна</div><div class="pc-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div></div>
         <div class="pc-b"><h4>78.35 м²</h4><span>Секція 3 · поверх 15</span></div>
-        <div class="pc-f"><span class="pc-price">від $125 360</span><span class="pc-link">Збільшити план →</span></div>
+        <div class="pc-f"><span class="pc-price">від $125 360</span><span class="pc-link">Дізнатись деталі →</span></div>
       </div>
       <div class="pc rv rv2" data-type="1k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s4-177-1k-62m2.jpg" alt="1-кімнатна 62.97 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div></div>
+        <div class="pc-img" onclick="openPlanLb(event,this.parentElement)"><img src="img/plans/s4-177-1k-62m2.jpg" alt="1-кімнатна 62.97 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div></div>
         <div class="pc-b"><h4>62.97 м²</h4><span>Секція 4 · поверх 3</span></div>
-        <div class="pc-f"><span class="pc-price">від $100 752</span><span class="pc-link">Збільшити план →</span></div>
+        <div class="pc-f"><span class="pc-price">від $100 752</span><span class="pc-link">Дізнатись деталі →</span></div>
       </div>
       <div class="pc rv rv3" data-type="2k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s3-133-2k-77m2.jpg" alt="2-кімнатна 77.73 м², секція 3" loading="lazy"><div class="pc-badge">2-кімнатна</div></div>
+        <div class="pc-img" onclick="openPlanLb(event,this.parentElement)"><img src="img/plans/s3-133-2k-77m2.jpg" alt="2-кімнатна 77.73 м², секція 3" loading="lazy"><div class="pc-badge">2-кімнатна</div><div class="pc-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div></div>
         <div class="pc-b"><h4>77.73 м²</h4><span>Секція 3 · поверх 9</span></div>
-        <div class="pc-f"><span class="pc-price">від $124 368</span><span class="pc-link">Збільшити план →</span></div>
+        <div class="pc-f"><span class="pc-price">від $124 368</span><span class="pc-link">Дізнатись деталі →</span></div>
       </div>
     </div>
 
@@ -883,6 +888,15 @@ input,select{font-family:inherit}
     </div>
   </div>
 </section>
+
+<!-- Plan Lightbox -->
+<div class="lb-ov" id="planLb" style="z-index:10002">
+  <button class="lb-close" onclick="closePlanLb()" aria-label="Закрити"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <div class="lb-content">
+    <img class="lb-img" id="planLbImg" src="" alt="">
+    <div class="lb-caption"><h4 id="planLbTitle"></h4><span id="planLbSub"></span></div>
+  </div>
+</div>
 
 <!-- ═══ DEVELOPER (ВИГОДА) ═══ -->
 <section class="sec dev-sec" id="developer">
@@ -1268,9 +1282,36 @@ document.getElementById('conLb').addEventListener('click',function(e){if(e.targe
   },{passive:true});
 })();
 
+/* ═══ Plan Lightbox ═══ */
+function openPlanLb(e,card){
+  if(e){e.stopPropagation()}
+  var img=card.querySelector('.pc-img img');
+  var area=card.querySelector('.pc-b h4').textContent;
+  var info=card.querySelector('.pc-b span').textContent;
+  var badge=card.querySelector('.pc-badge').textContent;
+  openPlanLbDirect(img.src,img.alt,badge+' · '+area,info);
+}
+function openPlanLbDirect(src,alt,title,sub){
+  document.getElementById('planLbImg').src=src;
+  document.getElementById('planLbImg').alt=alt||'';
+  document.getElementById('planLbTitle').textContent=title||'';
+  document.getElementById('planLbSub').textContent=sub||'';
+  document.getElementById('planLb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePlanLb(){
+  document.getElementById('planLb').classList.remove('open');
+  if(!document.getElementById('aptModal').classList.contains('open'))document.body.style.overflow='';
+  setTimeout(function(){document.getElementById('planLbImg').src=''},350);
+}
+document.getElementById('planLb').addEventListener('click',function(e){if(e.target===this)closePlanLb()});
+
 /* ESC key closes modals */
 document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'){closeModal();closeApt();closeLb();cmn()}
+  if(e.key==='Escape'){
+    if(document.getElementById('planLb').classList.contains('open')){closePlanLb();return}
+    closeModal();closeApt();closeLb();cmn();
+  }
   if(document.getElementById('conLb').classList.contains('open')){
     if(e.key==='ArrowLeft')lbNav(-1);
     if(e.key==='ArrowRight')lbNav(1);
