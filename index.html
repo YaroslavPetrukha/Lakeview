@@ -349,7 +349,8 @@ input,select{font-family:inherit}
 .dev-sec::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:140px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6}
 
 .dev-c{position:relative;z-index:2}
-.dev-sec .sl{color:var(--gold-l)}.dev-sec .sl::before{background:var(--gold-l)}
+.dev-sec .sl{color:var(--gold-l);gap:10px}.dev-sec .sl::before{background:var(--gold-l);width:24px}
+.sl-mark{width:18px;height:auto;color:var(--gold-l);opacity:.85;flex-shrink:0;display:inline-block}
 .dev-sec .st{color:#fff;max-width:780px}.dev-sec .st em{color:var(--gold-l)}
 .dev-sec .sd{color:rgba(255,255,255,.7);max-width:620px}
 
@@ -824,7 +825,7 @@ input,select{font-family:inherit}
   <div class="ctn dev-c">
 
     <div class="rv">
-      <div class="sl">Забудовник</div>
+      <div class="sl"><svg class="sl-mark" viewBox="0 0 220.6 167.4" fill="currentColor" aria-hidden="true"><path d="M110.3,136.11l-44.58-25.74,44.58-25.74,44.58,25.74-44.58,25.74ZM67.72,110.37l42.58,24.59,42.58-24.59-42.58-24.59-42.58,24.59Z"/><path d="M155.95,108.52l-44.58-25.74V31.3l44.58,25.74v51.48ZM112.37,82.2l42.58,24.59v-49.17l-42.58-24.59v49.17Z"/><path d="M64.65,108.52v-51.48l44.58-25.74v51.48l-.25.14-44.33,25.6ZM65.65,57.61v49.17l42.58-24.59v-49.17l-42.58,24.59Z"/></svg>Забудовник</div>
       <h2 class="st">Будує забудовник, який мислить <em>системно</em></h2>
       <p class="sd">Lakeview реалізує компанія «Вигода» — для якої якість і термін не обіцянка, а зобов'язання, оформлене юридично.</p>
     </div>
