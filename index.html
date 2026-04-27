@@ -416,15 +416,25 @@ input,select{font-family:inherit}
   .dev-legal-i+.dev-legal-i{padding-left:0;border-left:none}
 }
 @media(max-width:768px){
-  .dev-sec{padding:64px 0}
-  .dev-vals{grid-template-columns:1fr}
-  .dev-val{padding:24px 22px}
-  .dev-port-grid{grid-template-columns:1fr}
-  .dev-quote{font-size:18px;padding-left:16px}
+  .dev-sec{padding:60px 0}
+  .dev-hero{margin-top:36px;gap:28px}
+  .dev-quote{font-size:18px;padding-left:16px;margin-bottom:20px}
   .dev-panel{padding:26px 22px}
+  .dev-nums{gap:22px 16px}
   .dev-num-v{font-size:26px}
-  .dev-port-h{flex-direction:column;align-items:flex-start;gap:6px}
+  .dev-vals{grid-template-columns:1fr;gap:12px;margin-top:48px}
+  .dev-val{padding:24px 22px}
+  .dev-legal{padding:18px 22px;margin-top:36px;gap:12px}
+  .dev-legal-i{font-size:12.5px}
+  .dev-port{margin-top:48px}
+  .dev-port-h{flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:24px}
+  .dev-port-grid{grid-template-columns:1fr;gap:12px}
+  .dev-pc{min-height:140px}
+  .dev-cta-row{margin-top:40px;gap:10px}
   .dev-bp,.dev-bs{width:100%;justify-content:center}
+  .dev-cta-meta{margin-top:18px;font-size:11.5px;line-height:1.7}
+  /* Mark off-screen on phone — atmospheric gradients carry the section */
+  .dev-sec::before{display:none}
 }
 
 /* ═══ STICKY MOBILE CTA ═══ */
@@ -451,33 +461,72 @@ input,select{font-family:inherit}
   .lb-prev{left:12px}.lb-next{right:12px}
 }
 @media(max-width:768px){
-  .sec{padding:64px 0}
+  .ctn{padding:0 20px}
+  .hdr{padding:0 20px}
+  .sec{padding:56px 0}
   .nav,.hdr-ph{display:none}.mob-tog{display:flex}
   .sticky-mob{display:flex}
   body{padding-bottom:64px}
-  .hero{min-height:100svh;padding-bottom:40px}
-  .hero h1{font-size:32px}
-  .hero-nums{grid-template-columns:repeat(2,1fr);gap:16px}
-  .hero-ctas{flex-direction:column}.hero-ctas a{text-align:center;justify-content:center}
-  .fg,.cond-grid,.loc-infra,.trust-bar,.com-cards{grid-template-columns:1fr}
-  .com-metrics{flex-wrap:wrap;padding:20px 16px;gap:10px}
+
+  /* HERO — block layout, header clearance, fit content cleanly */
+  .hero{display:block;min-height:auto;padding:96px 0 28px;align-items:initial}
+  .hero-c{padding:0 20px}
+  .hero-tags{gap:8px;margin-bottom:18px}
+  .hero-tag{padding:6px 14px;font-size:11.5px}
+  .hero h1{font-size:30px;line-height:1.1;margin-bottom:14px}
+  .hero-p{font-size:15.5px;line-height:1.65;margin-bottom:24px}
+  .hero-ctas{flex-direction:column;gap:10px}.hero-ctas a{text-align:center;justify-content:center}
+  .hero-nums{grid-template-columns:repeat(2,1fr);gap:14px;margin-top:32px;padding-top:20px}
+  .hero-nums > div:nth-child(5){display:none}
+  .hn-v{font-size:26px}
+
+  /* Section heads — readable mobile sizes */
+  .st{font-size:28px;line-height:1.18}
+  .sd{font-size:15.5px;line-height:1.65}
+
+  /* Apartment tabs — horizontal scroll instead of wrap */
+  .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -20px 22px;padding:2px 20px}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;white-space:nowrap}
+
+  /* Plans / features — single column */
+  .fg,.cond-grid,.loc-infra,.trust-bar,.com-cards,.plans-g{grid-template-columns:1fr}
+  .cond-card{padding:24px 20px}
+  .com-card{padding:24px 20px}
+
+  /* Commercial metrics */
+  .com-metrics{flex-wrap:wrap;padding:18px 14px;gap:10px}
   .com-metric{flex:0 0 calc(50% - 5px)}
   .com-hero{min-height:320px}
-  .plans-g{grid-template-columns:1fr}
-  .lfw{padding:28px 18px}
+
+  /* Lead form vertical */
+  .lfw{padding:28px 20px}
   .lf{flex-direction:column}.fg2{min-width:100%}.bf{width:100%}
   .privacy{white-space:normal}
+
+  /* Gallery — better card width on phone */
   .gal-item{flex:0 0 280px}
-  .con-grid{grid-template-columns:1fr;grid-auto-rows:200px}
+
+  /* Construction grid — taller rows for clarity */
+  .con-grid{grid-template-columns:1fr;grid-auto-rows:230px}
   .ci:first-child{grid-column:auto;grid-row:auto}
+
+  /* Location hero */
   .loc-hero img{aspect-ratio:16/10}
   .loc-ov{padding:20px}.loc-tags{flex-direction:column}
+
+  /* Footer */
+  .ftr{padding:48px 0 24px}
   .ftr-g{grid-template-columns:1fr;gap:28px}
   .ftr-bot{flex-direction:column;gap:8px;text-align:center}
+
+  /* Timeline */
   .timeline{flex-direction:column;gap:0}
   .timeline::before{top:0;bottom:0;left:22px;width:3px;height:100%;right:auto}
   .tl-item{flex:none;text-align:left;padding:8px 0 8px 52px;padding-top:8px}
   .tl-dot{top:12px;left:16px;transform:none}
+
+  /* Lightbox */
   .lb-arrow{width:40px;height:40px}.lb-arrow svg{width:18px;height:18px}
   .lb-prev{left:8px}.lb-next{right:8px}
   .lb-img{max-height:65vh}
