@@ -344,9 +344,13 @@ input,select{font-family:inherit}
 .ftr-bot{padding-top:24px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;font-size:13px;color:rgba(255,255,255,.25)}
 
 /* ═══ DEVELOPER (Vygoda) ═══ */
-.dev-sec{position:relative;background:linear-gradient(180deg,var(--em-d) 0%,#072a1f 100%);color:#fff;overflow:hidden}
-.dev-sec::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:url("img/brand/vygoda-pattern.svg");background-repeat:repeat;background-size:340px auto;opacity:.22;mix-blend-mode:screen;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%)}
-.dev-sec::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:140px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6}
+.dev-sec{position:relative;color:#fff;overflow:hidden;
+  background:
+    radial-gradient(ellipse 55% 45% at 88% 12%, rgba(197,165,90,.11) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 55% at 4% 98%, rgba(15,76,58,.55) 0%, transparent 70%),
+    linear-gradient(180deg, var(--em-d) 0%, #061a14 100%)}
+.dev-sec::before{content:'';position:absolute;top:80px;right:-260px;width:920px;aspect-ratio:220.6/167.4;background-image:url("img/brand/vygoda-mark.svg");background-repeat:no-repeat;background-size:contain;background-position:center;opacity:.07;pointer-events:none;z-index:0;-webkit-mask-image:radial-gradient(ellipse at center,#000 40%,transparent 75%);mask-image:radial-gradient(ellipse at center,#000 40%,transparent 75%)}
+.dev-sec::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:140px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6;z-index:2}
 
 .dev-c{position:relative;z-index:2}
 .dev-sec .sl{color:var(--gold-l)}.dev-sec .sl::before{background:var(--gold-l)}
