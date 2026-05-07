@@ -1,0 +1,23 @@
+# /api/.htaccess — only submit.php is publicly callable
+
+Options -Indexes
+
+# Block all .php access by default
+<FilesMatch "\.php$">
+    Require all denied
+</FilesMatch>
+
+# Allow only the public endpoint
+<FilesMatch "^submit\.php$">
+    Require all granted
+</FilesMatch>
+
+# Always block config + example files
+<FilesMatch "^(config|config\.example)\.php$">
+    Require all denied
+</FilesMatch>
+
+# Block any backup/temp variants
+<FilesMatch "\.(bak|old|orig|swp|swo|tmp|inc)$">
+    Require all denied
+</FilesMatch>

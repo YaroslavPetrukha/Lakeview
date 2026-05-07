@@ -1,0 +1,117 @@
+# ============================================================================
+# ЖК Lakeview — root .htaccess
+# Force HTTPS + www, security headers, caching, sensitive-file blocks.
+# ============================================================================
+
+Options -Indexes -MultiViews
+DirectoryIndex index.html
+
+# ─── 1. HTTPS + canonical www ───────────────────────────────────────────────
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # http → https
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # apex → www (lakeview.com.ua → www.lakeview.com.ua)
+    RewriteCond %{HTTP_HOST} ^lakeview\.com\.ua$ [NC]
+    RewriteRule ^(.*)$ https://www.lakeview.com.ua/$1 [R=301,L]
+
+    # Old WordPress probe paths → 410 Gone (discourage scanners)
+    RewriteRule ^wp-(admin|login|content|includes|json) - [R=410,L]
+    RewriteRule ^xmlrpc\.php$ - [R=410,L]
+</IfModule>
+
+# ─── 2. MIME types (for hosts that miss modern formats) ─────────────────────
+<IfModule mod_mime.c>
+    AddType image/avif .avif
+    AddType image/webp .webp
+    AddType image/svg+xml .svg .svgz
+    AddType font/woff2 .woff2
+    AddType application/manifest+json .webmanifest
+</IfModule>
+
+# ─── 3. Compression ─────────────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE application/xml application/xhtml+xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE font/ttf font/otf
+</IfModule>
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css
+    AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
+    AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+</IfModule>
+
+# ─── 4. Caching ─────────────────────────────────────────────────────────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault                              "access plus 10 minutes"
+
+    # HTML — short cache so updates roll out fast
+    ExpiresByType text/html                     "access plus 10 minutes"
+
+    # Assets — long, immutable
+    ExpiresByType text/css                      "access plus 30 days"
+    ExpiresByType application/javascript        "access plus 30 days"
+    ExpiresByType image/jpeg                    "access plus 30 days"
+    ExpiresByType image/png                     "access plus 30 days"
+    ExpiresByType image/webp                    "access plus 30 days"
+    ExpiresByType image/avif                    "access plus 30 days"
+    ExpiresByType image/svg+xml                 "access plus 30 days"
+    ExpiresByType font/woff2                    "access plus 30 days"
+    ExpiresByType font/ttf                      "access plus 30 days"
+    ExpiresByType application/manifest+json     "access plus 7 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+    # HTML — short cache
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "public, max-age=600"
+    </FilesMatch>
+
+    # Static assets — long-cache, immutable
+    <FilesMatch "\.(css|js|woff2|ttf|otf|jpe?g|png|webp|avif|svg|ico)$">
+        Header set Cache-Control "public, max-age=2592000, immutable"
+    </FilesMatch>
+
+    # ─── 5. Security headers ────────────────────────────────────────────────
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" env=HTTPS
+
+    # Strip PHP version disclosure
+    Header unset X-Powered-By
+    Header always unset X-Powered-By
+</IfModule>
+
+# Hide PHP signature where possible
+<IfModule mod_php.c>
+    php_flag expose_php Off
+</IfModule>
+
+# ─── 6. Block sensitive files ───────────────────────────────────────────────
+<FilesMatch "(^\.|^\.git.*|\.env.*|composer\.(json|lock)|package(-lock)?\.json|\.htaccess|\.htpasswd|\.log|^README|^CLAUDE)">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^config\.php$">
+    Require all denied
+</FilesMatch>
+
+# Block /logs/, /thoughts/, /specs/ etc. via path
+RedirectMatch 403 ^/?logs(/|$)
+RedirectMatch 403 ^/?thoughts(/|$)
+RedirectMatch 403 ^/?specs(/|$)
+RedirectMatch 403 ^/?progress(/|$)
+RedirectMatch 403 ^/?\.git(/|$)
+
+# ─── 7. Custom error pages → SPA-style fallback ─────────────────────────────
+ErrorDocument 403 /index.html
+ErrorDocument 404 /index.html

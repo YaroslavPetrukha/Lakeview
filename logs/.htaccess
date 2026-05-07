@@ -1,0 +1,2 @@
+# /logs/.htaccess — deny all public access
+Require all denied

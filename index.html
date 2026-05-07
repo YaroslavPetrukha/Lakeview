@@ -953,13 +953,16 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
     <button class="modal-close" onclick="closeModal()" aria-label="Закрити вікно" type="button">&times;</button>
     <h3 id="cbTitle">Замовити дзвінок</h3>
     <p>Залиште номер — передзвонимо протягом 15 хвилин.</p>
-    <form id="fCB" onsubmit="return hs(event,'fCB')">
+    <form id="fCB" action="/api/submit.php" method="POST" onsubmit="return hs(event,'fCB')">
+      <input type="hidden" name="_form" value="callback">
+      <input type="hidden" name="ts" value="">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <div class="fg2"><label for="cb-name">Ваше ім'я</label><input id="cb-name" name="name" type="text" placeholder="Олександр" required aria-required="true" autocomplete="name"></div>
       <div class="fg2"><label for="cb-tel">Телефон</label><input id="cb-tel" name="phone" type="tel" placeholder="+380 __ ___ __ __" required aria-required="true" pattern="\+?[0-9\s\-]{10,}" autocomplete="tel"></div>
       <button type="submit" class="btn-modal">Зателефонуйте мені</button>
     </form>
     <div class="fs" id="fCB-s" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зателефонуємо найближчим часом.</div>
-    <p class="privacy" style="color:var(--txt3);margin-top:12px">Натискаючи кнопку, ви погоджуєтесь з обробкою персональних даних</p>
+    <p class="privacy" style="color:var(--txt3);margin-top:12px">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a></p>
   </div>
 </div>
 
@@ -983,7 +986,10 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
       </div>
       <div class="apt-form-wrap">
         <h4>Дізнатися більше про цю квартиру</h4>
-        <form id="fApt" onsubmit="return hsApt(event)">
+        <form id="fApt" action="/api/submit.php" method="POST" onsubmit="return hsApt(event)">
+          <input type="hidden" name="_form" value="apartment">
+          <input type="hidden" name="ts" value="">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <input type="hidden" id="apt-hidden" name="apartment" value="">
           <div class="apt-field"><label for="fApt-name" class="visually-hidden">Ваше ім'я</label><input id="fApt-name" type="text" name="name" placeholder="Ваше ім'я" required aria-required="true" autocomplete="name"></div>
           <div class="apt-field"><label for="fApt-tel" class="visually-hidden">Телефон</label><input id="fApt-tel" type="tel" name="phone" placeholder="+380 __ ___ __ __" required aria-required="true" pattern="\+?[0-9\s\-\(\)]{10,}" autocomplete="tel"></div>
@@ -1166,7 +1172,10 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
         <div class="sl">Каталог планувань</div>
         <h3 style="font-family:var(--f1);font-size:28px;font-weight:500;color:#fff;margin-bottom:8px">Отримайте всі планування із цінами</h3>
         <p style="font-size:15px;color:rgba(255,255,255,.85);margin-bottom:28px;line-height:1.6">Надішлемо PDF з усіма квартирами, поверховими планами та актуальними цінами у зручний месенджер.</p>
-        <form id="fR" onsubmit="return hs(event,'fR')">
+        <form id="fR" action="/api/submit.php" method="POST" onsubmit="return hs(event,'fR')">
+          <input type="hidden" name="_form" value="catalog">
+          <input type="hidden" name="ts" value="">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <div class="cta-field">
             <label for="fR-name">Ваше ім'я</label>
             <input id="fR-name" name="name" type="text" placeholder="Олександр" required autocomplete="name">
@@ -1183,7 +1192,7 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
         </form>
         <div class="fs" id="fR-s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Каталог надійде протягом кількох хвилин.</div>
         <div class="cta-proof"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Вже 53 сім'ї отримали каталог цього місяця</div>
-        <p style="font-size:12px;color:rgba(255,255,255,.7);margin-top:8px">Натискаючи кнопку, ви погоджуєтесь з обробкою персональних даних</p>
+        <p style="font-size:12px;color:rgba(255,255,255,.7);margin-top:8px">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a></p>
       </div>
     </div>
   </div>
@@ -1491,7 +1500,10 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
         </div>
         <div class="lfw-scarcity" style="margin-bottom:0"><span class="sc-dot"></span> Залишилось 3 приміщення</div>
       </div>
-      <form class="lf" id="fC" onsubmit="return hs(event,'fC')">
+      <form class="lf" id="fC" action="/api/submit.php" method="POST" onsubmit="return hs(event,'fC')">
+        <input type="hidden" name="_form" value="commercial">
+        <input type="hidden" name="ts" value="">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <div class="fg2"><label for="com-name">Ваше ім'я</label><input id="com-name" type="text" name="name" placeholder="Олександр" required autocomplete="name"></div>
         <div class="fg2"><label for="com-tel">Телефон</label><input id="com-tel" type="tel" name="phone" placeholder="+380 __ ___ __ __" required pattern="\+?[0-9\s\-]{10,}" autocomplete="tel"></div>
         <div class="fg2"><label for="com-biz">Тип бізнесу</label>
@@ -1500,7 +1512,7 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
         <button type="submit" class="bf">Отримати умови</button>
       </form>
       <div class="fs" id="fC-s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Менеджер зв'яжеться протягом 30 хвилин.</div>
-      <p class="privacy">Натискаючи кнопку, ви погоджуєтесь з обробкою персональних даних</p>
+      <p class="privacy">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a></p>
     </div>
   </div>
 </section>
@@ -1578,7 +1590,10 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
       <div>
         <h2 class="ftr-h">Залишились питання?</h2>
         <p style="font-size:14px;color:rgba(255,255,255,.78);margin-bottom:12px">Залиште номер — зателефонуємо.</p>
-        <form class="ftr-fm" id="fF" onsubmit="return hs(event,'fF')">
+        <form class="ftr-fm" id="fF" action="/api/submit.php" method="POST" onsubmit="return hs(event,'fF')">
+          <input type="hidden" name="_form" value="footer">
+          <input type="hidden" name="ts" value="">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <label for="fF-tel" class="visually-hidden">Телефон</label>
           <input id="fF-tel" name="phone" type="tel" placeholder="+380 __ ___ __ __" required pattern="\+?[0-9\s\-\(\)]{10,}" autocomplete="tel" aria-label="Телефон">
           <button type="submit">Надіслати</button>
@@ -1711,19 +1726,67 @@ function openApt(el){
   _openA11y('aptModal');
 }
 function closeApt(){_closeA11y('aptModal');document.getElementById('apt-img').src=''}
-function hsApt(e){e.preventDefault();var f=document.getElementById('fApt');var d=new FormData(f);var o={};d.forEach(function(v,k){o[k]=v});if(location.search.indexOf('debug')!==-1){console.log('[LEAD-APT]',o)}f.style.display='none';document.getElementById('fApt-s').classList.add('vis');window.location.href='thanks.html?form=fApt';return false}
 document.getElementById('aptModal').addEventListener('click',function(e){if(e.target===this)closeApt()});
 
-/* Form submit — shows success and redirects to thanks page */
+/* ─── Form submit handler — POSTs to /api/submit.php, redirects on success ── */
+function _setTs(form){
+  var t=form.querySelector('input[name=ts]');
+  if(t&&!t.value)t.value=String(Date.now());
+}
+function _stampAllForms(){
+  ['fCB','fApt','fR','fC','fF'].forEach(function(id){
+    var f=document.getElementById(id);if(f)_setTs(f);
+  });
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',_stampAllForms);
+}else{
+  _stampAllForms();
+}
+
+async function _submitForm(form,id){
+  _setTs(form);
+  var btn=form.querySelector('button[type=submit]');
+  if(btn)btn.disabled=true;
+  try{
+    var fd=new FormData(form);
+    var resp=await fetch('/api/submit.php',{
+      method:'POST',
+      body:fd,
+      headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'},
+      credentials:'same-origin'
+    });
+    var data=null;
+    try{data=await resp.json()}catch(_){data=null}
+    if(resp.ok&&data&&data.ok){
+      form.style.display='none';
+      var s=document.getElementById(id+'-s');if(s)s.classList.add('vis');
+      var to=data.redirect||('/thanks.html?form='+encodeURIComponent(id));
+      window.location.href=to;
+      return;
+    }
+    var msg=(data&&data.error)?data.error:'Виникла помилка. Спробуйте ще раз або зателефонуйте: +38 096 990 03 90';
+    alert(msg);
+  }catch(err){
+    if(location.search.indexOf('debug')!==-1)console.error('[submit]',err);
+    alert('Виникла помилка. Спробуйте ще раз або зателефонуйте: +38 096 990 03 90');
+  }finally{
+    if(btn)btn.disabled=false;
+  }
+}
+
 function hs(e,id){
   e.preventDefault();
   var form=document.getElementById(id);
-  var data=new FormData(form);
-  var obj={};data.forEach(function(v,k){obj[k]=v});
-  if(location.search.indexOf('debug')!==-1){console.log('[LEAD]',id,obj)}
-  form.style.display='none';
-  document.getElementById(id+'-s').classList.add('vis');
-  window.location.href='thanks.html?form='+id;
+  if(!form)return false;
+  _submitForm(form,id);
+  return false;
+}
+function hsApt(e){
+  e.preventDefault();
+  var form=document.getElementById('fApt');
+  if(!form)return false;
+  _submitForm(form,'fApt');
   return false;
 }
 

@@ -27,5 +27,19 @@ progress/
 specs/
 plans/
 
+# Backend secrets — NEVER commit
+config.php
+api/config.php
+.env
+.env.*
+
+# Editor
+.vscode/
+.idea/
+
+# Local artifacts
+*.log
+logs/*.log
+
 # Keep essential images
 !img/**
