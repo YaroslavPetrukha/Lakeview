@@ -18,7 +18,7 @@
 <meta property="og:url" content="https://www.lakeview.com.ua/">
 <meta property="og:title" content="ЖК Lakeview — Квартири біля озера у Львові | Вигода">
 <meta property="og:description" content="Бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1600/м². Розстрочка від забудовника Вигода. Здача 2027.">
-<meta property="og:image" content="https://www.lakeview.com.ua/img/renders/hero.jpg">
+<meta property="og:image" content="https://www.lakeview.com.ua/img/og-cover.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="ЖК Lakeview — сімейний комплекс бізнес-класу біля озера у Львові">
@@ -27,7 +27,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ЖК Lakeview — Квартири біля озера у Львові | Вигода">
 <meta name="twitter:description" content="Бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1600/м². Розстрочка. Здача 2027.">
-<meta name="twitter:image" content="https://www.lakeview.com.ua/img/renders/hero.jpg">
+<meta name="twitter:image" content="https://www.lakeview.com.ua/img/og-cover.jpg">
 
 <!-- Geo -->
 <meta name="geo.region" content="UA-46">
@@ -42,6 +42,16 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Hero LCP preload — picks responsive variant via imagesrcset -->
+<link rel="preload" as="image"
+      href="img/renders/hero-1280.avif"
+      imagesrcset="img/renders/hero-640.avif 640w, img/renders/hero-1280.avif 1280w, img/renders/hero-1920.avif 1920w"
+      imagesizes="100vw"
+      type="image/avif"
+      fetchpriority="high">
+<!-- TODO: preload Outfit 400 woff2 from fonts.gstatic.com once stable URL extracted -->
+
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -959,7 +969,7 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
     <button class="apt-close" onclick="closeApt()" aria-label="Закрити квартиру" type="button">&times;</button>
     <div class="apt-left">
       <button type="button" id="apt-img-btn" aria-label="Збільшити план квартири" style="background:none;border:none;padding:0;cursor:zoom-in;width:100%;display:flex;align-items:center;justify-content:center" onclick="openPlanLbDirect(document.getElementById('apt-img').src,document.getElementById('apt-img').alt,document.getElementById('apt-type').textContent,document.getElementById('apt-title').textContent+' · '+document.getElementById('apt-section').textContent+' · поверх '+document.getElementById('apt-floor').textContent)">
-        <img id="apt-img" src="" alt="">
+        <img id="apt-img" src="" alt="" width="1600" height="1029">
       </button>
     </div>
     <div class="apt-right">
@@ -1015,7 +1025,11 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
 
 <!-- ═══ HERO ═══ -->
 <section class="hero" aria-label="Головний банер ЖК Lakeview">
-  <div class="hero-bg"><img src="img/renders/hero.jpg" alt="ЖК Lakeview — фасади житлового комплексу бізнес-класу біля озера у Львові" loading="eager"></div>
+  <div class="hero-bg"><picture>
+    <source type="image/avif" srcset="img/renders/hero-640.avif 640w, img/renders/hero-1280.avif 1280w, img/renders/hero-1920.avif 1920w" sizes="100vw">
+    <source type="image/webp" srcset="img/renders/hero-640.webp 640w, img/renders/hero-1280.webp 1280w, img/renders/hero-1920.webp 1920w" sizes="100vw">
+    <img src="img/renders/hero.jpg" srcset="img/renders/hero-640.jpg 640w, img/renders/hero-1280.jpg 1280w, img/renders/hero-1920.jpg 1920w" sizes="100vw" alt="ЖК Lakeview — фасади житлового комплексу бізнес-класу біля озера у Львові" width="2400" height="1599" loading="eager" fetchpriority="high">
+  </picture></div>
   <div class="hero-ov"></div>
   <div class="hero-c">
     <div class="hero-tags">
@@ -1091,47 +1105,47 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
 
     <div class="plans-g" id="plans-all">
       <div class="pc rv rv1" data-type="1k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s4-174-1k-46m2.jpg" alt="1-кімнатна 46.61 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
+        <div class="pc-img"><img src="img/plans/s4-174-1k-46m2.jpg" alt="1-кімнатна 46.61 м², секція 4" width="1600" height="1029" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
         <div class="pc-b"><h4>46.61 м²</h4><span>Секція 4 · поверх 3</span></div>
         <div class="pc-f"><span class="pc-price">від $74 576</span><button type="button" class="pc-link" onclick="openApt(this)">Дізнатись деталі →</button></div>
       </div>
       <div class="pc rv rv2" data-type="1k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s1-039-1k-53m2.jpg" alt="1-кімнатна 53.19 м², секція 1" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
+        <div class="pc-img"><img src="img/plans/s1-039-1k-53m2.jpg" alt="1-кімнатна 53.19 м², секція 1" width="1600" height="1029" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
         <div class="pc-b"><h4>53.19 м²</h4><span>Секція 1 · поверх 10</span></div>
         <div class="pc-f"><span class="pc-price">від $85 104</span><button type="button" class="pc-link" onclick="openApt(this)">Дізнатись деталі →</button></div>
       </div>
       <div class="pc rv rv3" data-type="1k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s4-185-1k-60m2.jpg" alt="1-кімнатна 60.09 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
+        <div class="pc-img"><img src="img/plans/s4-185-1k-60m2.jpg" alt="1-кімнатна 60.09 м², секція 4" width="1600" height="1029" loading="lazy"><div class="pc-badge">1-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
         <div class="pc-b"><h4>60.09 м²</h4><span>Секція 4 · поверх 4</span></div>
         <div class="pc-f"><span class="pc-price">від $96 144</span><button type="button" class="pc-link" onclick="openApt(this)">Дізнатись деталі →</button></div>
       </div>
       <div class="pc rv rv1" data-type="2k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s2-074-2k-68m2.jpg" alt="2-кімнатна 68.08 м², секція 2" loading="lazy"><div class="pc-badge">2-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
+        <div class="pc-img"><img src="img/plans/s2-074-2k-68m2.jpg" alt="2-кімнатна 68.08 м², секція 2" width="1600" height="1029" loading="lazy"><div class="pc-badge">2-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
         <div class="pc-b"><h4>68.08 м²</h4><span>Секція 2 · поверх 8</span></div>
         <div class="pc-f"><span class="pc-price">від $108 928</span><button type="button" class="pc-link" onclick="openApt(this)">Дізнатись деталі →</button></div>
       </div>
       <div class="pc rv rv2" data-type="2k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s1-001-2k-70m2.jpg" alt="2-кімнатна 70.56 м², секція 1" loading="lazy"><div class="pc-badge">2-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
+        <div class="pc-img"><img src="img/plans/s1-001-2k-70m2.jpg" alt="2-кімнатна 70.56 м², секція 1" width="1600" height="1029" loading="lazy"><div class="pc-badge">2-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
         <div class="pc-b"><h4>70.56 м²</h4><span>Секція 1 · поверх 3</span></div>
         <div class="pc-f"><span class="pc-price">від $112 896</span><button type="button" class="pc-link" onclick="openApt(this)">Дізнатись деталі →</button></div>
       </div>
       <div class="pc rv rv3" data-type="3k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s4-244-3k-90m2.jpg" alt="3-кімнатна 90.16 м², секція 4" loading="lazy"><div class="pc-badge">3-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
+        <div class="pc-img"><img src="img/plans/s4-244-3k-90m2.jpg" alt="3-кімнатна 90.16 м², секція 4" width="1600" height="1029" loading="lazy"><div class="pc-badge">3-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
         <div class="pc-b"><h4>90.16 м²</h4><span>Секція 4 · поверх 12</span></div>
         <div class="pc-f"><span class="pc-price">від $144 256</span><button type="button" class="pc-link" onclick="openApt(this)">Дізнатись деталі →</button></div>
       </div>
       <div class="pc rv rv1" data-type="2k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s3-168-2k-78m2.jpg" alt="2-кімнатна 78.35 м², секція 3" loading="lazy"><div class="pc-badge">2-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
+        <div class="pc-img"><img src="img/plans/s3-168-2k-78m2.jpg" alt="2-кімнатна 78.35 м², секція 3" width="1600" height="1029" loading="lazy"><div class="pc-badge">2-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
         <div class="pc-b"><h4>78.35 м²</h4><span>Секція 3 · поверх 15</span></div>
         <div class="pc-f"><span class="pc-price">від $125 360</span><button type="button" class="pc-link" onclick="openApt(this)">Дізнатись деталі →</button></div>
       </div>
       <div class="pc rv rv2" data-type="1k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s4-177-1k-62m2.jpg" alt="1-кімнатна 62.97 м², секція 4" loading="lazy"><div class="pc-badge">1-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
+        <div class="pc-img"><img src="img/plans/s4-177-1k-62m2.jpg" alt="1-кімнатна 62.97 м², секція 4" width="1600" height="1029" loading="lazy"><div class="pc-badge">1-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
         <div class="pc-b"><h4>62.97 м²</h4><span>Секція 4 · поверх 3</span></div>
         <div class="pc-f"><span class="pc-price">від $100 752</span><button type="button" class="pc-link" onclick="openApt(this)">Дізнатись деталі →</button></div>
       </div>
       <div class="pc rv rv3" data-type="2k" onclick="openApt(this)">
-        <div class="pc-img"><img src="img/plans/s3-133-2k-77m2.jpg" alt="2-кімнатна 77.73 м², секція 3" loading="lazy"><div class="pc-badge">2-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
+        <div class="pc-img"><img src="img/plans/s3-133-2k-77m2.jpg" alt="2-кімнатна 77.73 м², секція 3" width="1600" height="1029" loading="lazy"><div class="pc-badge">2-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
         <div class="pc-b"><h4>77.73 м²</h4><span>Секція 3 · поверх 9</span></div>
         <div class="pc-f"><span class="pc-price">від $124 368</span><button type="button" class="pc-link" onclick="openApt(this)">Дізнатись деталі →</button></div>
       </div>
@@ -1139,7 +1153,11 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
 
     <div class="cta-split rv" id="res-form" style="margin-top:48px">
       <div class="cta-split-img">
-        <img src="img/renders/terrace.jpg" alt="ЖК Lakeview — тераса квартири з прямим видом на озеро">
+        <picture>
+          <source type="image/avif" srcset="img/renders/terrace.avif">
+          <source type="image/webp" srcset="img/renders/terrace.webp">
+          <img src="img/renders/terrace.jpg" alt="ЖК Lakeview — тераса квартири з прямим видом на озеро" width="2400" height="1600" loading="lazy">
+        </picture>
         <div class="cta-split-overlay">
           <div class="cta-split-quote">"Ранкова кава з видом на озеро — щодня"</div>
         </div>
@@ -1271,7 +1289,11 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
     <p class="sd">Жити біля природи і мати все необхідне під рукою — школи, садочки, магазини та транспорт.</p></div>
 
     <div class="loc-hero rv">
-      <img src="img/renders/aerial.jpg" alt="Панорама ЖК Lakeview з повітря — комплекс, озеро та оточення на вул. В. Великого, Львів" loading="lazy">
+      <picture>
+        <source type="image/avif" srcset="img/renders/aerial.avif">
+        <source type="image/webp" srcset="img/renders/aerial.webp">
+        <img src="img/renders/aerial.jpg" alt="Панорама ЖК Lakeview з повітря — комплекс, озеро та оточення на вул. В. Великого, Львів" width="2400" height="1599" loading="lazy">
+      </picture>
       <div class="loc-ov">
         <div class="loc-tags">
           <div class="lt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Озеро в 50 метрах</div>
@@ -1307,12 +1329,12 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
     </ol>
 
     <div class="con-grid" id="conGrid">
-      <button type="button" class="ci rv" data-idx="2" aria-label="Відкрити фото будівництва, березень 2026 (1)"><img src="img/construction/mar-2026/mar-03.jpg" alt="Хід будівництва ЖК Lakeview — березень 2026, панорама будмайданчика з баштовим краном" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
-      <button type="button" class="ci rv rv1" data-idx="15" aria-label="Відкрити фото будівництва, лютий 2026 (1)"><img src="img/construction/feb-2026/feb-01.jpg" alt="ЖК Lakeview — фотозвіт лютий 2026, зведення каркасу секції" loading="lazy"><div class="ci-label">Лютий 2026</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
-      <button type="button" class="ci rv rv2" data-idx="27" aria-label="Відкрити фото будівництва, січень 2026 (1)"><img src="img/construction/jan-2026/jan-01.jpg" alt="Будівництво ЖК Lakeview — січень 2026, монтажні роботи на каркасі" loading="lazy"><div class="ci-label">Січень 2026</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
-      <button type="button" class="ci rv rv3" data-idx="6" aria-label="Відкрити фото будівництва, березень 2026 (2)"><img src="img/construction/mar-2026/mar-07.jpg" alt="ЖК Lakeview — робітники на будмайданчику, березень 2026" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
-      <button type="button" class="ci rv rv1" data-idx="17" aria-label="Відкрити фото будівництва, лютий 2026 (2)"><img src="img/construction/feb-2026/feb-03.jpg" alt="ЖК Lakeview — будівництво зимою, лютий 2026" loading="lazy"><div class="ci-label">Лютий 2026</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
-      <button type="button" class="ci rv rv2" data-idx="38" aria-label="Відкрити фото будівництва, грудень 2025"><img src="img/construction/dec-2025/dec-01.jpg" alt="ЖК Lakeview — прогрес будівництва, грудень 2025, початок зведення стін" loading="lazy"><div class="ci-label">Грудень 2025</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
+      <button type="button" class="ci rv" data-idx="2" aria-label="Відкрити фото будівництва, березень 2026 (1)"><picture><source type="image/webp" srcset="img/construction/mar-2026/mar-03.webp"><img src="img/construction/mar-2026/mar-03.jpg" alt="Хід будівництва ЖК Lakeview — березень 2026, панорама будмайданчика з баштовим краном" width="1080" height="1346" loading="lazy"></picture><div class="ci-label">Березень 2026</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
+      <button type="button" class="ci rv rv1" data-idx="15" aria-label="Відкрити фото будівництва, лютий 2026 (1)"><picture><source type="image/webp" srcset="img/construction/feb-2026/feb-01.webp"><img src="img/construction/feb-2026/feb-01.jpg" alt="ЖК Lakeview — фотозвіт лютий 2026, зведення каркасу секції" width="1080" height="1346" loading="lazy"></picture><div class="ci-label">Лютий 2026</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
+      <button type="button" class="ci rv rv2" data-idx="27" aria-label="Відкрити фото будівництва, січень 2026 (1)"><picture><source type="image/webp" srcset="img/construction/jan-2026/jan-01.webp"><img src="img/construction/jan-2026/jan-01.jpg" alt="Будівництво ЖК Lakeview — січень 2026, монтажні роботи на каркасі" width="1080" height="1346" loading="lazy"></picture><div class="ci-label">Січень 2026</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
+      <button type="button" class="ci rv rv3" data-idx="6" aria-label="Відкрити фото будівництва, березень 2026 (2)"><picture><source type="image/webp" srcset="img/construction/mar-2026/mar-07.webp"><img src="img/construction/mar-2026/mar-07.jpg" alt="ЖК Lakeview — робітники на будмайданчику, березень 2026" width="1080" height="1346" loading="lazy"></picture><div class="ci-label">Березень 2026</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
+      <button type="button" class="ci rv rv1" data-idx="17" aria-label="Відкрити фото будівництва, лютий 2026 (2)"><picture><source type="image/webp" srcset="img/construction/feb-2026/feb-03.webp"><img src="img/construction/feb-2026/feb-03.jpg" alt="ЖК Lakeview — будівництво зимою, лютий 2026" width="1080" height="1346" loading="lazy"></picture><div class="ci-label">Лютий 2026</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
+      <button type="button" class="ci rv rv2" data-idx="38" aria-label="Відкрити фото будівництва, грудень 2025"><picture><source type="image/webp" srcset="img/construction/dec-2025/dec-01.webp"><img src="img/construction/dec-2025/dec-01.jpg" alt="ЖК Lakeview — прогрес будівництва, грудень 2025, початок зведення стін" width="1080" height="1346" loading="lazy"></picture><div class="ci-label">Грудень 2025</div><div class="ci-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></button>
     </div>
     <button type="button" class="con-more rv" onclick="openLb(0)">Переглянути всі 50 фото <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
 
@@ -1321,7 +1343,7 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
       <button class="lb-close" onclick="closeLb()" aria-label="Закрити вікно" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
       <button class="lb-arrow lb-prev" onclick="lbNav(-1)" aria-label="Попереднє фото" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
       <div class="lb-content">
-        <img class="lb-img" id="lbImg" src="" alt="">
+        <img class="lb-img" id="lbImg" src="" alt="" width="1080" height="1346">
         <div class="lb-caption"><h4 id="lbTitle"></h4><span id="lbSub"></span></div>
       </div>
       <button class="lb-arrow lb-next" onclick="lbNav(1)" aria-label="Наступне фото" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
@@ -1334,7 +1356,7 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
 <div class="lb-ov" id="planLb" style="z-index:10002" role="dialog" aria-modal="true" aria-labelledby="planLbTitle" aria-hidden="true">
   <button class="lb-close" onclick="closePlanLb()" aria-label="Закрити вікно" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
   <div class="lb-content">
-    <img class="lb-img" id="planLbImg" src="" alt="">
+    <img class="lb-img" id="planLbImg" src="" alt="" width="1600" height="1029">
     <div class="lb-caption"><h4 id="planLbTitle"></h4><span id="planLbSub"></span></div>
   </div>
 </div>
@@ -1429,7 +1451,11 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
     <p class="sd">Фасадні приміщення на двох поверхах із панорамними вітринами — висока видимість з вулиці, активний трафік та готова клієнтська база у самому ЖК.</p></div>
 
     <div class="com-hero rv">
-      <img src="img/renders/closeup.jpg" alt="Комерція ЖК Lakeview — фасадні приміщення на 1 поверсі, двір з кав'ярнею та терасою" loading="lazy">
+      <picture>
+        <source type="image/avif" srcset="img/renders/closeup.avif">
+        <source type="image/webp" srcset="img/renders/closeup.webp">
+        <img src="img/renders/closeup.jpg" alt="Комерція ЖК Lakeview — фасадні приміщення на 1 поверсі, двір з кав'ярнею та терасою" width="2400" height="1592" loading="lazy">
+      </picture>
       <div class="com-metrics">
         <div class="com-metric"><strong>від 44 м²</strong><span>Площі приміщень</span></div>
         <div class="com-metric"><strong>500+</strong><span>Сімей — ваші клієнти</span></div>
@@ -1486,12 +1512,36 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
     <h2 class="st" style="color:#fff">Як виглядатиме <em style="color:var(--gold-l)">Lakeview</em></h2></div>
   </div>
   <div class="gal-scroll" tabindex="0" role="region" aria-label="Галерея візуалізацій Lakeview">
-    <div class="gal-item"><img src="img/renders/lake-bridge.jpg" alt="ЖК Lakeview — набережна озера з пішохідним містком" loading="lazy"></div>
-    <div class="gal-item"><img src="img/renders/terrace.jpg" alt="ЖК Lakeview — тераса квартири з видом на озеро" loading="lazy"></div>
-    <div class="gal-item"><img src="img/renders/aerial.jpg" alt="ЖК Lakeview — панорамний вид з повітря на комплекс і озеро" loading="lazy"></div>
-    <div class="gal-item"><img src="img/renders/closeup.jpg" alt="ЖК Lakeview — внутрішній двір з кав'ярнею та терасами комерції" loading="lazy"></div>
-    <div class="gal-item"><img src="img/renders/entrance.jpg" alt="ЖК Lakeview — вхідна група секції з дитячим майданчиком" loading="lazy"></div>
-    <div class="gal-item"><img src="img/renders/semi-aerial.jpg" alt="ЖК Lakeview — напіваеріальний вигляд комплексу та території" loading="lazy"></div>
+    <div class="gal-item"><picture>
+      <source type="image/avif" srcset="img/renders/lake-bridge.avif">
+      <source type="image/webp" srcset="img/renders/lake-bridge.webp">
+      <img src="img/renders/lake-bridge.jpg" alt="ЖК Lakeview — набережна озера з пішохідним містком" width="2400" height="1818" loading="lazy">
+    </picture></div>
+    <div class="gal-item"><picture>
+      <source type="image/avif" srcset="img/renders/terrace.avif">
+      <source type="image/webp" srcset="img/renders/terrace.webp">
+      <img src="img/renders/terrace.jpg" alt="ЖК Lakeview — тераса квартири з видом на озеро" width="2400" height="1600" loading="lazy">
+    </picture></div>
+    <div class="gal-item"><picture>
+      <source type="image/avif" srcset="img/renders/aerial.avif">
+      <source type="image/webp" srcset="img/renders/aerial.webp">
+      <img src="img/renders/aerial.jpg" alt="ЖК Lakeview — панорамний вид з повітря на комплекс і озеро" width="2400" height="1599" loading="lazy">
+    </picture></div>
+    <div class="gal-item"><picture>
+      <source type="image/avif" srcset="img/renders/closeup.avif">
+      <source type="image/webp" srcset="img/renders/closeup.webp">
+      <img src="img/renders/closeup.jpg" alt="ЖК Lakeview — внутрішній двір з кав'ярнею та терасами комерції" width="2400" height="1592" loading="lazy">
+    </picture></div>
+    <div class="gal-item"><picture>
+      <source type="image/avif" srcset="img/renders/entrance.avif">
+      <source type="image/webp" srcset="img/renders/entrance.webp">
+      <img src="img/renders/entrance.jpg" alt="ЖК Lakeview — вхідна група секції з дитячим майданчиком" width="2400" height="1550" loading="lazy">
+    </picture></div>
+    <div class="gal-item"><picture>
+      <source type="image/avif" srcset="img/renders/semi-aerial.avif">
+      <source type="image/webp" srcset="img/renders/semi-aerial.webp">
+      <img src="img/renders/semi-aerial.jpg" alt="ЖК Lakeview — напіваеріальний вигляд комплексу та території" width="2400" height="1599" loading="lazy">
+    </picture></div>
   </div>
   <p class="gal-hint" style="padding:0 28px">← Гортайте для перегляду всіх візуалізацій →</p>
 </section>
