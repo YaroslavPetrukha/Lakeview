@@ -649,20 +649,20 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
 
 /* ═══ QUICK FACTS CARD ═══ */
 .qf-wrap{padding:80px 0 0}
-.qf-card{position:relative;max-width:1080px;margin:0 auto;padding:36px 40px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--r2);box-shadow:var(--sh)}
+.qf-card{position:relative;max-width:960px;margin:0;padding:36px 40px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--r2);box-shadow:var(--sh)}
 .qf-card .qf-l{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-aa);margin-bottom:14px}
 .qf-card .qf-l::before{content:'';width:22px;height:1.5px;background:var(--gold)}
 .qf-card p{font-size:16px;line-height:1.75;color:var(--txt2);margin:0}
 .qf-card p strong{color:var(--txt);font-weight:600}
 @media(max-width:768px){
   .qf-wrap{padding:48px 0 0}
-  .qf-card{padding:24px 20px;margin:0 4px;border-radius:var(--r)}
+  .qf-card{padding:24px 20px;border-radius:var(--r)}
   .qf-card p{font-size:15px;line-height:1.7}
 }
 
 /* ═══ FAQ ═══ */
 .faq-sec{background:var(--bg2)}
-.faq-list{max-width:880px;margin:40px auto 0;display:flex;flex-direction:column;gap:10px}
+.faq-list{max-width:880px;margin:40px 0 0;display:flex;flex-direction:column;gap:10px}
 .faq-list details{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:0;transition:border-color var(--t),box-shadow var(--t)}
 .faq-list details[open]{border-color:var(--gold);box-shadow:var(--sh)}
 .faq-list summary{list-style:none;cursor:pointer;padding:20px 24px;font-family:var(--f1);font-size:19px;font-weight:600;color:var(--txt);display:flex;align-items:center;justify-content:space-between;gap:16px;line-height:1.35}
@@ -1236,60 +1236,6 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
   </div>
 </section>
 
-<!-- ═══ FAQ ═══ -->
-<section class="sec faq-sec" id="faq" aria-labelledby="faqTitle">
-  <div class="ctn">
-    <div class="rv">
-      <div class="sl">FAQ</div>
-      <h2 id="faqTitle" class="st">Часті <em>запитання</em></h2>
-      <p class="sd">Найчастіші питання покупців про Lakeview — коротко і по суті.</p>
-    </div>
-
-    <div class="faq-list rv">
-      <details open>
-        <summary>Коли здача ЖК Lakeview?</summary>
-        <div class="faq-a">Завершення будівництва — 2027 рік. Відстежувати динаміку можна у розділі «Будівництво» нижче і в Instagram <a href="https://www.instagram.com/lakeviewlviv/" target="_blank" rel="noopener" style="color:var(--em);font-weight:600">@lakeviewlviv</a>.</div>
-      </details>
-      <details>
-        <summary>Де знаходиться Lakeview?</summary>
-        <div class="faq-a">вул. Володимира Великого, 2а, Львів. До озера — 50 метрів, до центру міста — 10 хвилин автомобілем.</div>
-      </details>
-      <details>
-        <summary>Скільки коштує квартира?</summary>
-        <div class="faq-a">Ціна від $1600 за м². Конкретна вартість залежить від секції, поверху та планування. Площі квартир — від 44 до 183 м².</div>
-      </details>
-      <details>
-        <summary>Що включено у вартість квартири?</summary>
-        <div class="faq-a">Поштукатурені стіни, броньовані вхідні двері, енергоефективні вікна, лічильники та електророзведення. Без прихованих доплат.</div>
-      </details>
-      <details>
-        <summary>Чи є розстрочка?</summary>
-        <div class="faq-a">Так. Перший внесок — 30%, далі безвідсоткова розстрочка від забудовника на період будівництва.</div>
-      </details>
-      <details>
-        <summary>Хто забудовник?</summary>
-        <div class="faq-a">Девелоперська група «Вигода» (юрособа: ПП «ДІК "Вигода +"», ЄДРПОУ 44876801). Львівський забудовник із власною будівельною командою та системним підходом до якості.</div>
-      </details>
-      <details>
-        <summary>Скільки секцій і поверхів?</summary>
-        <div class="faq-a">4 секції, до 15 поверхів. Усі квартири мають вид на озеро або внутрішній двір.</div>
-      </details>
-      <details>
-        <summary>Чи є паркінг?</summary>
-        <div class="faq-a">Так — двоповерховий підземний паркінг на 138 машиномісць. Місця можна придбати окремо.</div>
-      </details>
-      <details>
-        <summary>Які планування доступні?</summary>
-        <div class="faq-a">1-, 2- та 3-кімнатні квартири площею 44–183 м². Усі планування з фото та розмірами — у розділі «Квартири».</div>
-      </details>
-      <details>
-        <summary>Як подивитися документи на об'єкт?</summary>
-        <div class="faq-a">Дозвільні документи та форму договору надсилаємо за запитом — залиште заявку на сайті або зателефонуйте <a href="tel:+380969900390" style="color:var(--em);font-weight:600">+38 096 990 03 90</a>.</div>
-      </details>
-    </div>
-  </div>
-</section>
-
 <!-- ═══ LOCATION ═══ -->
 <section class="sec loc-sec" id="location">
   <div class="ctn">
@@ -1556,6 +1502,60 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
     </picture></div>
   </div>
   <p class="gal-hint" style="padding:0 28px">← Гортайте для перегляду всіх візуалізацій →</p>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="sec faq-sec" id="faq" aria-labelledby="faqTitle">
+  <div class="ctn">
+    <div class="rv">
+      <div class="sl">FAQ</div>
+      <h2 id="faqTitle" class="st">Часті <em>запитання</em></h2>
+      <p class="sd">Найчастіші питання покупців про Lakeview — коротко і по суті.</p>
+    </div>
+
+    <div class="faq-list rv">
+      <details open>
+        <summary>Коли здача ЖК Lakeview?</summary>
+        <div class="faq-a">Завершення будівництва — 2027 рік. Відстежувати динаміку можна у розділі «Будівництво» нижче і в Instagram <a href="https://www.instagram.com/lakeviewlviv/" target="_blank" rel="noopener" style="color:var(--em);font-weight:600">@lakeviewlviv</a>.</div>
+      </details>
+      <details>
+        <summary>Де знаходиться Lakeview?</summary>
+        <div class="faq-a">вул. Володимира Великого, 2а, Львів. До озера — 50 метрів, до центру міста — 10 хвилин автомобілем.</div>
+      </details>
+      <details>
+        <summary>Скільки коштує квартира?</summary>
+        <div class="faq-a">Ціна від $1600 за м². Конкретна вартість залежить від секції, поверху та планування. Площі квартир — від 44 до 183 м².</div>
+      </details>
+      <details>
+        <summary>Що включено у вартість квартири?</summary>
+        <div class="faq-a">Поштукатурені стіни, броньовані вхідні двері, енергоефективні вікна, лічильники та електророзведення. Без прихованих доплат.</div>
+      </details>
+      <details>
+        <summary>Чи є розстрочка?</summary>
+        <div class="faq-a">Так. Перший внесок — 30%, далі безвідсоткова розстрочка від забудовника на період будівництва.</div>
+      </details>
+      <details>
+        <summary>Хто забудовник?</summary>
+        <div class="faq-a">Девелоперська група «Вигода» (юрособа: ПП «ДІК "Вигода +"», ЄДРПОУ 44876801). Львівський забудовник із власною будівельною командою та системним підходом до якості.</div>
+      </details>
+      <details>
+        <summary>Скільки секцій і поверхів?</summary>
+        <div class="faq-a">4 секції, до 15 поверхів. Усі квартири мають вид на озеро або внутрішній двір.</div>
+      </details>
+      <details>
+        <summary>Чи є паркінг?</summary>
+        <div class="faq-a">Так — двоповерховий підземний паркінг на 138 машиномісць. Місця можна придбати окремо.</div>
+      </details>
+      <details>
+        <summary>Які планування доступні?</summary>
+        <div class="faq-a">1-, 2- та 3-кімнатні квартири площею 44–183 м². Усі планування з фото та розмірами — у розділі «Квартири».</div>
+      </details>
+      <details>
+        <summary>Як подивитися документи на об'єкт?</summary>
+        <div class="faq-a">Дозвільні документи та форму договору надсилаємо за запитом — залиште заявку на сайті або зателефонуйте <a href="tel:+380969900390" style="color:var(--em);font-weight:600">+38 096 990 03 90</a>.</div>
+      </details>
+    </div>
+  </div>
 </section>
 
 </main>
