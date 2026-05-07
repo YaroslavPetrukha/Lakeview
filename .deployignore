@@ -1,0 +1,74 @@
+# Files NOT uploaded to production via deploy.sh
+# (rsync --exclude-from format)
+
+# Version control
+.git/
+.github/
+.gitignore
+.gitattributes
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/
+.claude/
+
+# Source materials (not for serving)
+assets/
+Рендера/
+Планування/
+
+# Internal planning / docs (not for serving)
+# Use leading slash to anchor at deploy root only — without it, `plans/`
+# would also match `img/plans/` and clobber floor plan images.
+/plans/
+/progress/
+/specs/
+/thoughts/
+/.planning/
+
+# Local development artifacts
+.playwright-mcp/
+*.log
+node_modules/
+.tmp/
+tmp/
+
+# Old screenshots / dev snapshots in repo root
+/*.png
+/*.jpeg
+/*.bak
+/audit.md
+/ig-*.yml
+/text*.txt
+
+# Experimental versions
+index-v*.html
+index-v*.bak
+
+# Image source originals
+img/plans/_orig/
+
+# Deploy artifacts (don't deploy themselves)
+deploy.sh
+.deployignore
+.deploy-env
+.deploy-env.example
+.env
+.env.*
+
+# Documentation (not user-facing)
+README.md
+CLAUDE.md
+icons/README.md
+
+# Example configs only useful for devs
+api/config.example.php
+
+# Local rate-limit cache + log
+logs/rate/
+logs/submissions.log
+
+# Misc
+**/*.swp
+**/*.swo

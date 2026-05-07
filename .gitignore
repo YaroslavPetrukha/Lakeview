@@ -43,3 +43,4 @@ logs/*.log
 
 # Keep essential images
 !img/**
+.deploy-env

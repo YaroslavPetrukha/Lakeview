@@ -1,0 +1,6 @@
+# Copy to .deploy-env and fill in real values.
+# .deploy-env is gitignored — never commit it.
+
+export SSHPASS='your-sftp-password-here'
+export SFTP_USER='uj593106'
+export SFTP_HOST='uj593106.ftp.tools'
