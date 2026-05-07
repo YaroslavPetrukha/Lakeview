@@ -554,6 +554,7 @@ body.modal-active .hero-bg img{transform:none!important}
   .lb-img{max-height:65vh}
   .lb-close{top:12px;right:12px}
 }
+.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0}
 </style>
 </head>
 <body>
@@ -606,8 +607,8 @@ body.modal-active .hero-bg img{transform:none!important}
         <h4>Дізнатися більше про цю квартиру</h4>
         <form id="fApt" onsubmit="return hsApt(event)">
           <input type="hidden" id="apt-hidden" name="apartment" value="">
-          <div class="apt-field"><input type="text" name="name" placeholder="Ваше ім'я" required></div>
-          <div class="apt-field"><input type="tel" name="phone" placeholder="+380 __ ___ __ __" required pattern="\+?[0-9\s\-]{10,}"></div>
+          <div class="apt-field"><label for="fApt-name" class="visually-hidden">Ваше ім'я</label><input id="fApt-name" type="text" name="name" placeholder="Ваше ім'я" required autocomplete="name" aria-label="Ваше ім'я"></div>
+          <div class="apt-field"><label for="fApt-tel" class="visually-hidden">Телефон</label><input id="fApt-tel" type="tel" name="phone" placeholder="+380 __ ___ __ __" required pattern="\+?[0-9\s\-\(\)]{10,}" autocomplete="tel" aria-label="Телефон"></div>
           <button type="submit" class="apt-submit">Отримати консультацію</button>
           <p class="apt-note">Менеджер зателефонує протягом 15 хвилин</p>
         </form>
@@ -768,16 +769,16 @@ body.modal-active .hero-bg img{transform:none!important}
         <p style="font-size:15px;color:rgba(255,255,255,.6);margin-bottom:28px;line-height:1.6">Надішлемо PDF з усіма квартирами, поверховими планами та актуальними цінами у зручний месенджер.</p>
         <form id="fR" onsubmit="return hs(event,'fR')">
           <div class="cta-field">
-            <label>Ваше ім'я</label>
-            <input type="text" placeholder="Олександр" required>
+            <label for="fR-name">Ваше ім'я</label>
+            <input id="fR-name" name="name" type="text" placeholder="Олександр" required autocomplete="name">
           </div>
           <div class="cta-field">
-            <label>Телефон</label>
-            <input type="tel" placeholder="+380 __ ___ __ __" required pattern="\+?[0-9\s\-]{10,}">
+            <label for="fR-tel">Телефон</label>
+            <input id="fR-tel" name="phone" type="tel" placeholder="+380 __ ___ __ __" required pattern="\+?[0-9\s\-\(\)]{10,}" autocomplete="tel">
           </div>
           <div class="cta-field">
-            <label>Месенджер</label>
-            <select><option value="telegram">Telegram</option><option value="viber">Viber</option><option value="whatsapp">WhatsApp</option></select>
+            <label for="fR-msg">Месенджер</label>
+            <select id="fR-msg" name="messenger"><option value="telegram">Telegram</option><option value="viber">Viber</option><option value="whatsapp">WhatsApp</option></select>
           </div>
           <button type="submit" class="cta-submit">Отримати каталог планувань</button>
         </form>
@@ -864,18 +865,18 @@ body.modal-active .hero-bg img{transform:none!important}
 
     <div class="timeline rv">
       <div class="tl-item done"><div class="tl-dot"></div><h5>Фундамент</h5><span>Завершено</span></div>
-      <div class="tl-item current"><div class="tl-dot"></div><h5>Каркас</h5><span>Зараз</span></div>
+      <div class="tl-item done"><div class="tl-dot"></div><h5>Каркас</h5><span>Завершено</span></div>
       <div class="tl-item current"><div class="tl-dot"></div><h5>Стіни та перекриття</h5><span>Зараз</span></div>
-      <div class="tl-item current"><div class="tl-dot"></div><h5>Фасад та інженерія</h5><span>Зараз</span></div>
+      <div class="tl-item"><div class="tl-dot"></div><h5>Фасад та інженерія</h5><span>Далі</span></div>
       <div class="tl-item"><div class="tl-dot"></div><h5>Здача</h5><span>2027</span></div>
     </div>
 
     <div class="con-grid" id="conGrid">
-      <div class="ci rv" data-idx="0"><img src="img/construction/mar-2026/mar-03.jpg" alt="Хід будівництва — березень 2026, панорама з краном" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv" data-idx="2"><img src="img/construction/mar-2026/mar-03.jpg" alt="Хід будівництва — березень 2026, панорама з краном" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
       <div class="ci rv rv1" data-idx="15"><img src="img/construction/feb-2026/feb-01.jpg" alt="Фотозвіт лютий 2026 — зведення каркасу" loading="lazy"><div class="ci-label">Лютий 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
       <div class="ci rv rv2" data-idx="27"><img src="img/construction/jan-2026/jan-01.jpg" alt="Будівництво — січень 2026, фасадні роботи" loading="lazy"><div class="ci-label">Січень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-      <div class="ci rv rv3" data-idx="5"><img src="img/construction/mar-2026/mar-07.jpg" alt="Робітник на будмайданчику — березень 2026" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-      <div class="ci rv rv1" data-idx="19"><img src="img/construction/feb-2026/feb-03.jpg" alt="Будівництво зимою — лютий 2026" loading="lazy"><div class="ci-label">Лютий 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv3" data-idx="6"><img src="img/construction/mar-2026/mar-07.jpg" alt="Робітник на будмайданчику — березень 2026" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv1" data-idx="17"><img src="img/construction/feb-2026/feb-03.jpg" alt="Будівництво зимою — лютий 2026" loading="lazy"><div class="ci-label">Лютий 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
       <div class="ci rv rv2" data-idx="38"><img src="img/construction/dec-2025/dec-01.jpg" alt="Прогрес будівництва — грудень 2025" loading="lazy"><div class="ci-label">Грудень 2025</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
     </div>
     <div class="con-more rv" onclick="openLb(0)">Переглянути всі 50 фото <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
@@ -1090,7 +1091,8 @@ body.modal-active .hero-bg img{transform:none!important}
         <h5>Залишились питання?</h5>
         <p style="font-size:14px;color:rgba(255,255,255,.4);margin-bottom:12px">Залиште номер — зателефонуємо.</p>
         <form class="ftr-fm" id="fF" onsubmit="return hs(event,'fF')">
-          <input type="tel" placeholder="+380 __ ___ __ __" required>
+          <label for="fF-tel" class="visually-hidden">Телефон</label>
+          <input id="fF-tel" name="phone" type="tel" placeholder="+380 __ ___ __ __" required pattern="\+?[0-9\s\-\(\)]{10,}" autocomplete="tel" aria-label="Телефон">
           <button type="submit">Надіслати</button>
         </form>
         <div class="fs" id="fF-s" style="margin-top:10px;font-size:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо!</div>
@@ -1159,21 +1161,19 @@ function openApt(el){
   _syncLock();
 }
 function closeApt(){document.getElementById('aptModal').classList.remove('open');_syncLock();document.getElementById('apt-img').src=''}
-function hsApt(e){e.preventDefault();var f=document.getElementById('fApt');var d=new FormData(f);var o={};d.forEach(function(v,k){o[k]=v});console.log('[LEAD-APT]',o);f.style.display='none';document.getElementById('fApt-s').classList.add('vis');return false}
+function hsApt(e){e.preventDefault();var f=document.getElementById('fApt');var d=new FormData(f);var o={};d.forEach(function(v,k){o[k]=v});if(location.search.indexOf('debug')!==-1){console.log('[LEAD-APT]',o)}f.style.display='none';document.getElementById('fApt-s').classList.add('vis');window.location.href='thanks.html?form=fApt';return false}
 document.getElementById('aptModal').addEventListener('click',function(e){if(e.target===this)closeApt()});
 
-/* Form submit — sends to console + shows success (replace with real endpoint) */
+/* Form submit — shows success and redirects to thanks page */
 function hs(e,id){
   e.preventDefault();
   var form=document.getElementById(id);
   var data=new FormData(form);
   var obj={};data.forEach(function(v,k){obj[k]=v});
-  console.log('[LEAD]',id,obj);
-  /* TODO: Replace with real API call:
-  fetch('https://your-endpoint.com/lead', {method:'POST', body:JSON.stringify(obj), headers:{'Content-Type':'application/json'}});
-  */
+  if(location.search.indexOf('debug')!==-1){console.log('[LEAD]',id,obj)}
   form.style.display='none';
   document.getElementById(id+'-s').classList.add('vis');
+  window.location.href='thanks.html?form='+id;
   return false;
 }
 
