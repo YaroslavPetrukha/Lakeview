@@ -647,17 +647,113 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
 /* Anchor offset for fixed header */
 #res-form,#com-form,#faq,#apartments,#conditions,#location,#construction,#developer,#commercial,#gallery{scroll-margin-top:96px}
 
-/* ═══ QUICK FACTS CARD ═══ */
-.qf-wrap{padding:80px 0 0}
-.qf-card{position:relative;max-width:960px;margin:0;padding:36px 40px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--r2);box-shadow:var(--sh)}
-.qf-card .qf-l{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-aa);margin-bottom:14px}
-.qf-card .qf-l::before{content:'';width:22px;height:1.5px;background:var(--gold)}
-.qf-card p{font-size:16px;line-height:1.75;color:var(--txt2);margin:0}
-.qf-card p strong{color:var(--txt);font-weight:600}
+/* ═══ QUICK FACTS — Editorial spec sheet ═══ */
+.qf-wrap{padding:96px 0 24px;position:relative}
+.qf-wrap::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:64px;background:linear-gradient(to bottom,transparent,var(--border))}
+.qf-head{display:flex;align-items:baseline;gap:24px;margin-bottom:44px;padding-bottom:22px;border-bottom:1px solid var(--border)}
+.qf-eyebrow{flex:0 0 auto;display:inline-flex;align-items:center;gap:12px;font-family:var(--f2);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-aa);white-space:nowrap}
+.qf-eyebrow::before{content:'';width:28px;height:1.5px;background:var(--gold)}
+.qf-title{flex:1;font-family:var(--f1);font-size:clamp(26px,3.2vw,38px);font-weight:500;line-height:1.15;color:var(--txt);letter-spacing:-.005em;margin:0}
+.qf-title em{font-style:italic;color:var(--em);font-weight:500}
+.qf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.qf-item{position:relative;padding:28px 24px 30px;border-right:1px solid var(--border);transition:background-color .25s ease}
+.qf-item:last-child{border-right:none}
+.qf-item:hover{background:linear-gradient(180deg,rgba(197,165,90,.04),transparent 70%)}
+.qf-num{display:block;font-family:var(--f1);font-size:13px;font-weight:500;font-style:italic;color:var(--gold-aa);letter-spacing:.04em;margin-bottom:14px;opacity:.85}
+.qf-lab{display:block;font-family:var(--f2);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--txt2);margin-bottom:10px}
+.qf-val{display:block;font-family:var(--f1);font-size:clamp(22px,2.4vw,30px);font-weight:500;line-height:1.1;color:var(--txt);letter-spacing:-.01em}
+.qf-val .qf-unit{font-family:var(--f2);font-size:.42em;font-weight:500;color:var(--txt2);letter-spacing:.04em;margin-left:4px;vertical-align:.55em;text-transform:uppercase}
+.qf-sub{display:block;font-family:var(--f2);font-size:12px;font-weight:500;color:var(--txt2);margin-top:8px;letter-spacing:.005em;line-height:1.4}
+.qf-prose{margin-top:36px;display:grid;grid-template-columns:200px 1fr;gap:48px;align-items:start}
+.qf-prose-l{font-family:var(--f2);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-aa);padding-top:8px;border-top:1.5px solid var(--gold);max-width:120px}
+.qf-prose p{font-family:var(--f1);font-size:clamp(16.5px,1.4vw,19px);font-weight:400;font-style:italic;line-height:1.65;color:var(--txt2);margin:0;max-width:62ch;letter-spacing:.005em}
+.qf-prose p strong{font-family:var(--f1);font-weight:600;font-style:normal;color:var(--txt);letter-spacing:0}
+@media(max-width:1100px){
+  .qf-grid{grid-template-columns:repeat(3,1fr)}
+  .qf-item{border-bottom:1px solid var(--border)}
+  .qf-item:nth-child(3n){border-right:none}
+  .qf-item:nth-last-child(-n+2){border-bottom:none}
+  .qf-item:last-child{border-right:1px solid var(--border)}
+}
 @media(max-width:768px){
-  .qf-wrap{padding:48px 0 0}
-  .qf-card{padding:24px 20px;border-radius:var(--r)}
-  .qf-card p{font-size:15px;line-height:1.7}
+  .qf-wrap{padding:64px 0 16px}
+  .qf-wrap::before{height:40px}
+  .qf-head{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:32px;padding-bottom:18px}
+  .qf-grid{grid-template-columns:repeat(2,1fr)}
+  .qf-item{padding:20px 18px 22px;border-bottom:1px solid var(--border)}
+  .qf-item:nth-child(3n){border-right:1px solid var(--border)}
+  .qf-item:nth-child(2n){border-right:none}
+  .qf-item:nth-last-child(-n+1){border-bottom:none}
+  .qf-item:last-child{border-right:none}
+  .qf-num{margin-bottom:10px;font-size:12px}
+  .qf-lab{font-size:10px;margin-bottom:8px}
+  .qf-prose{grid-template-columns:1fr;gap:18px;margin-top:28px}
+  .qf-prose-l{padding-top:6px;border-top-width:1.25px}
+  .qf-prose p{font-size:16px;line-height:1.6}
+}
+@media(max-width:420px){
+  .qf-grid{grid-template-columns:1fr}
+  .qf-item{border-right:none!important;border-bottom:1px solid var(--border)!important}
+  .qf-item:last-child{border-bottom:none!important}
+}
+
+/* ═══ FAQ — Editorial categorized Q&A ═══ */
+.faq-sec{background:var(--bg2);position:relative;overflow:hidden}
+.faq-sec::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5}
+.faq-board{margin-top:48px;display:grid;grid-template-columns:260px 1fr;gap:64px;align-items:start}
+.faq-tabs{display:flex;flex-direction:column;gap:4px;position:sticky;top:108px;border-left:1px solid var(--border);padding-left:0}
+.faq-tab{appearance:none;background:none;border:none;border-left:2px solid transparent;margin-left:-1px;padding:14px 20px 14px 22px;font-family:var(--f2);font-size:13.5px;font-weight:500;letter-spacing:.02em;color:var(--txt2);text-align:left;cursor:pointer;transition:color .2s ease,border-color .2s ease,background-color .2s ease;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;line-height:1.35;border-radius:0}
+.faq-tab .faq-tab-c{font-family:var(--f1);font-size:13px;font-style:italic;color:var(--txt3);font-weight:500;flex:0 0 auto}
+.faq-tab:hover{color:var(--em);background:rgba(15,76,58,.03)}
+.faq-tab[aria-selected="true"]{color:var(--em);border-left-color:var(--gold);font-weight:600}
+.faq-tab[aria-selected="true"] .faq-tab-c{color:var(--gold-aa)}
+.faq-panels{position:relative;min-height:480px}
+.faq-panel{display:none;animation:faqFadeIn .35s cubic-bezier(.25,.46,.45,.94)}
+.faq-panel.is-active{display:block}
+@keyframes faqFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.faq-panel-h{display:flex;align-items:baseline;gap:14px;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.faq-panel-h-i{font-family:var(--f1);font-size:14px;font-style:italic;color:var(--gold-aa);font-weight:500;letter-spacing:.04em}
+.faq-panel-h-t{font-family:var(--f1);font-size:24px;font-weight:600;color:var(--txt);line-height:1.2;letter-spacing:-.005em;margin:0}
+.faq-qas{display:grid;grid-template-columns:1fr;gap:0}
+.faq-qa{padding:26px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:44px 1fr;gap:18px;align-items:start}
+.faq-qa:last-child{border-bottom:none}
+.faq-qa-n{font-family:var(--f1);font-size:14px;font-style:italic;font-weight:500;color:var(--gold-aa);letter-spacing:.04em;padding-top:5px;line-height:1}
+.faq-qa-body{min-width:0}
+.faq-qa-q{font-family:var(--f1);font-size:clamp(20px,1.7vw,23px);font-weight:600;line-height:1.3;color:var(--txt);margin:0 0 12px;letter-spacing:-.005em}
+.faq-qa-a{font-family:var(--f2);font-size:15.5px;line-height:1.7;color:var(--txt2);margin:0;max-width:64ch}
+.faq-qa-a a{color:var(--em);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(15,76,58,.25);transition:border-color .2s ease}
+.faq-qa-a a:hover{border-bottom-color:var(--em)}
+.faq-foot{margin-top:48px;padding:32px 36px;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.faq-foot-t{font-family:var(--f1);font-size:20px;font-weight:600;color:var(--txt);line-height:1.3;margin:0;flex:1 1 280px;min-width:0}
+.faq-foot-t em{font-style:italic;color:var(--em);font-weight:500}
+.faq-foot a.faq-foot-cta{display:inline-flex;align-items:center;gap:10px;font-family:var(--f2);font-size:13.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--em);padding:14px 22px;border:1.5px solid var(--em);border-radius:999px;text-decoration:none;transition:background-color .25s ease,color .25s ease}
+.faq-foot a.faq-foot-cta:hover{background:var(--em);color:#fff}
+.faq-foot a.faq-foot-cta svg{width:14px;height:14px;transition:transform .25s ease}
+.faq-foot a.faq-foot-cta:hover svg{transform:translateX(3px)}
+.faq-tab:focus-visible{outline:2px solid var(--em);outline-offset:3px}
+.faq-foot a.faq-foot-cta:focus-visible{outline:2px solid var(--em);outline-offset:3px}
+@media(max-width:1024px){
+  .faq-board{grid-template-columns:1fr;gap:24px}
+  .faq-tabs{flex-direction:row;flex-wrap:wrap;gap:0;position:static;border-left:none;border-bottom:1px solid var(--border);padding:0;margin:0 -4px}
+  .faq-tab{border-left:none;border-bottom:2px solid transparent;margin:0;padding:14px 18px;min-height:44px}
+  .faq-tab[aria-selected="true"]{border-left-color:transparent;border-bottom-color:var(--gold)}
+  .faq-tab .faq-tab-c{display:none}
+}
+@media(max-width:768px){
+  .faq-board{margin-top:32px}
+  .faq-tabs{margin:0 -4px;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .faq-tabs::-webkit-scrollbar{display:none}
+  .faq-tab{font-size:13px;padding:14px 14px;flex:0 0 auto;white-space:nowrap}
+  .faq-panel-h{margin-bottom:22px;padding-bottom:14px}
+  .faq-panel-h-t{font-size:20px}
+  .faq-panels{min-height:400px}
+  .faq-qa{grid-template-columns:32px 1fr;gap:12px;padding:22px 0}
+  .faq-qa-n{font-size:13px;padding-top:4px}
+  .faq-qa-q{font-size:18px;margin-bottom:10px}
+  .faq-qa-a{font-size:15px;line-height:1.65}
+  .faq-foot{padding:24px 22px;margin-top:36px;border-radius:var(--r);gap:18px}
+  .faq-foot-t{font-size:18px;flex-basis:100%}
+  .faq-foot a.faq-foot-cta{padding:12px 18px;font-size:12.5px}
 }
 
 /* ═══ FAQ ═══ */
@@ -1060,11 +1156,47 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
 </section>
 
 <!-- ═══ QUICK FACTS (citable passage) ═══ -->
-<section class="qf-wrap" aria-label="Lakeview коротко">
+<section class="qf-wrap" id="qf" aria-label="Lakeview коротко">
   <div class="ctn">
-    <div class="qf-card rv">
-      <div class="qf-l">Lakeview коротко</div>
-      <p><strong>ЖК Lakeview</strong> — сімейний житловий комплекс бізнес-класу у Львові на <strong>вул. Володимира Великого, 2а</strong>, за 50 метрів від озера та 10 хвилинах від центру. Забудовник — <strong>Вигода</strong>. Комплекс складається з 4 секцій до 15 поверхів, з двоповерховим підземним паркінгом на 138 місць. У продажу 1–3-кімнатні квартири площею <strong>44–183 м² від $1600/м²</strong>. У вартість входять штукатурка, броньовані двері, енергоефективні вікна, лічильники та електророзведення. Оплата: 30% перший внесок, далі безвідсоткова розстрочка. Завершення — <strong>2027 рік</strong>.</p>
+    <div class="rv">
+      <div class="qf-head">
+        <span class="qf-eyebrow">Lakeview коротко</span>
+        <h2 class="qf-title">Сімейний бізнес-клас, <em>50 метрів від озера</em>.</h2>
+      </div>
+
+      <div class="qf-grid" role="list">
+        <div class="qf-item" role="listitem">
+          <span class="qf-num">01</span>
+          <span class="qf-lab">Локація</span>
+          <span class="qf-val">Львів</span>
+          <span class="qf-sub">вул. В. Великого, 2а</span>
+        </div>
+        <div class="qf-item" role="listitem">
+          <span class="qf-num">02</span>
+          <span class="qf-lab">Метраж</span>
+          <span class="qf-val">44–183<span class="qf-unit">м²</span></span>
+        </div>
+        <div class="qf-item" role="listitem">
+          <span class="qf-num">03</span>
+          <span class="qf-lab">Ціна від</span>
+          <span class="qf-val">$1600<span class="qf-unit">/ м²</span></span>
+        </div>
+        <div class="qf-item" role="listitem">
+          <span class="qf-num">04</span>
+          <span class="qf-lab">Паркінг</span>
+          <span class="qf-val">138<span class="qf-unit">місць</span></span>
+        </div>
+        <div class="qf-item" role="listitem">
+          <span class="qf-num">05</span>
+          <span class="qf-lab">Здача</span>
+          <span class="qf-val">2027<span class="qf-unit">рік</span></span>
+        </div>
+      </div>
+
+      <div class="qf-prose">
+        <span class="qf-prose-l">Опис об'єкта</span>
+        <p><strong>ЖК Lakeview</strong> — сімейний житловий комплекс бізнес-класу у Львові на <strong>вул. Володимира Великого, 2а</strong>, за 50 метрів від озера та 10 хвилинах від центру. Забудовник — <strong>Вигода</strong>. Комплекс складається з 4 секцій до 15 поверхів, з двоповерховим підземним паркінгом на 138 місць. У продажу 1–3-кімнатні квартири площею <strong>44–183 м² від $1600/м²</strong>. У вартість входять штукатурка, броньовані двері, енергоефективні вікна, лічильники та електророзведення. Оплата: 30% перший внесок, далі безвідсоткова розстрочка. Завершення — <strong>2027 рік</strong>.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1513,47 +1645,128 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
       <p class="sd">Найчастіші питання покупців про Lakeview — коротко і по суті.</p>
     </div>
 
-    <div class="faq-list rv">
-      <details open>
-        <summary>Коли здача ЖК Lakeview?</summary>
-        <div class="faq-a">Завершення будівництва — 2027 рік. Відстежувати динаміку можна у розділі «Будівництво» нижче і в Instagram <a href="https://www.instagram.com/lakeviewlviv/" target="_blank" rel="noopener" style="color:var(--em);font-weight:600">@lakeviewlviv</a>.</div>
-      </details>
-      <details>
-        <summary>Де знаходиться Lakeview?</summary>
-        <div class="faq-a">вул. Володимира Великого, 2а, Львів. До озера — 50 метрів, до центру міста — 10 хвилин автомобілем.</div>
-      </details>
-      <details>
-        <summary>Скільки коштує квартира?</summary>
-        <div class="faq-a">Ціна від $1600 за м². Конкретна вартість залежить від секції, поверху та планування. Площі квартир — від 44 до 183 м².</div>
-      </details>
-      <details>
-        <summary>Що включено у вартість квартири?</summary>
-        <div class="faq-a">Поштукатурені стіни, броньовані вхідні двері, енергоефективні вікна, лічильники та електророзведення. Без прихованих доплат.</div>
-      </details>
-      <details>
-        <summary>Чи є розстрочка?</summary>
-        <div class="faq-a">Так. Перший внесок — 30%, далі безвідсоткова розстрочка від забудовника на період будівництва.</div>
-      </details>
-      <details>
-        <summary>Хто забудовник?</summary>
-        <div class="faq-a">Девелоперська група «Вигода» (юрособа: ПП «ДІК "Вигода +"», ЄДРПОУ 44876801). Львівський забудовник із власною будівельною командою та системним підходом до якості.</div>
-      </details>
-      <details>
-        <summary>Скільки секцій і поверхів?</summary>
-        <div class="faq-a">4 секції, до 15 поверхів. Усі квартири мають вид на озеро або внутрішній двір.</div>
-      </details>
-      <details>
-        <summary>Чи є паркінг?</summary>
-        <div class="faq-a">Так — двоповерховий підземний паркінг на 138 машиномісць. Місця можна придбати окремо.</div>
-      </details>
-      <details>
-        <summary>Які планування доступні?</summary>
-        <div class="faq-a">1-, 2- та 3-кімнатні квартири площею 44–183 м². Усі планування з фото та розмірами — у розділі «Квартири».</div>
-      </details>
-      <details>
-        <summary>Як подивитися документи на об'єкт?</summary>
-        <div class="faq-a">Дозвільні документи та форму договору надсилаємо за запитом — залиште заявку на сайті або зателефонуйте <a href="tel:+380969900390" style="color:var(--em);font-weight:600">+38 096 990 03 90</a>.</div>
-      </details>
+    <div class="faq-board rv">
+      <div class="faq-tabs" role="tablist" aria-label="Категорії запитань">
+        <button class="faq-tab" role="tab" id="ftab-1" aria-selected="true" aria-controls="fpan-1" tabindex="0" type="button">
+          <span class="faq-tab-l">Об'єкт</span>
+          <span class="faq-tab-c" aria-hidden="true">05</span>
+        </button>
+        <button class="faq-tab" role="tab" id="ftab-2" aria-selected="false" aria-controls="fpan-2" tabindex="-1" type="button">
+          <span class="faq-tab-l">Ціна та оплата</span>
+          <span class="faq-tab-c" aria-hidden="true">03</span>
+        </button>
+        <button class="faq-tab" role="tab" id="ftab-3" aria-selected="false" aria-controls="fpan-3" tabindex="-1" type="button">
+          <span class="faq-tab-l">Забудовник та документи</span>
+          <span class="faq-tab-c" aria-hidden="true">02</span>
+        </button>
+      </div>
+
+      <div class="faq-panels">
+        <div class="faq-panel is-active" role="tabpanel" id="fpan-1" aria-labelledby="ftab-1">
+          <div class="faq-panel-h">
+            <span class="faq-panel-h-i" aria-hidden="true">I</span>
+            <h3 class="faq-panel-h-t">Про комплекс і локацію</h3>
+          </div>
+          <div class="faq-qas">
+            <article class="faq-qa">
+              <span class="faq-qa-n" aria-hidden="true">01</span>
+              <div class="faq-qa-body">
+                <h4 class="faq-qa-q">Коли здача ЖК Lakeview?</h4>
+                <p class="faq-qa-a">Завершення будівництва — 2027 рік. Відстежувати динаміку можна у розділі «Будівництво» нижче і в Instagram <a href="https://www.instagram.com/lakeviewlviv/" target="_blank" rel="noopener">@lakeviewlviv</a>.</p>
+              </div>
+            </article>
+            <article class="faq-qa">
+              <span class="faq-qa-n" aria-hidden="true">02</span>
+              <div class="faq-qa-body">
+                <h4 class="faq-qa-q">Де знаходиться Lakeview?</h4>
+                <p class="faq-qa-a">вул. Володимира Великого, 2а, Львів. До озера — 50 метрів, до центру міста — 10 хвилин автомобілем.</p>
+              </div>
+            </article>
+            <article class="faq-qa">
+              <span class="faq-qa-n" aria-hidden="true">03</span>
+              <div class="faq-qa-body">
+                <h4 class="faq-qa-q">Скільки секцій і поверхів?</h4>
+                <p class="faq-qa-a">4 секції, до 15 поверхів. Усі квартири мають вид на озеро або внутрішній двір.</p>
+              </div>
+            </article>
+            <article class="faq-qa">
+              <span class="faq-qa-n" aria-hidden="true">04</span>
+              <div class="faq-qa-body">
+                <h4 class="faq-qa-q">Чи є паркінг?</h4>
+                <p class="faq-qa-a">Так — двоповерховий підземний паркінг на 138 машиномісць. Місця можна придбати окремо.</p>
+              </div>
+            </article>
+            <article class="faq-qa">
+              <span class="faq-qa-n" aria-hidden="true">05</span>
+              <div class="faq-qa-body">
+                <h4 class="faq-qa-q">Які планування доступні?</h4>
+                <p class="faq-qa-a">1-, 2- та 3-кімнатні квартири площею 44–183 м². Усі планування з фото та розмірами — у розділі «Квартири».</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="faq-panel" role="tabpanel" id="fpan-2" aria-labelledby="ftab-2" hidden>
+          <div class="faq-panel-h">
+            <span class="faq-panel-h-i" aria-hidden="true">II</span>
+            <h3 class="faq-panel-h-t">Вартість, розстрочка, що входить у ціну</h3>
+          </div>
+          <div class="faq-qas">
+            <article class="faq-qa">
+              <span class="faq-qa-n" aria-hidden="true">06</span>
+              <div class="faq-qa-body">
+                <h4 class="faq-qa-q">Скільки коштує квартира?</h4>
+                <p class="faq-qa-a">Ціна від $1600 за м². Конкретна вартість залежить від секції, поверху та планування. Площі квартир — від 44 до 183 м².</p>
+              </div>
+            </article>
+            <article class="faq-qa">
+              <span class="faq-qa-n" aria-hidden="true">07</span>
+              <div class="faq-qa-body">
+                <h4 class="faq-qa-q">Що включено у вартість квартири?</h4>
+                <p class="faq-qa-a">Поштукатурені стіни, броньовані вхідні двері, енергоефективні вікна, лічильники та електророзведення. Без прихованих доплат.</p>
+              </div>
+            </article>
+            <article class="faq-qa">
+              <span class="faq-qa-n" aria-hidden="true">08</span>
+              <div class="faq-qa-body">
+                <h4 class="faq-qa-q">Чи є розстрочка?</h4>
+                <p class="faq-qa-a">Так. Перший внесок — 30%, далі безвідсоткова розстрочка від забудовника на період будівництва.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="faq-panel" role="tabpanel" id="fpan-3" aria-labelledby="ftab-3" hidden>
+          <div class="faq-panel-h">
+            <span class="faq-panel-h-i" aria-hidden="true">III</span>
+            <h3 class="faq-panel-h-t">Хто будує і як перевірити документи</h3>
+          </div>
+          <div class="faq-qas">
+            <article class="faq-qa">
+              <span class="faq-qa-n" aria-hidden="true">09</span>
+              <div class="faq-qa-body">
+                <h4 class="faq-qa-q">Хто забудовник?</h4>
+                <p class="faq-qa-a">Девелоперська група «Вигода» (юрособа: ПП «ДІК "Вигода +"», ЄДРПОУ 44876801). Львівський забудовник із власною будівельною командою та системним підходом до якості.</p>
+              </div>
+            </article>
+            <article class="faq-qa">
+              <span class="faq-qa-n" aria-hidden="true">10</span>
+              <div class="faq-qa-body">
+                <h4 class="faq-qa-q">Як подивитися документи на об'єкт?</h4>
+                <p class="faq-qa-a">Дозвільні документи та форму договору надсилаємо за запитом — залиште заявку на сайті або зателефонуйте <a href="tel:+380969900390">+38 096 990 03 90</a>.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-foot rv" role="complementary">
+      <p class="faq-foot-t">Не знайшли відповіді? <em>Зателефонуємо за 5 хвилин</em>.</p>
+      <a href="#" class="faq-foot-cta" onclick="event.preventDefault();openModal()">
+        Замовити дзвінок
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
     </div>
   </div>
 </section>
@@ -1901,6 +2114,36 @@ document.addEventListener('keydown',function(e){
     if(e.key==='ArrowRight')lbNav(1);
   }
 });
+
+/* ═══ FAQ tabs — ARIA tablist with roving tabindex + arrow keys ═══ */
+(function(){
+  var tablist=document.querySelector('.faq-tabs[role="tablist"]');
+  if(!tablist)return;
+  var tabs=Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+  var panels=tabs.map(function(t){return document.getElementById(t.getAttribute('aria-controls'))});
+  function activate(idx,setFocus){
+    tabs.forEach(function(t,i){
+      var on=i===idx;
+      t.setAttribute('aria-selected',on?'true':'false');
+      t.setAttribute('tabindex',on?'0':'-1');
+      if(panels[i]){
+        panels[i].classList.toggle('is-active',on);
+        if(on)panels[i].removeAttribute('hidden');else panels[i].setAttribute('hidden','');
+      }
+    });
+    if(setFocus)tabs[idx].focus();
+  }
+  tabs.forEach(function(tab,i){
+    tab.addEventListener('click',function(){activate(i,false)});
+    tab.addEventListener('keydown',function(e){
+      var k=e.key,n=tabs.length;
+      if(k==='ArrowRight'||k==='ArrowDown'){e.preventDefault();activate((i+1)%n,true)}
+      else if(k==='ArrowLeft'||k==='ArrowUp'){e.preventDefault();activate((i-1+n)%n,true)}
+      else if(k==='Home'){e.preventDefault();activate(0,true)}
+      else if(k==='End'){e.preventDefault();activate(n-1,true)}
+    });
+  });
+})();
 
 </script>
 </body>
