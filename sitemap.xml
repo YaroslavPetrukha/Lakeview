@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://www.lakeview.com.ua/</loc>
+    <lastmod>2026-05-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.lakeview.com.ua/img/renders/hero.jpg</image:loc>
+      <image:title>ЖК Lakeview — головний рендер</image:title>
+      <image:caption>Сімейний житловий комплекс бізнес-класу біля озера у Львові</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.lakeview.com.ua/img/renders/aerial.jpg</image:loc>
+      <image:title>ЖК Lakeview — панорама з повітря</image:title>
+      <image:caption>Панорамний вид на ЖК Lakeview та озеро</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.lakeview.com.ua/img/renders/terrace.jpg</image:loc>
+      <image:title>ЖК Lakeview — тераса з видом на озеро</image:title>
+      <image:caption>Тераса квартири з прямим видом на озеро</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.lakeview.com.ua/img/renders/closeup.jpg</image:loc>
+      <image:title>ЖК Lakeview — двір та комерція</image:title>
+      <image:caption>Внутрішній двір із кав'ярнею та комерційними приміщеннями</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.lakeview.com.ua/img/renders/entrance.jpg</image:loc>
+      <image:title>ЖК Lakeview — вхідна зона</image:title>
+      <image:caption>Вхідна група секції з дитячим майданчиком</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.lakeview.com.ua/img/renders/lake-bridge.jpg</image:loc>
+      <image:title>ЖК Lakeview — набережна озера</image:title>
+      <image:caption>Набережна та пішохідна зона біля озера</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.lakeview.com.ua/img/renders/semi-aerial.jpg</image:loc>
+      <image:title>ЖК Lakeview — комплекс із висоти</image:title>
+      <image:caption>Напіваеріальний вигляд комплексу та території</image:caption>
+    </image:image>
+  </url>
+</urlset>

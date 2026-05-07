@@ -1,0 +1,21 @@
+{
+  "name": "ЖК Lakeview",
+  "short_name": "Lakeview",
+  "description": "ЖК Lakeview — бізнес-клас біля озера у Львові. Забудовник Вигода.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0F4C3A",
+  "theme_color": "#0F4C3A",
+  "lang": "uk",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ]
+}

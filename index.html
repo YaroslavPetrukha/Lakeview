@@ -3,8 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ЖК Lakeview — Квартири та комерція біля озера | Львів, вул. В. Великого</title>
-<meta name="description" content="ЖК Lakeview — сімейний комплекс бізнес-класу біля озера у Львові. Квартири від 44 м² — $1600/м². Розстрочка від забудовника. Комерція на 1–2 поверсі.">
+<title>ЖК Lakeview — Квартири біля озера у Львові | Вигода</title>
+<meta name="description" content="ЖК Lakeview — бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1600/м². Розстрочка від забудовника Вигода. Здача 2027.">
+
+<!-- Canonical + identity -->
+<link rel="canonical" href="https://www.lakeview.com.ua/">
+<meta name="theme-color" content="#0F4C3A">
+<meta name="format-detection" content="telephone=no">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ЖК Lakeview">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:url" content="https://www.lakeview.com.ua/">
+<meta property="og:title" content="ЖК Lakeview — Квартири біля озера у Львові | Вигода">
+<meta property="og:description" content="Бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1600/м². Розстрочка від забудовника Вигода. Здача 2027.">
+<meta property="og:image" content="https://www.lakeview.com.ua/img/renders/hero.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ЖК Lakeview — сімейний комплекс бізнес-класу біля озера у Львові">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ЖК Lakeview — Квартири біля озера у Львові | Вигода">
+<meta name="twitter:description" content="Бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1600/м². Розстрочка. Здача 2027.">
+<meta name="twitter:image" content="https://www.lakeview.com.ua/img/renders/hero.jpg">
+
+<!-- Geo -->
+<meta name="geo.region" content="UA-46">
+<meta name="geo.placename" content="Львів">
+<meta name="geo.position" content="49.840000;24.030000">
+<meta name="ICBM" content="49.840000, 24.030000">
+
+<!-- Icons + manifest -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -259,16 +294,16 @@ body.modal-active .hero-bg img{transform:none!important}
 .dev-box h4{font-family:var(--f1);font-size:22px;font-weight:600;color:var(--em);margin-bottom:10px}
 .dev-box p{font-size:15px;line-height:1.65;color:var(--txt2)}
 /* Timeline */
-.timeline{display:flex;gap:0;margin-bottom:48px;position:relative}
+.timeline{display:flex;gap:0;margin-bottom:48px;position:relative;list-style:none;padding:0}
 .timeline::before{content:'';position:absolute;top:22px;left:0;right:0;height:3px;background:var(--border);border-radius:2px}
 .tl-item{flex:1;text-align:center;position:relative;padding-top:44px}
 .tl-dot{width:14px;height:14px;border-radius:50%;background:var(--border);position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:1;border:3px solid var(--bg2)}
 .tl-item.done .tl-dot{background:var(--em)}
 .tl-item.current .tl-dot{background:var(--gold);box-shadow:0 0 0 4px rgba(197,165,90,.3);animation:pulse 2s infinite}
-.tl-item h5{font-size:13px;font-weight:600;color:var(--txt);margin-bottom:2px}
+.tl-name{display:block;font-size:13px;font-weight:600;color:var(--txt);margin-bottom:2px;font-family:var(--f2)}
 .tl-item span{font-size:12px;color:var(--txt3)}
-.tl-item.done h5{color:var(--em)}
-.tl-item.current h5{color:var(--gold-d);font-weight:700}
+.tl-item.done .tl-name{color:var(--em)}
+.tl-item.current .tl-name{color:var(--gold-d);font-weight:700}
 /* Construction Grid */
 .con-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:220px;gap:12px}
 .ci{border-radius:var(--r);overflow:hidden;position:relative;cursor:pointer}
@@ -341,7 +376,7 @@ body.modal-active .hero-bg img{transform:none!important}
 .ftr-g{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.4fr;gap:40px;margin-bottom:44px}
 .ftr-logo{font-family:var(--f1);font-size:26px;font-weight:600;letter-spacing:.1em;color:#fff;margin-bottom:10px}
 .ftr-tl{font-size:14px;color:rgba(255,255,255,.38);line-height:1.6;max-width:240px}
-.ftr h5{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.ftr-h{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-family:var(--f2)}
 .ftr-ls{list-style:none}.ftr-ls li{margin-bottom:10px}
 .ftr-ls a{font-size:14px;color:rgba(255,255,255,.55);transition:color var(--t)}.ftr-ls a:hover{color:var(--gold-l)}
 .ftr-ci{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:14px}
@@ -555,21 +590,307 @@ body.modal-active .hero-bg img{transform:none!important}
   .lb-close{top:12px;right:12px}
 }
 .visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0}
+
+/* Anchor offset for fixed header */
+#res-form,#com-form,#faq,#apartments,#conditions,#location,#construction,#developer,#commercial,#gallery{scroll-margin-top:96px}
+
+/* ═══ QUICK FACTS CARD ═══ */
+.qf-wrap{padding:80px 0 0}
+.qf-card{position:relative;max-width:1080px;margin:0 auto;padding:36px 40px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--r2);box-shadow:var(--sh)}
+.qf-card .qf-l{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-d);margin-bottom:14px}
+.qf-card .qf-l::before{content:'';width:22px;height:1.5px;background:var(--gold)}
+.qf-card p{font-size:16px;line-height:1.75;color:var(--txt2);margin:0}
+.qf-card p strong{color:var(--txt);font-weight:600}
+@media(max-width:768px){
+  .qf-wrap{padding:48px 0 0}
+  .qf-card{padding:24px 20px;margin:0 4px;border-radius:var(--r)}
+  .qf-card p{font-size:15px;line-height:1.7}
+}
+
+/* ═══ FAQ ═══ */
+.faq-sec{background:var(--bg2)}
+.faq-list{max-width:880px;margin:40px auto 0;display:flex;flex-direction:column;gap:10px}
+.faq-list details{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:0;transition:border-color var(--t),box-shadow var(--t)}
+.faq-list details[open]{border-color:var(--gold);box-shadow:var(--sh)}
+.faq-list summary{list-style:none;cursor:pointer;padding:20px 24px;font-family:var(--f1);font-size:19px;font-weight:600;color:var(--txt);display:flex;align-items:center;justify-content:space-between;gap:16px;line-height:1.35}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:'';flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--bg2);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C5A55A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:center;background-size:14px;transition:transform var(--t),background-color var(--t)}
+.faq-list details[open] summary::after{transform:rotate(180deg);background-color:rgba(197,165,90,.12)}
+.faq-list summary:hover{color:var(--em)}
+.faq-list .faq-a{padding:0 24px 22px;font-size:15.5px;line-height:1.7;color:var(--txt2)}
+@media(max-width:768px){
+  .faq-list summary{padding:16px 18px;font-size:17px;gap:12px}
+  .faq-list .faq-a{padding:0 18px 18px;font-size:15px}
+}
 </style>
+
+<!-- ═══ STRUCTURED DATA (JSON-LD) ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.lakeview.com.ua/#website",
+      "url": "https://www.lakeview.com.ua/",
+      "name": "ЖК Lakeview",
+      "inLanguage": "uk-UA",
+      "publisher": { "@id": "https://www.lakeview.com.ua/#org" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.lakeview.com.ua/#org",
+      "name": "Вигода",
+      "legalName": "ПП «ДІК \"Вигода +\"»",
+      "taxID": "44876801",
+      "url": "https://www.lakeview.com.ua/",
+      "telephone": "+380969900390",
+      "email": "vygoda.sales@gmail.com",
+      "sameAs": [
+        "https://www.instagram.com/lakeviewlviv/"
+      ]
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://www.lakeview.com.ua/#sales-office",
+      "name": "ЖК Lakeview — офіс продажу",
+      "parentOrganization": { "@id": "https://www.lakeview.com.ua/#org" },
+      "telephone": "+380969900390",
+      "email": "vygoda.sales@gmail.com",
+      "url": "https://www.lakeview.com.ua/",
+      "image": "https://www.lakeview.com.ua/img/renders/hero.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "вул. Володимира Великого, 4, кабінет 406",
+        "addressLocality": "Львів",
+        "addressRegion": "Львівська область",
+        "postalCode": "79000",
+        "addressCountry": "UA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 49.840000,
+        "longitude": 24.030000
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+          "opens": "09:00",
+          "closes": "19:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Saturday"],
+          "opens": "10:00",
+          "closes": "16:00"
+        }
+      ]
+    },
+    {
+      "@type": "RealEstateListing",
+      "@id": "https://www.lakeview.com.ua/#listing",
+      "name": "ЖК Lakeview — квартири біля озера у Львові",
+      "url": "https://www.lakeview.com.ua/",
+      "description": "Сімейний житловий комплекс бізнес-класу у Львові на вул. Володимира Великого, 2а — за 50 метрів від озера. 4 секції до 15 поверхів, двоповерховий підземний паркінг на 138 місць. 1–3-кімнатні квартири 44–183 м² від $1600/м². Завершення — 2027.",
+      "image": [
+        "https://www.lakeview.com.ua/img/renders/hero.jpg",
+        "https://www.lakeview.com.ua/img/renders/aerial.jpg",
+        "https://www.lakeview.com.ua/img/renders/terrace.jpg",
+        "https://www.lakeview.com.ua/img/renders/closeup.jpg"
+      ],
+      "datePosted": "2026-05-07",
+      "dateModified": "2026-05-07",
+      "keywords": "ЖК Lakeview, квартири біля озера Львів, новобудова Львів, бізнес-клас Львів, Вигода забудовник, Володимира Великого",
+      "sameAs": [
+        "https://www.instagram.com/lakeviewlviv/",
+        "https://maps.google.com/?q=%D0%B2%D1%83%D0%BB.+%D0%92%D0%BE%D0%BB%D0%BE%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%B0+%D0%92%D0%B5%D0%BB%D0%B8%D0%BA%D0%BE%D0%B3%D0%BE+2%D0%B0+%D0%9B%D1%8C%D0%B2%D1%96%D0%B2"
+      ],
+      "mentions": [
+        { "@type": "Place", "name": "Озеро на вул. Володимира Великого, Львів" },
+        { "@type": "Place", "name": "Львів" }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": "1600",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "priceCurrency": "USD",
+          "price": "1600",
+          "unitText": "м²",
+          "referenceQuantity": {
+            "@type": "QuantitativeValue",
+            "value": 1,
+            "unitCode": "MTK"
+          }
+        },
+        "availability": "https://schema.org/PreOrder",
+        "seller": { "@id": "https://www.lakeview.com.ua/#org" }
+      },
+      "about": { "@id": "https://www.lakeview.com.ua/#residence" }
+    },
+    {
+      "@type": "ApartmentComplex",
+      "@id": "https://www.lakeview.com.ua/#residence",
+      "name": "ЖК Lakeview",
+      "url": "https://www.lakeview.com.ua/",
+      "image": "https://www.lakeview.com.ua/img/renders/hero.jpg",
+      "numberOfAccommodationUnits": 250,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "вул. Володимира Великого, 2а",
+        "addressLocality": "Львів",
+        "addressRegion": "Львівська область",
+        "postalCode": "79000",
+        "addressCountry": "UA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 49.840000,
+        "longitude": 24.030000
+      },
+      "amenityFeature": [
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Підземний паркінг (2 рівні, 138 місць)",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Рекреаційний центр",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Озеро поряд (50 м)",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Комерційні приміщення на 1–2 поверсі",
+          "value": true
+        }
+      ],
+      "containsPlace": [
+        {
+          "@type": "Apartment",
+          "name": "1-кімнатні квартири",
+          "numberOfRooms": 1,
+          "floorSize": {
+            "@type": "QuantitativeValue",
+            "minValue": 44,
+            "maxValue": 63,
+            "unitCode": "MTK"
+          }
+        },
+        {
+          "@type": "Apartment",
+          "name": "2-кімнатні квартири",
+          "numberOfRooms": 2,
+          "floorSize": {
+            "@type": "QuantitativeValue",
+            "minValue": 64,
+            "maxValue": 90,
+            "unitCode": "MTK"
+          }
+        },
+        {
+          "@type": "Apartment",
+          "name": "3-кімнатні квартири",
+          "numberOfRooms": 3,
+          "floorSize": {
+            "@type": "QuantitativeValue",
+            "minValue": 90,
+            "maxValue": 183,
+            "unitCode": "MTK"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.lakeview.com.ua/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Головна", "item": "https://www.lakeview.com.ua/" },
+        { "@type": "ListItem", "position": 2, "name": "Квартири", "item": "https://www.lakeview.com.ua/#apartments" },
+        { "@type": "ListItem", "position": 3, "name": "Комерція", "item": "https://www.lakeview.com.ua/#commercial" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.lakeview.com.ua/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Коли здача ЖК Lakeview?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Завершення будівництва — 2027 рік. Відстежувати динаміку можна у розділі «Будівництво» нижче і в Instagram @lakeviewlviv." }
+        },
+        {
+          "@type": "Question",
+          "name": "Де знаходиться Lakeview?",
+          "acceptedAnswer": { "@type": "Answer", "text": "вул. Володимира Великого, 2а, Львів. До озера — 50 метрів, до центру міста — 10 хвилин автомобілем." }
+        },
+        {
+          "@type": "Question",
+          "name": "Скільки коштує квартира?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Ціна від $1600 за м². Конкретна вартість залежить від секції, поверху та планування. Площі квартир — від 44 до 183 м²." }
+        },
+        {
+          "@type": "Question",
+          "name": "Що включено у вартість квартири?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Поштукатурені стіни, броньовані вхідні двері, енергоефективні вікна, лічильники та електророзведення. Без прихованих доплат." }
+        },
+        {
+          "@type": "Question",
+          "name": "Чи є розстрочка?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Так. Перший внесок — 30%, далі безвідсоткова розстрочка від забудовника на період будівництва." }
+        },
+        {
+          "@type": "Question",
+          "name": "Хто забудовник?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Девелоперська група «Вигода» (юрособа: ПП «ДІК \"Вигода +\"», ЄДРПОУ 44876801). Львівський забудовник із власною будівельною командою та системним підходом до якості." }
+        },
+        {
+          "@type": "Question",
+          "name": "Скільки секцій і поверхів?",
+          "acceptedAnswer": { "@type": "Answer", "text": "4 секції, до 15 поверхів. Усі квартири мають вид на озеро або внутрішній двір." }
+        },
+        {
+          "@type": "Question",
+          "name": "Чи є паркінг?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Так — двоповерховий підземний паркінг на 138 машиномісць. Місця можна придбати окремо." }
+        },
+        {
+          "@type": "Question",
+          "name": "Які планування доступні?",
+          "acceptedAnswer": { "@type": "Answer", "text": "1-, 2- та 3-кімнатні квартири площею 44–183 м². Усі планування з фото та розмірами — у розділі «Квартири»." }
+        },
+        {
+          "@type": "Question",
+          "name": "Як подивитися документи на об'єкт?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Дозвільні документи та форму договору надсилаємо за запитом — залиште заявку на сайті або зателефонуйте +38 096 990 03 90." }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
 <!-- MOBILE NAV -->
-<div class="mob-nav" id="mn">
-  <button class="mob-x" onclick="cmn()">&times;</button>
+<nav class="mob-nav" id="mn" aria-label="Мобільна навігація">
+  <button class="mob-x" onclick="cmn()" aria-label="Закрити меню">&times;</button>
   <a href="#apartments" onclick="cmn()">Квартири</a>
   <a href="#conditions" onclick="cmn()">Умови</a>
   <a href="#location" onclick="cmn()">Локація</a>
   <a href="#construction" onclick="cmn()">Будівництво</a>
   <a href="#developer" onclick="cmn()">Забудовник</a>
   <a href="#commercial" onclick="cmn()">Комерція</a>
+  <a href="#faq" onclick="cmn()">Питання</a>
   <a href="tel:+380969900390" style="color:var(--gold-l)">+38 096 990 03 90</a>
-</div>
+</nav>
 
 <!-- CALLBACK MODAL -->
 <div class="modal-ov" id="cbModal">
@@ -626,13 +947,14 @@ body.modal-active .hero-bg img{transform:none!important}
 <header class="hdr" id="hdr">
   <div class="hdr-in">
     <a href="#" class="logo">LAKEVIEW</a>
-    <nav class="nav">
+    <nav class="nav" aria-label="Головна навігація">
       <a href="#apartments">Квартири</a>
-      <a href="#conditions">Умови купівлі</a>
+      <a href="#conditions">Умови</a>
       <a href="#location">Локація</a>
       <a href="#construction">Будівництво</a>
       <a href="#developer">Забудовник</a>
       <a href="#commercial">Комерція</a>
+      <a href="#faq">FAQ</a>
     </nav>
     <div class="hdr-r">
       <a href="tel:+380969900390" class="hdr-ph">+38 096 990 03 90</a>
@@ -642,9 +964,11 @@ body.modal-active .hero-bg img{transform:none!important}
   </div>
 </header>
 
+<main id="main">
+
 <!-- ═══ HERO ═══ -->
-<section class="hero">
-  <div class="hero-bg"><img src="img/renders/hero.jpg" alt="ЖК Lakeview — вигляд з вулиці" loading="eager"></div>
+<section class="hero" aria-label="Головний банер ЖК Lakeview">
+  <div class="hero-bg"><img src="img/renders/hero.jpg" alt="ЖК Lakeview — фасади житлового комплексу бізнес-класу біля озера у Львові" loading="eager"></div>
   <div class="hero-ov"></div>
   <div class="hero-c">
     <div class="hero-tags">
@@ -664,6 +988,16 @@ body.modal-active .hero-bg img{transform:none!important}
       <div><div class="hn-v">$1600</div><div class="hn-l">від / м²</div></div>
       <div><div class="hn-v">2 рівні</div><div class="hn-l">паркінг</div></div>
       <div><div class="hn-v">2027</div><div class="hn-l">здача комплексу</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUICK FACTS (citable passage) ═══ -->
+<section class="qf-wrap" aria-label="Lakeview коротко">
+  <div class="ctn">
+    <div class="qf-card rv">
+      <div class="qf-l">Lakeview коротко</div>
+      <p><strong>ЖК Lakeview</strong> — сімейний житловий комплекс бізнес-класу у Львові на <strong>вул. Володимира Великого, 2а</strong>, за 50 метрів від озера та 10 хвилинах від центру. Забудовник — <strong>Вигода</strong>. Комплекс складається з 4 секцій до 15 поверхів, з двоповерховим підземним паркінгом на 138 місць. У продажу 1–3-кімнатні квартири площею <strong>44–183 м² від $1600/м²</strong>. У вартість входять штукатурка, броньовані двері, енергоефективні вікна, лічильники та електророзведення. Оплата: 30% перший внесок, далі безвідсоткова розстрочка. Завершення — <strong>2027 рік</strong>.</p>
     </div>
   </div>
 </section>
@@ -699,7 +1033,7 @@ body.modal-active .hero-bg img{transform:none!important}
     </div>
 
     <div class="rv"><div class="sl">Планування</div>
-    <h3 class="st" style="margin-bottom:24px">Оберіть свою <em>квартиру</em></h3></div>
+    <h2 class="st" style="margin-bottom:24px">Оберіть свою <em>квартиру</em></h2></div>
 
     <div class="tabs rv" id="tabs">
       <button class="tab act" onclick="showTab('all',this)">Всі</button>
@@ -758,7 +1092,7 @@ body.modal-active .hero-bg img{transform:none!important}
 
     <div class="cta-split rv" id="res-form" style="margin-top:48px">
       <div class="cta-split-img">
-        <img src="img/renders/terrace.jpg" alt="Тераса з видом на озеро у ЖК Lakeview">
+        <img src="img/renders/terrace.jpg" alt="ЖК Lakeview — тераса квартири з прямим видом на озеро">
         <div class="cta-split-overlay">
           <div class="cta-split-quote">"Ранкова кава з видом на озеро — щодня"</div>
         </div>
@@ -828,6 +1162,60 @@ body.modal-active .hero-bg img{transform:none!important}
   </div>
 </section>
 
+<!-- ═══ FAQ ═══ -->
+<section class="sec faq-sec" id="faq" aria-labelledby="faqTitle">
+  <div class="ctn">
+    <div class="rv">
+      <div class="sl">FAQ</div>
+      <h2 id="faqTitle" class="st">Часті <em>запитання</em></h2>
+      <p class="sd">Найчастіші питання покупців про Lakeview — коротко і по суті.</p>
+    </div>
+
+    <div class="faq-list rv">
+      <details open>
+        <summary>Коли здача ЖК Lakeview?</summary>
+        <div class="faq-a">Завершення будівництва — 2027 рік. Відстежувати динаміку можна у розділі «Будівництво» нижче і в Instagram <a href="https://www.instagram.com/lakeviewlviv/" target="_blank" rel="noopener" style="color:var(--em);font-weight:600">@lakeviewlviv</a>.</div>
+      </details>
+      <details>
+        <summary>Де знаходиться Lakeview?</summary>
+        <div class="faq-a">вул. Володимира Великого, 2а, Львів. До озера — 50 метрів, до центру міста — 10 хвилин автомобілем.</div>
+      </details>
+      <details>
+        <summary>Скільки коштує квартира?</summary>
+        <div class="faq-a">Ціна від $1600 за м². Конкретна вартість залежить від секції, поверху та планування. Площі квартир — від 44 до 183 м².</div>
+      </details>
+      <details>
+        <summary>Що включено у вартість квартири?</summary>
+        <div class="faq-a">Поштукатурені стіни, броньовані вхідні двері, енергоефективні вікна, лічильники та електророзведення. Без прихованих доплат.</div>
+      </details>
+      <details>
+        <summary>Чи є розстрочка?</summary>
+        <div class="faq-a">Так. Перший внесок — 30%, далі безвідсоткова розстрочка від забудовника на період будівництва.</div>
+      </details>
+      <details>
+        <summary>Хто забудовник?</summary>
+        <div class="faq-a">Девелоперська група «Вигода» (юрособа: ПП «ДІК "Вигода +"», ЄДРПОУ 44876801). Львівський забудовник із власною будівельною командою та системним підходом до якості.</div>
+      </details>
+      <details>
+        <summary>Скільки секцій і поверхів?</summary>
+        <div class="faq-a">4 секції, до 15 поверхів. Усі квартири мають вид на озеро або внутрішній двір.</div>
+      </details>
+      <details>
+        <summary>Чи є паркінг?</summary>
+        <div class="faq-a">Так — двоповерховий підземний паркінг на 138 машиномісць. Місця можна придбати окремо.</div>
+      </details>
+      <details>
+        <summary>Які планування доступні?</summary>
+        <div class="faq-a">1-, 2- та 3-кімнатні квартири площею 44–183 м². Усі планування з фото та розмірами — у розділі «Квартири».</div>
+      </details>
+      <details>
+        <summary>Як подивитися документи на об'єкт?</summary>
+        <div class="faq-a">Дозвільні документи та форму договору надсилаємо за запитом — залиште заявку на сайті або зателефонуйте <a href="tel:+380969900390" style="color:var(--em);font-weight:600">+38 096 990 03 90</a>.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ LOCATION ═══ -->
 <section class="sec loc-sec" id="location">
   <div class="ctn">
@@ -836,7 +1224,7 @@ body.modal-active .hero-bg img{transform:none!important}
     <p class="sd">Жити біля природи і мати все необхідне під рукою — школи, садочки, магазини та транспорт.</p></div>
 
     <div class="loc-hero rv">
-      <img src="img/renders/aerial.jpg" alt="Панорама ЖК Lakeview та озера" loading="lazy">
+      <img src="img/renders/aerial.jpg" alt="Панорама ЖК Lakeview з повітря — комплекс, озеро та оточення на вул. В. Великого, Львів" loading="lazy">
       <div class="loc-ov">
         <div class="loc-tags">
           <div class="lt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Озеро в 50 метрах</div>
@@ -863,21 +1251,21 @@ body.modal-active .hero-bg img{transform:none!important}
     <h2 class="st">Динаміка <em>будівництва</em></h2>
     <p class="sd">Регулярні фотозвіти. Кожен етап — під контролем. Усі роботи відповідають дозвільній документації та державним будівельним нормам.</p></div>
 
-    <div class="timeline rv">
-      <div class="tl-item done"><div class="tl-dot"></div><h5>Фундамент</h5><span>Завершено</span></div>
-      <div class="tl-item done"><div class="tl-dot"></div><h5>Каркас</h5><span>Завершено</span></div>
-      <div class="tl-item current"><div class="tl-dot"></div><h5>Стіни та перекриття</h5><span>Зараз</span></div>
-      <div class="tl-item"><div class="tl-dot"></div><h5>Фасад та інженерія</h5><span>Далі</span></div>
-      <div class="tl-item"><div class="tl-dot"></div><h5>Здача</h5><span>2027</span></div>
-    </div>
+    <ol class="timeline rv" aria-label="Етапи будівництва">
+      <li class="tl-item done"><div class="tl-dot"></div><strong class="tl-name">Фундамент</strong><span>Завершено</span></li>
+      <li class="tl-item done"><div class="tl-dot"></div><strong class="tl-name">Каркас</strong><span>Завершено</span></li>
+      <li class="tl-item current"><div class="tl-dot"></div><strong class="tl-name">Стіни та перекриття</strong><span>Зараз</span></li>
+      <li class="tl-item"><div class="tl-dot"></div><strong class="tl-name">Фасад та інженерія</strong><span>Далі</span></li>
+      <li class="tl-item"><div class="tl-dot"></div><strong class="tl-name">Здача</strong><span>2027</span></li>
+    </ol>
 
     <div class="con-grid" id="conGrid">
-      <div class="ci rv" data-idx="2"><img src="img/construction/mar-2026/mar-03.jpg" alt="Хід будівництва — березень 2026, панорама з краном" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-      <div class="ci rv rv1" data-idx="15"><img src="img/construction/feb-2026/feb-01.jpg" alt="Фотозвіт лютий 2026 — зведення каркасу" loading="lazy"><div class="ci-label">Лютий 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-      <div class="ci rv rv2" data-idx="27"><img src="img/construction/jan-2026/jan-01.jpg" alt="Будівництво — січень 2026, фасадні роботи" loading="lazy"><div class="ci-label">Січень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-      <div class="ci rv rv3" data-idx="6"><img src="img/construction/mar-2026/mar-07.jpg" alt="Робітник на будмайданчику — березень 2026" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-      <div class="ci rv rv1" data-idx="17"><img src="img/construction/feb-2026/feb-03.jpg" alt="Будівництво зимою — лютий 2026" loading="lazy"><div class="ci-label">Лютий 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-      <div class="ci rv rv2" data-idx="38"><img src="img/construction/dec-2025/dec-01.jpg" alt="Прогрес будівництва — грудень 2025" loading="lazy"><div class="ci-label">Грудень 2025</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv" data-idx="2"><img src="img/construction/mar-2026/mar-03.jpg" alt="Хід будівництва ЖК Lakeview — березень 2026, панорама будмайданчика з баштовим краном" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv1" data-idx="15"><img src="img/construction/feb-2026/feb-01.jpg" alt="ЖК Lakeview — фотозвіт лютий 2026, зведення каркасу секції" loading="lazy"><div class="ci-label">Лютий 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv2" data-idx="27"><img src="img/construction/jan-2026/jan-01.jpg" alt="Будівництво ЖК Lakeview — січень 2026, монтажні роботи на каркасі" loading="lazy"><div class="ci-label">Січень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv3" data-idx="6"><img src="img/construction/mar-2026/mar-07.jpg" alt="ЖК Lakeview — робітники на будмайданчику, березень 2026" loading="lazy"><div class="ci-label">Березень 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv1" data-idx="17"><img src="img/construction/feb-2026/feb-03.jpg" alt="ЖК Lakeview — будівництво зимою, лютий 2026" loading="lazy"><div class="ci-label">Лютий 2026</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+      <div class="ci rv rv2" data-idx="38"><img src="img/construction/dec-2025/dec-01.jpg" alt="ЖК Lakeview — прогрес будівництва, грудень 2025, початок зведення стін" loading="lazy"><div class="ci-label">Грудень 2025</div><div class="ci-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
     </div>
     <div class="con-more rv" onclick="openLb(0)">Переглянути всі 50 фото <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
 
@@ -994,7 +1382,7 @@ body.modal-active .hero-bg img{transform:none!important}
     <p class="sd">Фасадні приміщення на двох поверхах із панорамними вітринами — висока видимість з вулиці, активний трафік та готова клієнтська база у самому ЖК.</p></div>
 
     <div class="com-hero rv">
-      <img src="img/renders/closeup.jpg" alt="Комерція ЖК Lakeview — двір із кав'ярнею та терасою" loading="lazy">
+      <img src="img/renders/closeup.jpg" alt="Комерція ЖК Lakeview — фасадні приміщення на 1 поверсі, двір з кав'ярнею та терасою" loading="lazy">
       <div class="com-metrics">
         <div class="com-metric"><strong>від 44 м²</strong><span>Площі приміщень</span></div>
         <div class="com-metric"><strong>500+</strong><span>Сімей — ваші клієнти</span></div>
@@ -1051,15 +1439,17 @@ body.modal-active .hero-bg img{transform:none!important}
     <h2 class="st" style="color:#fff">Як виглядатиме <em style="color:var(--gold-l)">Lakeview</em></h2></div>
   </div>
   <div class="gal-scroll">
-    <div class="gal-item"><img src="img/renders/lake-bridge.jpg" alt="Набережна з озером" loading="lazy"></div>
-    <div class="gal-item"><img src="img/renders/terrace.jpg" alt="Тераса з видом на озеро" loading="lazy"></div>
-    <div class="gal-item"><img src="img/renders/aerial.jpg" alt="Вигляд з повітря" loading="lazy"></div>
-    <div class="gal-item"><img src="img/renders/closeup.jpg" alt="Двір із кав'ярнею" loading="lazy"></div>
-    <div class="gal-item"><img src="img/renders/entrance.jpg" alt="Вхід та дитячий майданчик" loading="lazy"></div>
-    <div class="gal-item"><img src="img/renders/semi-aerial.jpg" alt="Напіваеріал" loading="lazy"></div>
+    <div class="gal-item"><img src="img/renders/lake-bridge.jpg" alt="ЖК Lakeview — набережна озера з пішохідним містком" loading="lazy"></div>
+    <div class="gal-item"><img src="img/renders/terrace.jpg" alt="ЖК Lakeview — тераса квартири з видом на озеро" loading="lazy"></div>
+    <div class="gal-item"><img src="img/renders/aerial.jpg" alt="ЖК Lakeview — панорамний вид з повітря на комплекс і озеро" loading="lazy"></div>
+    <div class="gal-item"><img src="img/renders/closeup.jpg" alt="ЖК Lakeview — внутрішній двір з кав'ярнею та терасами комерції" loading="lazy"></div>
+    <div class="gal-item"><img src="img/renders/entrance.jpg" alt="ЖК Lakeview — вхідна група секції з дитячим майданчиком" loading="lazy"></div>
+    <div class="gal-item"><img src="img/renders/semi-aerial.jpg" alt="ЖК Lakeview — напіваеріальний вигляд комплексу та території" loading="lazy"></div>
   </div>
   <p class="gal-hint" style="padding:0 28px">← Гортайте для перегляду всіх візуалізацій →</p>
 </section>
+
+</main>
 
 <!-- ═══ FOOTER ═══ -->
 <footer class="ftr">
@@ -1070,7 +1460,7 @@ body.modal-active .hero-bg img{transform:none!important}
         <p class="ftr-tl">Сімейний ЖК бізнес-класу біля озера. Забудовник — Вигода. Львів, вул. В. Великого, 2а.</p>
       </div>
       <div>
-        <h5>Навігація</h5>
+        <h2 class="ftr-h">Навігація</h2>
         <ul class="ftr-ls">
           <li><a href="#apartments">Квартири</a></li>
           <li><a href="#conditions">Умови купівлі</a></li>
@@ -1078,17 +1468,18 @@ body.modal-active .hero-bg img{transform:none!important}
           <li><a href="#construction">Будівництво</a></li>
           <li><a href="#developer">Забудовник</a></li>
           <li><a href="#commercial">Комерція</a></li>
+          <li><a href="#faq">Часті запитання</a></li>
         </ul>
       </div>
       <div>
-        <h5>Контакти</h5>
+        <h2 class="ftr-h">Контакти</h2>
         <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+380969900390">+38 096 990 03 90</a></div>
         <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:vygoda.sales@gmail.com">vygoda.sales@gmail.com</a></div>
         <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>вул. В. Великого, 2а, Львів</div>
         <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg><a href="https://www.instagram.com/lakeviewlviv/" target="_blank" rel="noopener">@lakeviewlviv</a></div>
       </div>
       <div>
-        <h5>Залишились питання?</h5>
+        <h2 class="ftr-h">Залишились питання?</h2>
         <p style="font-size:14px;color:rgba(255,255,255,.4);margin-bottom:12px">Залиште номер — зателефонуємо.</p>
         <form class="ftr-fm" id="fF" onsubmit="return hs(event,'fF')">
           <label for="fF-tel" class="visually-hidden">Телефон</label>
