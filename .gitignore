@@ -5,6 +5,7 @@ audit.md
 text.txt
 text-2.txt
 index-v1-backup.html
+index-v*.html
 ig-post1-snapshot.yml
 
 # Playwright MCP
@@ -20,6 +21,8 @@ ig-post1-snapshot.yml
 Рендера/
 Планування/
 img/plans/_orig/
+img/plans/commercial/_pdf-source/
+img/plans/commercial/_manifest.json
 
 # Bulletproof workflow artifacts
 thoughts/

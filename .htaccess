@@ -81,14 +81,19 @@ DirectoryIndex index.html
 
     # ─── 5. Security headers ────────────────────────────────────────────────
     Header always set X-Content-Type-Options "nosniff"
-    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Frame-Options "DENY"
+    Header always set X-XSS-Protection "0"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
-    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self), interest-cohort=()"
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" env=HTTPS
 
-    # Strip PHP version disclosure
+    # Content-Security-Policy — inline JS+CSS require 'unsafe-inline'; fonts via Google; map iframe via google.com
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self'; frame-src https://www.google.com https://maps.google.com https://www.google.com.ua; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+
+    # Strip server-version disclosure
     Header unset X-Powered-By
     Header always unset X-Powered-By
+    Header unset Server
 </IfModule>
 
 # Hide PHP signature where possible
@@ -112,6 +117,7 @@ RedirectMatch 403 ^/?specs(/|$)
 RedirectMatch 403 ^/?progress(/|$)
 RedirectMatch 403 ^/?\.git(/|$)
 
-# ─── 7. Custom error pages → SPA-style fallback ─────────────────────────────
-ErrorDocument 403 /index.html
-ErrorDocument 404 /index.html
+# ─── 7. Error documents — preserve real status codes (no SPA-fallback;
+#       Apache default error bodies are minimal and Google-friendly)
+# Removed ErrorDocument 403/404 → /index.html: those served homepage with 200
+# OK for any blocked/missing path → soft-404 + masked security blocks.

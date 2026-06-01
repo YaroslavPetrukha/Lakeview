@@ -42,14 +42,12 @@ function safe_html(string $s): string {
     return htmlspecialchars(trim($s), ENT_QUOTES | ENT_HTML5, 'UTF-8');
 }
 
-/** Get client IP — honor proxy headers cautiously, fall back to REMOTE_ADDR. */
+/**
+ * Get client IP. Origin server is NOT behind Cloudflare — proxy headers (CF-Connecting-IP,
+ * X-Forwarded-For, X-Real-IP) are user-controllable and would let an attacker rotate
+ * "IPs" by header to bypass the per-IP rate limit. Use only the real socket peer.
+ */
 function client_ip(): string {
-    foreach (['HTTP_CF_CONNECTING_IP', 'HTTP_X_REAL_IP', 'HTTP_X_FORWARDED_FOR'] as $h) {
-        if (!empty($_SERVER[$h])) {
-            $ip = trim(explode(',', $_SERVER[$h])[0]);
-            if (filter_var($ip, FILTER_VALIDATE_IP)) return $ip;
-        }
-    }
     return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 }
 
@@ -120,7 +118,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     respond(405, false, 'Метод не підтримується');
 }
 
-// Referer check (when origin missing — common server-to-server / curl)
+// Require at least one of Origin/Referer (and matching). Empty-both is a curl/VPS bypass.
+if ($origin === '' && $referer === '') {
+    log_submission($LOG_FILE, client_ip(), '?', '?', '?', 'reject:no-origin-no-referer');
+    respond(403, false, 'Заборонене джерело запиту');
+}
 if ($origin === '' && $referer !== '') {
     $refOk = false;
     foreach ($allowed as $a) {
@@ -144,10 +146,12 @@ if (stripos($contentType, 'application/json') !== false) {
     $input = $_POST;
 }
 
-// Normalize all string-ish inputs
+// Normalize all string-ish inputs. Non-strings (arrays, objects, null) coerce to default
+// to prevent TypeError in strict-typed helpers like safe_html(string).
 $get = static function(string $k, $default = '') use ($input) {
     $v = $input[$k] ?? $default;
-    return is_string($v) ? trim($v) : $v;
+    if (!is_string($v)) return is_string($default) ? $default : '';
+    return trim($v);
 };
 
 // ─── Honeypot ────────────────────────────────────────────────────────────────
@@ -164,23 +168,35 @@ $nowMs  = (int) (microtime(true) * 1000);
 $elapsedSec = $tsMs > 0 ? max(0, ($nowMs - $tsMs) / 1000) : -1;
 
 if ($elapsedSec < (float) ($CONF['TIME_TRAP_MIN_SECONDS'] ?? 2)
-    || $elapsedSec > (float) ($CONF['TIME_TRAP_MAX_SECONDS'] ?? 7200)) {
+    || $elapsedSec > (float) ($CONF['TIME_TRAP_MAX_SECONDS'] ?? 86400)) {
     log_submission($LOG_FILE, client_ip(), $get('_form', '?'), '?', '?', 'reject:time-trap:' . round($elapsedSec, 1) . 's');
     // Same fake success — don't reveal logic
     respond(200, true, '', '/thanks.html?form=' . urlencode($get('_form', 'fCB')));
 }
 
-// ─── Rate-limit per IP ───────────────────────────────────────────────────────
+// ─── Rate-limit per IP (atomic via flock) ────────────────────────────────────
 $ip      = client_ip();
 $ipHash  = substr(hash('sha256', $ip . '|lakeview'), 0, 32);
 $rateFile = $RATE_DIR . '/' . $ipHash . '.json';
 
-$state = ['submissions' => []];
-if (is_file($rateFile)) {
-    $raw = @file_get_contents($rateFile);
-    $parsed = $raw ? json_decode($raw, true) : null;
-    if (is_array($parsed) && isset($parsed['submissions']) && is_array($parsed['submissions'])) {
-        $state = $parsed;
+// Open with 'c+' so the file is created if missing and we hold the descriptor across read+write.
+$rateFp = @fopen($rateFile, 'c+');
+if ($rateFp === false) {
+    error_log('[lakeview/submit] Rate-limit: fopen failed for ' . $rateFile);
+    // Fail-open is acceptable here — Telegram delivery + log still gate, and we'd rather lose anti-spam than lose leads.
+    $state = ['submissions' => []];
+} else {
+    if (!@flock($rateFp, LOCK_EX)) {
+        // Couldn't lock — fail-open with empty state, reuse fp for write later.
+        $state = ['submissions' => []];
+    } else {
+        // Read entire current contents (we own the lock).
+        $raw = '';
+        while (!feof($rateFp)) { $chunk = fread($rateFp, 8192); if ($chunk === false) break; $raw .= $chunk; }
+        $parsed = $raw !== '' ? json_decode($raw, true) : null;
+        $state = (is_array($parsed) && isset($parsed['submissions']) && is_array($parsed['submissions']))
+            ? $parsed
+            : ['submissions' => []];
     }
 }
 
@@ -192,6 +208,7 @@ $state['submissions'] = array_values(array_filter(
 
 $limit = (int) ($CONF['RATE_LIMIT_PER_IP_PER_HOUR'] ?? 5);
 if (count($state['submissions']) >= $limit) {
+    if ($rateFp) { @flock($rateFp, LOCK_UN); @fclose($rateFp); }
     log_submission($LOG_FILE, $ip, $get('_form', '?'), '?', '?', 'reject:rate-limit');
     respond(429, false, 'Забагато заявок. Спробуйте через годину або зателефонуйте: +38 096 990 03 90');
 }
@@ -223,7 +240,7 @@ $name      = (string) $get('name', '');
 $phoneRaw  = (string) $get('phone', '');
 $messenger = (string) $get('messenger', '');
 $bizType   = (string) $get('business_type', '');
-$apartment = (string) $get('apartment', ''); // hidden meta field on apt form
+$apartment = (string) $get('apartment', ''); // hidden meta field on apt + commercial forms
 
 // Required fields per form
 $requires = [
@@ -277,8 +294,9 @@ if ($name !== '')   $lines[] = '👤 <b>Імʼя:</b> ' . safe_html($name);
 $lines[] = '📞 <b>Телефон:</b> <code>' . safe_html($phonePretty) . '</code>';
 if ($messenger !== '') $lines[] = '💬 <b>Месенджер:</b> ' . safe_html($messenger);
 if ($bizType   !== '') $lines[] = '🏢 <b>Тип бізнесу:</b> ' . safe_html($bizType);
-if ($apartment !== '' && $formId === 'apartment') {
-    $lines[] = '🏠 <b>Квартира:</b> ' . safe_html($apartment);
+if ($apartment !== '' && in_array($formId, ['apartment', 'commercial'], true)) {
+    $label = $formId === 'commercial' ? '🏢 <b>Приміщення:</b> ' : '🏠 <b>Квартира:</b> ';
+    $lines[] = $label . safe_html($apartment);
 }
 $lines[] = '';
 $lines[] = '🌐 IP: <code>' . safe_html($ip) . '</code>';
@@ -334,9 +352,16 @@ if ($tgResp === false || $tgCode !== 200) {
     respond(502, false, 'Тимчасова помилка. Зателефонуйте: +38 096 990 03 90');
 }
 
-// ─── Persist rate-limit ──────────────────────────────────────────────────────
+// ─── Persist rate-limit (still holding flock from above) ────────────────────
 $state['submissions'][] = time();
-@file_put_contents($rateFile, json_encode($state), LOCK_EX);
+if ($rateFp) {
+    @rewind($rateFp);
+    @ftruncate($rateFp, 0);
+    @fwrite($rateFp, json_encode($state));
+    @fflush($rateFp);
+    @flock($rateFp, LOCK_UN);
+    @fclose($rateFp);
+}
 
 // ─── Success ─────────────────────────────────────────────────────────────────
 log_submission($LOG_FILE, $ip, $formId, $name, $phoneRaw, 'ok');

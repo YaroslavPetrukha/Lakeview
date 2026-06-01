@@ -48,6 +48,8 @@ index-v*.bak
 
 # Image source originals
 img/plans/_orig/
+img/plans/commercial/_pdf-source/
+img/plans/commercial/_manifest.json
 
 # Deploy artifacts (don't deploy themselves)
 deploy.sh
