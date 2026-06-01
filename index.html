@@ -454,10 +454,16 @@ body.modal-active .hero-bg img{transform:none!important}
 .cu-floor-title{font-family:var(--f1);font-size:24px;font-weight:400;font-style:italic;line-height:1.22;color:var(--txt);margin-bottom:20px;letter-spacing:-.005em}
 .cu-floor-title strong{font-style:normal;font-weight:500;color:var(--em);font-variant-numeric:var(--num-tab)}
 .cu-floor-desc{font-size:15px;line-height:1.7;color:var(--txt2);max-width:36ch;margin:0}
-/* Matte-frame: cream backdrop fills remaining card height, image centered + uncropped */
-.cu-floor-img{position:relative;z-index:1;background:var(--bg2);border-radius:var(--r);overflow:hidden;margin-bottom:32px;flex:1;display:flex;align-items:center;justify-content:center;padding:24px;min-height:200px}
+/* Matte-frame: cream backdrop fills remaining card height, image centered + uncropped.
+   Now interactive: button opens master plan in planLb at full resolution. */
+.cu-floor-img{position:relative;z-index:1;background:var(--bg2);border:0;border-radius:var(--r);overflow:hidden;margin-bottom:32px;flex:1;display:flex;align-items:center;justify-content:center;padding:24px;min-height:200px;cursor:zoom-in;font-family:inherit;width:100%}
 .cu-floor-img picture{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
-.cu-floor-img img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;display:block}
+.cu-floor-img img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;display:block;transition:transform .5s cubic-bezier(.16,.84,.36,1)}
+.cu-floor-img:hover img{transform:scale(1.015)}
+.cu-floor-img:focus-visible{outline:2px solid var(--gold-aa);outline-offset:-2px}
+.cu-floor-zoom{position:absolute;bottom:14px;right:14px;width:40px;height:40px;border-radius:50%;background:rgba(15,76,58,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.18);transition:transform .3s ease,background .3s ease;color:#fff;pointer-events:none}
+.cu-floor-img:hover .cu-floor-zoom{transform:scale(1.08);background:var(--gold-aa)}
+.cu-floor-zoom svg{width:16px;height:16px;color:#fff}
 .cu-floor-cta{position:relative;z-index:1;display:inline-flex;align-items:center;gap:10px;padding:0 0 6px;background:none;border:0;border-bottom:1.5px solid var(--em);color:var(--em);font-family:var(--f2);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;align-self:flex-start;transition:gap var(--t),color var(--t),border-color var(--t);border-radius:0;min-height:44px}
 .cu-floor-cta:hover{gap:14px;color:var(--gold-aa);border-bottom-color:var(--gold-aa)}
 .cu-floor-cta:focus-visible{outline:2px solid var(--gold-aa);outline-offset:4px;border-radius:2px}
@@ -1821,13 +1827,14 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
             <h4 class="cu-floor-title">Вуличний вхід та <strong>щоденний</strong> трафік</h4>
             <p class="cu-floor-desc">Окремі вхідні групи з вул. В. Великого. Стеля 3,6 м, площі 42–163 м². Під роздріб, кафе, аптеку, послуги.</p>
           </div>
-          <div class="cu-floor-img">
+          <button type="button" class="cu-floor-img" aria-label="Збільшити план першого поверху" onclick="openPlanLbDirect('img/plans/commercial/c-floor1-master.jpg','Загальний план першого поверху — розташування 15 комерційних приміщень','Майстер-план','Перший поверх · 15 приміщень · 42–412 м²')">
             <picture>
               <source type="image/avif" srcset="img/plans/commercial/c-floor1-master-720.avif 720w, img/plans/commercial/c-floor1-master.avif 1400w" sizes="(max-width:1024px) 100vw, 50vw">
               <source type="image/webp" srcset="img/plans/commercial/c-floor1-master-720.webp 720w, img/plans/commercial/c-floor1-master.webp 1400w" sizes="(max-width:1024px) 100vw, 50vw">
               <img src="img/plans/commercial/c-floor1-master.jpg" alt="Загальний план першого поверху — розташування 15 комерційних приміщень" width="1400" height="990" loading="lazy">
             </picture>
-          </div>
+            <span class="cu-floor-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></span>
+          </button>
           <button type="button" class="cu-floor-cta" onclick="setCuFilter('floor','1')">Дивитись 15 приміщень
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </button>
@@ -1839,13 +1846,14 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
             <h4 class="cu-floor-title">Стеля <strong>4,05 м</strong> — рідкісний формат для Львова</h4>
             <p class="cu-floor-desc">Дозволяє повноцінну вентиляцію HoReCa, антресоль у студії, операційний блок клініки, висотні вітрини шоуруму.</p>
           </div>
-          <div class="cu-floor-img">
+          <button type="button" class="cu-floor-img" aria-label="Збільшити план другого поверху" onclick="openPlanLbDirect('img/plans/commercial/c-floor2-master.jpg','Загальний план другого поверху — розташування 12 комерційних приміщень','Майстер-план','Другий поверх · 12 приміщень · 68–138 м²')">
             <picture>
               <source type="image/avif" srcset="img/plans/commercial/c-floor2-master-720.avif 720w, img/plans/commercial/c-floor2-master.avif 1400w" sizes="(max-width:1024px) 100vw, 50vw">
               <source type="image/webp" srcset="img/plans/commercial/c-floor2-master-720.webp 720w, img/plans/commercial/c-floor2-master.webp 1400w" sizes="(max-width:1024px) 100vw, 50vw">
               <img src="img/plans/commercial/c-floor2-master.jpg" alt="Загальний план другого поверху — розташування 12 комерційних приміщень" width="1400" height="990" loading="lazy">
             </picture>
-          </div>
+            <span class="cu-floor-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></span>
+          </button>
           <button type="button" class="cu-floor-cta" onclick="setCuFilter('floor','2')">Дивитись 12 приміщень
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </button>
