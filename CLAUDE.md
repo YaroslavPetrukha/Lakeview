@@ -24,7 +24,7 @@ Single-page site with sections:
 2. **Quick Facts card** — citable elevator pitch for AI engines
 3. **Apartments** — features grid + plan cards with tabs (1/2/3-room filter) + apartment modal with lead form
 4. **Catalog CTA** — split-layout lead form to receive PDF with all plans
-5. **Conditions** — pricing ($1600/m²), installment, legal contract + trust bar
+5. **Conditions** — pricing ($1650/m²), installment, legal contract + trust bar
 6. **FAQ** — 10 native `<details>` Q&A blocks (also in JSON-LD FAQPage)
 7. **Location** — map embed + distance badges
 8. **Construction** — monthly photo grid (Dec 2025 — Mar 2026) with WebP thumbnails + lightbox
@@ -94,7 +94,7 @@ Single-page site with sections:
 - **Phone:** +38 096 990 03 90 (`tel:+380969900390`)
 - **Email:** vygoda.sales@gmail.com
 - **Instagram:** @lakeviewlviv
-- **Price:** from $1600/m²
+- **Price:** from $1650/m²
 - **Apartments:** 44–183 m² (1/2/3-room)
 - **4 sections**, up to 15 floors
 - **Parking:** 2 underground levels, 138 spots
