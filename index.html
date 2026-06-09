@@ -612,6 +612,9 @@ body.modal-active .hero-bg img{transform:none!important}
 .gal-sec .sl{color:var(--gold-l)}.gal-sec .sl::before{background:var(--gold-l)}
 .gal-scroll{display:flex;gap:14px;overflow-x:auto;padding-bottom:14px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:40px}
 .gal-scroll::-webkit-scrollbar{display:none}
+/* On pointer devices (mouse/trackpad) drop snap so wheel-stepping lands cleanly
+   and reaches both ends; touch devices keep mandatory snap for per-image feel. */
+@media (hover:hover) and (pointer:fine){.gal-scroll{scroll-snap-type:none}}
 .gal-item{flex:0 0 360px;aspect-ratio:3/4;border-radius:var(--r);overflow:hidden;scroll-snap-align:start}
 .gal-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
 .gal-item:hover img{transform:scale(1.05)}
@@ -2197,7 +2200,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       </div>
     </div>
     <div class="ftr-bot">
-      <span>&copy; 2025–2026 ЖК Lakeview. Забудовник — Вигода.</span>
+      <span>&copy; 2025–2026 ЖК Lakeview. Забудовник — <a href="https://vyhoda.lviv.ua/?utm_source=lakeview.com.ua&amp;utm_medium=referral&amp;utm_campaign=footer" target="_blank" rel="noopener" style="color:var(--gold-l);text-decoration:underline;text-underline-offset:2px">«Вигода»</a>.</span>
       <span>Львів, вул. Володимира Великого, 2а</span>
     </div>
   </div>
@@ -2212,6 +2215,31 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
 <script>
 /* Header scroll */
 window.addEventListener('scroll',()=>{document.getElementById('hdr').classList.toggle('sc',scrollY>50)},{passive:true});
+
+/* Horizontal gallery: let a vertical mouse wheel scroll it sideways.
+   Mac trackpads emit horizontal deltas natively; Windows/desktop mice only
+   have a vertical wheel and the scrollbar is hidden, so without this the
+   gallery can't be scrolled with a mouse. We advance one item per notch
+   (not by raw delta) so it works the same whether the wheel reports pixels
+   or lines, and releases to the page at either end. Snap is disabled on
+   pointer devices (see CSS) so these steps land and stick. */
+document.querySelectorAll('.gal-scroll').forEach(function(g){
+  g.addEventListener('wheel',function(e){
+    if(!e.deltaY)return;                                       /* no vertical intent (pure-horizontal / zero delta) */
+    if(Math.abs(e.deltaX)>Math.abs(e.deltaY))return;          /* trackpad already scrolling sideways — leave it */
+    var max=g.scrollWidth-g.clientWidth;
+    if(max<=0)return;                                          /* nothing to scroll */
+    var atStart=g.scrollLeft<=0, atEnd=g.scrollLeft>=max-1;
+    if((e.deltaY<0&&atStart)||(e.deltaY>0&&atEnd))return;      /* at an edge — let the page scroll on */
+    e.preventDefault();
+    var item=g.querySelector('.gal-item'); if(!item)return;
+    var cs=getComputedStyle(g), gap=parseFloat(cs.columnGap||cs.gap)||0;
+    var step=item.getBoundingClientRect().width+gap;
+    var idx=Math.round(g.scrollLeft/step)+(e.deltaY>0?1:-1);
+    var smooth=!matchMedia('(prefers-reduced-motion: reduce)').matches;  /* honour the site's reduced-motion contract */
+    g.scrollTo({left:Math.max(0,Math.min(max,idx*step)),behavior:smooth?'smooth':'auto'});
+  },{passive:false});
+});
 
 /* Body lock — sync class + overflow when ANY modal/lightbox is open */
 function _anyOpen(){
