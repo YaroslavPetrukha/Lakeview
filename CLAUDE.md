@@ -96,7 +96,7 @@ Single-page site with sections:
 - **Instagram:** @lakeviewlviv
 - **Price:** from $1650/m²
 - **Apartments:** 44–183 m² (1/2/3-room)
-- **4 sections**, up to 15 floors
+- **4 sections**, up to 16 floors
 - **Parking:** 2 underground levels, 138 spots
 - **Completion:** 2027
 - **Included in price:** plastered walls, armored doors, energy-efficient windows, meters, electrical wiring
