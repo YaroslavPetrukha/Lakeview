@@ -17,6 +17,10 @@
 assets/
 Рендера/
 Планування/
+червень/
+# Monthly photo source drops (Cyrillic-named originals at repo root, pre-processing)
+/*-source/
+/*_source/
 
 # Internal planning / docs (not for serving)
 # Use leading slash to anchor at deploy root only — without it, `plans/`
