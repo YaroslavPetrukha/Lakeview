@@ -129,6 +129,20 @@ h1 em{font-style:italic;color:var(--gold-l)}
   text-shadow:0 2px 14px rgba(0,0,0,.7)}
 .cap.on{opacity:1;transform:translateY(0)}
 
+/* expanded-card caption — kicker + title + affordance, on a 90px bottom scrim */
+.rcard{position:fixed;z-index:6;pointer-events:none;opacity:0;transform:translateY(9px);
+  transition:opacity .32s ease,transform .32s cubic-bezier(.16,1,.3,1);
+  min-width:210px;max-width:44vw;padding:34px 20px 14px;border-radius:10px;
+  background:linear-gradient(0deg,rgba(4,16,11,.6) 0%,rgba(4,16,11,0) 100%)}
+.rcard.on{opacity:1;transform:translateY(0)}
+.rcard .rk{font-family:var(--f2);font-size:11px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold-l);margin-bottom:7px}
+.rcard .rt{font-family:var(--f1);font-style:italic;font-weight:500;line-height:1.04;
+  font-size:clamp(28px,2.5vw,34px);color:var(--ink);text-shadow:0 3px 22px rgba(0,0,0,.7)}
+.rcard .ra{margin-top:13px;font-family:var(--f2);font-size:12.5px;letter-spacing:.08em;
+  color:var(--gold-l);opacity:0;transition:opacity .32s ease .18s}
+.rcard.on .ra{opacity:.92}
+
 /* loading shimmer */
 .load{position:absolute;inset:0;z-index:7;display:flex;align-items:center;justify-content:center;
   background:#04140E;transition:opacity .8s ease;pointer-events:none}
@@ -211,6 +225,7 @@ h1 em{font-style:italic;color:var(--gold-l)}
 
   <div class="hint" id="hint"><span class="rg"></span> Наведіть · клікніть на грань «Квартира»</div>
   <div class="cap" id="cap"></div>
+  <div class="rcard" id="rcard"><div class="rk"></div><div class="rt"></div><div class="ra"></div></div>
 </section>
 
 <script type="importmap">
@@ -250,22 +265,32 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 /* ---------- scene / camera ---------- */
 const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0x04140E, 9, 24);
+scene.fog = new THREE.Fog(0x04140E, 14, 42);
 
-const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-const CAM_D = 8.4;                 // (1,1,1) => true isometric, 30° lines
+/* TRUE 30° ISOMETRY: OrthographicCamera on the (1,1,1) axis -> the three
+   visible faces project to EXACT equilateral 30° rhombi (no perspective skew),
+   so the silhouette overlays the Вигода mark. */
+const camera = new THREE.OrthographicCamera(-1,1,1,-1,0.1,120);
+const CAM_D = 9;                   // ortho: distance only affects clip/fog, not size
+let   FRUST = MOBILE ? 3.7 : 4.6;  // half vertical world extent (framing)
 const camTarget = new THREE.Vector3(0,0,0);
 function placeCamera(){
   camera.position.set(CAM_D, CAM_D, CAM_D);
   camTarget.set(0,0,0);
+  camera.up.set(0,1,0);
   camera.lookAt(camTarget);
   camera.updateMatrixWorld();
   const right = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,0);
   const up    = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,1);
-  const panX = MOBILE ? 0.0 : -2.05;
-  const panY = MOBILE ? -2.78 : 0.15;
+  const panX = MOBILE ? 0.0 : -2.2;   // keep cube on the RIGHT of the hero
+  const panY = MOBILE ? -2.7 : 0.2;
   const pan = right.multiplyScalar(panX).add(up.multiplyScalar(panY));
   camera.position.add(pan); camTarget.add(pan); camera.lookAt(camTarget);
+}
+function updateFrustum(aspect){
+  camera.left = -FRUST*aspect; camera.right = FRUST*aspect;
+  camera.top  =  FRUST;        camera.bottom = -FRUST;
+  camera.updateProjectionMatrix();
 }
 
 /* ---------- background: off-centre emerald room, no purple, faint depth render + god-ray ---------- */
@@ -381,18 +406,25 @@ const faceVert = `
   }`;
 const faceFrag = `
   precision highp float;
-  uniform sampler2D uMap; uniform float uHasMap;
+  uniform sampler2D uMap;  uniform float uHasMap;
+  uniform sampler2D uMap2; uniform float uHasMap2;   // lighter "developed print" grade
   uniform vec3 uGlass; uniform vec3 uGold;
-  uniform float uPhoto; uniform float uReveal; uniform float uHover;
+  uniform float uPhoto; uniform float uReveal; uniform float uHover; uniform float uExpand;
   varying vec2 vUv; varying vec3 vN; varying vec3 vView;
   void main(){
-    vec3 photo = (uHasMap > 0.5) ? texture2D(uMap, vUv).rgb : uGlass;
-    photo *= uPhoto;
-    // photo is subordinate to the dark emerald glass; hover lifts it slightly
-    vec3 col = mix(uGlass, photo, mix(0.40, 0.58, uHover));
+    vec3 p1 = (uHasMap  > 0.5) ? texture2D(uMap,  vUv).rgb : uGlass;
+    vec3 p2 = (uHasMap2 > 0.5) ? texture2D(uMap2, vUv).rgb : p1;
+    // crossfade to the lighter grade as the card develops
+    vec3 photo = mix(p1, p2, uExpand);
+    photo *= mix(uPhoto, 1.0, uExpand);
+    // photo is subordinate to the dark emerald glass; hover lifts it, expand lifts it fully
+    float m = mix( mix(0.40, 0.58, uHover), 0.92, uExpand );
+    vec3 col = mix(uGlass, photo, m);
     // gold fresnel rim — edges catch light, centre stays dark
     float f = pow(1.0 - clamp(dot(normalize(vN), normalize(vView)), 0.0, 1.0), 2.7);
-    col += uGold * f * (0.40 + uHover * 0.15);
+    col += uGold * f * (0.40 + uHover * 0.15 + uExpand * 0.10);
+    // emerald multiply relaxes (0.28->0.12 feel): gentle overall lift when expanded
+    col = mix(col, col*1.14, uExpand * 0.5);
     float a = clamp(0.85 + f * 0.11, 0.0, 0.96) * uReveal;
     gl_FragColor = vec4(col, a);
   }`;
@@ -402,7 +434,7 @@ const S = 2.6;             // face edge
 const BT = 0.018;          // THIN gold bar (1.5-2.5px on screen) -> line-art
 const IMG = 0.88;          // glass panel inset -> negative space inside each face
 const RECESS = 0.11;       // depth of glass behind the frame
-const GAP = 0.983;         // per-face inset -> visible dark sliver at every shared edge (~1.7%)
+const GAP = 0.958;         // per-face inset -> ~4.2% perpendicular gap between rhombi (matches mark's double-line sliver)
 const mark = new THREE.Group(); scene.add(mark);
 const faces = {};
 
@@ -425,13 +457,18 @@ function makeFace(name, {clickable=false}={}){
   const g = new THREE.Group(); const side = S*IMG;
   const mat = new THREE.ShaderMaterial({
     vertexShader:faceVert, fragmentShader:faceFrag, transparent:true, depthWrite:false,
-    uniforms:{ uMap:{value:null}, uHasMap:{value:0}, uGlass:{value:U_GLASS}, uGold:{value:U_GOLD},
-               uPhoto:{value:0}, uReveal:{value:0}, uHover:{value:0} }
+    uniforms:{ uMap:{value:null}, uHasMap:{value:0}, uMap2:{value:null}, uHasMap2:{value:0},
+               uGlass:{value:U_GLASS}, uGold:{value:U_GOLD},
+               uPhoto:{value:0}, uReveal:{value:0}, uHover:{value:0}, uExpand:{value:0} }
   });
   const glass = new THREE.Mesh(new THREE.PlaneGeometry(side,side), mat);
   glass.position.z = -RECESS; glass.renderOrder = 0; g.add(glass);
   const fr = buildFrame(S); fr.group.renderOrder = 1; g.add(fr.group);
-  const hit = new THREE.Mesh(new THREE.PlaneGeometry(S,S), new THREE.MeshBasicMaterial({visible:false}));
+  // hit plane is deliberately SMALLER than the face (0.62): the closest face (floor) is a tilted
+  // plane whose full-size bounds otherwise overlap the neighbouring faces' on-screen centres and,
+  // being nearer to the camera, wins every raycast. Shrinking keeps each face's clickable zone
+  // inside its own rhombus. (It scales with the card on hover, so the expanded target stays large.)
+  const hit = new THREE.Mesh(new THREE.PlaneGeometry(side*0.62,side*0.62), new THREE.MeshBasicMaterial({visible:false, side:THREE.DoubleSide}));
   hit.position.z = 0.002; g.add(hit); hit.userData.face = name;
   faces[name] = { group:g, mat, mats:fr.mats, hit, clickable, hover:0, order:Object.keys(faces).length };
   return g;
@@ -443,9 +480,43 @@ function loadGraded(name, url, gradeOpts, addRing=false){
     const {canvas:gc, ctx} = gradeImage(im, gradeOpts);
     if (addRing) drawTourRing(ctx);
     const t = new THREE.CanvasTexture(gc); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4;
-    const f=faces[name]; f.mat.uniforms.uMap.value=t; f.mat.uniforms.uHasMap.value=1; render1();
+    const f=faces[name]; f.mat.uniforms.uMap.value=t; f.mat.uniforms.uHasMap.value=1;
+    // stash source + opts so we can generate the lighter "developed" grade lazily on first hover
+    f.srcImg=im; f.gradeOpts=gradeOpts; f.addRing=addRing;
+    render1();
   };
   im.src = url;
+}
+
+/* double-stroke gold frame + corner ticks, baked into the LIGHTER card texture
+   (honours "no new meshes" — the second stroke lives in the texture, not geometry) */
+function drawCardFrame(x){
+  const S=1024, m=58, t=52;
+  x.save();
+  x.lineJoin='miter';
+  x.strokeStyle='rgba(212,186,122,0.90)'; x.lineWidth=6;               // 1.5px hairline
+  x.strokeRect(m,m,S-2*m,S-2*m);
+  x.strokeStyle='rgba(212,186,122,0.45)'; x.lineWidth=3;               // 1px inner-offset second line
+  x.strokeRect(m+15,m+15,S-2*m-30,S-2*m-30);
+  x.strokeStyle='rgba(228,206,147,0.98)'; x.lineWidth=7;               // gold corner ticks
+  [[m,m,1,1],[S-m,m,-1,1],[m,S-m,1,-1],[S-m,S-m,-1,-1]].forEach(function(c){
+    const cx=c[0],cy=c[1],sx=c[2],sy=c[3];
+    x.beginPath(); x.moveTo(cx+sx*t,cy); x.lineTo(cx,cy); x.lineTo(cx,cy+sy*t); x.stroke();
+  });
+  x.restore();
+}
+
+// generate the lighter "develops like a print" grade once, on first hover of a face
+function ensureLight(f){
+  if (!f || f.lightTex || !f.srcImg) return;
+  const o=f.gradeOpts||{};
+  const lo={ gray:18, bright:0.95, contrast:1.04, sat:1.02,
+             tint:'rgba(15,61,44,0.12)', topDark:(o.topDark??0.5)*0.5, topH:o.topH, gold:0.20 };
+  const {canvas:gc, ctx}=gradeImage(f.srcImg, lo);
+  drawCardFrame(ctx);
+  if (f.addRing) drawTourRing(ctx);
+  const t=new THREE.CanvasTexture(gc); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4;
+  f.lightTex=t; f.mat.uniforms.uMap2.value=t; f.mat.uniforms.uHasMap2.value=1; render1();
 }
 
 const H = S/2;
@@ -463,6 +534,14 @@ loadGraded('apartment','assets/entrance-elevators.webp',{ gray:56, bright:0.62, 
 
 mark.position.set(H*0.62, H*0.42, H*0.62);
 if (MOBILE) mark.scale.setScalar(0.74);
+
+/* capture each face's resting (cube) transform — the hover-reveal animates FROM here */
+for (const f of Object.values(faces)){
+  f.baseQuat = f.group.quaternion.clone();
+  f.basePos  = f.group.position.clone();
+  f.baseNormalLocal = new THREE.Vector3(0,0,1).applyQuaternion(f.baseQuat);
+  f.expandT=0; f.gradeT=0; f.recedeT=0; f._pulse=0;
+}
 
 /* ---------- a whisper of gold dust (≤30, soft) ---------- */
 let dust=null;
@@ -497,7 +576,7 @@ composer.addPass(fxaa);
 /* ---------- sizing ---------- */
 function resize(){
   const w = hero.clientWidth, h = hero.clientHeight;
-  camera.aspect = w/h; placeCamera(); camera.updateProjectionMatrix();
+  placeCamera(); updateFrustum(w/h);
   renderer.setSize(w,h,false); composer.setSize(w,h);
   const pr = renderer.getPixelRatio();
   const bw = MOBILE ? w*0.5 : w, bh = MOBILE ? h*0.5 : h;   // half-res bloom on mobile
@@ -507,11 +586,21 @@ function resize(){
 }
 window.addEventListener('resize', resize);
 
-/* ---------- interaction: hover + click bound to WINDOW (no overlay can block it) ---------- */
+/* ---------- interaction: hover-reveal + click, bound to WINDOW (no overlay blocks it) ---------- */
 const ray = new THREE.Raycaster();
 const ptr = new THREE.Vector2();
-let hovered = null, target = {x:0,y:0}, cur={x:0,y:0};
-const CAPS = { floor:'Панорама ЖК', entrance:'Вхідна група', apartment:'Планування · 3D-тур' };
+let hovered = null;               // raw picked face this move
+let hoverSince = 0;               // for the 90ms intent gate
+let activeFace = null;            // the currently-expanded card (one at a time)
+let commitTime = 0;               // for the 220ms min-commit / anti-flicker
+let target = {x:0,y:0}, cur={x:0,y:0};
+const noop = function(){};
+const CARD = {
+  floor:     { k:'ОГЛЯД',        t:'Панорама ЖК',        a:'Дивитись галерею →' },
+  entrance:  { k:'ВХІДНА ГРУПА', t:'Вхідна група',        a:'Дивитись галерею →' },
+  apartment: { k:'3D-ТУР',       t:'Планування квартири', a:'3D-ТУР ▶' },
+};
+const rcard = document.getElementById('rcard');
 const hitList = ()=>Object.values(faces).map(f=>f.hit);
 
 function pointerToNDC(clientX, clientY){
@@ -519,55 +608,113 @@ function pointerToNDC(clientX, clientY){
   ptr.x = ((clientX-r.left)/r.width)*2-1;
   ptr.y = -((clientY-r.top)/r.height)*2+1;
 }
-function pick(){
+function pickName(){
   ray.setFromCamera(ptr, camera);
   const hit = ray.intersectObjects(hitList(), false)[0];
-  const name = hit ? hit.object.userData.face : null;
-  if (name !== hovered){
-    hovered = name;
-    canvas.style.cursor = (name && faces[name].clickable) ? 'pointer' : 'default';
-    if (name){ capEl.textContent = CAPS[name]||''; capEl.classList.add('on'); }
-    else { capEl.classList.remove('on'); }
-  }
+  return hit ? hit.object.userData.face : null;
+}
+function setActive(name){
+  if (name === activeFace) return;
+  activeFace = name; commitTime = performance.now();
+  if (name){ ensureLight(faces[name]); }
+  render1();
 }
 function onMove(e){
-  pointerToNDC(e.clientX, e.clientY); pick();
+  pointerToNDC(e.clientX, e.clientY);
+  const n = pickName();
+  if (n !== hovered){
+    hovered = n; hoverSince = performance.now();
+    canvas.style.cursor = (n && faces[n].clickable) ? 'pointer' : 'default';
+  }
   if (!MOBILE && !REDUCED){ target.x=(e.clientX/window.innerWidth-0.5); target.y=(e.clientY/window.innerHeight-0.5); }
-  if (hovered){ capEl.style.left=(e.clientX+18)+'px'; capEl.style.top=(e.clientY+20)+'px'; }
+  render1();
+}
+// desktop hover intent-gate, evaluated per frame (continuous 90ms hover before expand; 220ms min-commit)
+function updateHoverGate(now){
+  if (MOBILE) return;             // reduced-motion still uses the desktop hover path (in-place crossfade only)
+  if (hovered && faces[hovered].clickable){
+    if (now - hoverSince >= 90) setActive(hovered);
+  } else if (!hovered){
+    if (activeFace && now - commitTime >= 220) setActive(null);
+  }
 }
 const FACE_ACTION = {
   apartment: ()=> window.openApartmentTour && window.openApartmentTour(),
   entrance:  ()=> window.openGallery && window.openGallery('entrance'),
   floor:     ()=> window.openGallery && window.openGallery('zhk'),
 };
+function confirmPulse(name){ if (faces[name]) faces[name]._pulse = performance.now(); }
 function onClick(e){
-  pointerToNDC(e.clientX, e.clientY); pick();
-  if (hovered && faces[hovered].clickable){ (FACE_ACTION[hovered] || function(){})(); }
+  pointerToNDC(e.clientX, e.clientY);
+  const n = pickName();
+  if (MOBILE){
+    if (!n){ setActive(null); return; }             // tap empty -> collapse
+    if (n !== activeFace){ setActive(n); return; }   // 1st tap -> expand only (never opens)
+    if (faces[n].clickable){ confirmPulse(n); (FACE_ACTION[n]||noop)(); }  // 2nd tap same face -> open
+    return;
+  }
+  const openName = n || activeFace;                  // desktop: hover=preview, click=open
+  if (openName && faces[openName] && faces[openName].clickable){ confirmPulse(openName); (FACE_ACTION[openName]||noop)(); }
 }
 window.addEventListener('pointermove', onMove, {passive:true});
 window.addEventListener('click', onClick);
-window.addEventListener('pointerleave', ()=>{ target.x=0;target.y=0; });
+window.addEventListener('pointerleave', ()=>{ target.x=0; target.y=0; hovered=null; setActive(null); });
+
+/* ---------- reveal math scratch + tunables ---------- */
+const EXPAND_SCALE = MOBILE ? 2.15 : 2.1;   // card grows (capped: ≤46% VW, long diagonal ~64% hero height)
+const DETACH = 0.35;                          // lift off the cube along the face normal (arc height)
+const cardCenter = new THREE.Vector3(-H*0.18, H*0.02, -H*0.18); // settle near cube centroid, slight up nudge, kept right
+const _toCam=new THREE.Vector3(), _camDirLocal=new THREE.Vector3(), _markInv=new THREE.Quaternion();
+const _qAlign=new THREE.Quaternion(), _axis=new THREE.Vector3(), _qPartial=new THREE.Quaternion(), _tq=new THREE.Quaternion();
+const _tmpPos=new THREE.Vector3(), _proj=new THREE.Vector3();
+const easeExpand = k => 1-Math.pow(1-k,3);    // power3.out, no overshoot
+
+/* ---------- caption overlay pinned to the card's lower-left projected vertex ---------- */
+function updateCaption(){
+  if (!activeFace || faces[activeFace].expandT < 0.12){ rcard.classList.remove('on'); return; }
+  const f = faces[activeFace], d = CARD[activeFace];
+  if (rcard.dataset.face !== activeFace){
+    rcard.dataset.face = activeFace;
+    rcard.querySelector('.rk').textContent = d.k;
+    rcard.querySelector('.rt').textContent = d.t;
+    rcard.querySelector('.ra').textContent = MOBILE ? 'Відкрити →' : d.a;
+  }
+  f.group.updateWorldMatrix(true, false);
+  const r = canvas.getBoundingClientRect(), half = S*IMG*0.5;
+  let bx=0, by=-1e9;
+  const corners=[[-half,-half],[half,-half],[half,half],[-half,half]];
+  for (let i=0;i<4;i++){
+    _proj.set(corners[i][0],corners[i][1],0).applyMatrix4(f.group.matrixWorld).project(camera);
+    const sy = r.top + (-_proj.y*0.5+0.5)*r.height;
+    const sx = r.left + (_proj.x*0.5+0.5)*r.width;
+    if (sy > by){ by = sy; bx = sx; }             // bottom-most vertex
+  }
+  rcard.style.left = (bx - 12) + 'px';
+  rcard.style.top  = (by - 96) + 'px';
+  rcard.classList.add('on');
+}
 
 /* ---------- render + entrance choreography ---------- */
 const clock = new THREE.Clock();
 const easeOut = k => 1-Math.pow(1-k,3);
-let START = 0, needStatic = true;
+let START = 0, needStatic = true, isAnimating = false;
 function render1(){ needStatic = true; }
 
 function frame(){
   requestAnimationFrame(frame);
   const t = clock.getElapsedTime();
   const ms = performance.now() - START;
+  const now = performance.now();
 
   if (!REDUCED){
-    // idle: slow Y sway ±5° over ~16s + micro X/Z tilt ±1.5°
-    const swayY = Math.sin(t*(2*Math.PI/16))*0.087;
-    const swayX = Math.sin(t*(2*Math.PI/19)+1.1)*0.026;
-    const swayZ = Math.sin(t*(2*Math.PI/23)+0.4)*0.020;
+    // idle: gentle Y sway (kept small so the rhombi stay ~iso) + micro X/Z tilt
+    const swayY = Math.sin(t*(2*Math.PI/16))*0.050;
+    const swayX = Math.sin(t*(2*Math.PI/19)+1.1)*0.020;
+    const swayZ = Math.sin(t*(2*Math.PI/23)+0.4)*0.014;
     cur.x += (target.x - cur.x)*0.05;   // heavily damped parallax — follows late
     cur.y += (target.y - cur.y)*0.05;
-    mark.rotation.y = swayY + cur.x*0.38;
-    mark.rotation.x = swayX - cur.y*0.26;
+    mark.rotation.y = swayY + cur.x*0.22;
+    mark.rotation.x = swayX - cur.y*0.16;
     mark.rotation.z = swayZ;
     mark.position.y = (H*0.42) + Math.sin(t*0.42)*0.03;
     if (dust){
@@ -577,26 +724,76 @@ function frame(){
     }
   }
 
+  // dust dims while a card is open (0.42 -> ~0.2)
+  if (dust){ let anyExp=0; for(const f of Object.values(faces)) anyExp=Math.max(anyExp,f.expandT);
+    dust.material.opacity = 0.42 - 0.22*anyExp; }
+
+  // camera "toward viewer" direction, expressed in mark-local space (for the un-foreshorten rotation)
+  _toCam.copy(camera.position).sub(camTarget).normalize();
+  _markInv.copy(mark.quaternion).invert();
+  _camDirLocal.copy(_toCam).applyQuaternion(_markInv).normalize();
+
+  updateHoverGate(now);
+
   // edge emissive "breathes" ±8% over ~6s
   const breathe = 1 + 0.08*Math.sin(t*(2*Math.PI/6));
+  isAnimating = false;
 
   for (const f of Object.values(faces)){
-    // entrance: stagger 3 faces ~120ms; edges draw on (scale 0.96->1 + opacity); photo fades +200ms later
+    const name = f.hit.userData.face;
+    // entrance stagger (unchanged)
     const eR = REDUCED ? 1 : Math.min(Math.max((ms - f.order*120)/620, 0), 1);
     const pR = REDUCED ? 1 : Math.min(Math.max((ms - f.order*120 - 200)/720, 0), 1);
     const eE = easeOut(eR);
-    f.group.scale.setScalar(GAP*(0.96 + 0.04*eE));
-    f.mat.uniforms.uReveal.value = eE;
-    f.mat.uniforms.uPhoto.value = easeOut(pR);
-    // hover lift (smooth)
-    const want = (hovered===f.hit.userData.face) ? 1 : 0;
-    f.hover += (want - f.hover)*0.10;
-    f.mat.uniforms.uHover.value = f.hover;
-    const ei = 0.9*breathe + f.hover*0.85;
-    for (const m of f.mats){ m.emissiveIntensity = ei; m.opacity = eE; }
+
+    // expand / grade-lag / recede state (damped toward targets; asymmetric expand vs return)
+    const want    = (activeFace===name) ? 1 : 0;
+    const wantRec  = (activeFace && activeFace!==name) ? 1 : 0;
+    f.expandT += (want - f.expandT) * (want > f.expandT ? 0.16 : 0.11);
+    f.gradeT  += (want - f.gradeT ) * 0.11;                 // grade LAGS behind the shape
+    f.recedeT += (wantRec - f.recedeT) * 0.14;
+    if (f.expandT>0.003 || Math.abs(want-f.expandT)>0.003 || Math.abs(wantRec-f.recedeT)>0.003) isAnimating=true;
+
+    const e  = REDUCED ? 0 : easeExpand(f.expandT);          // reduced-motion: NO geometry travel
+    // subtle hover lift only while nothing is expanded
+    const wantHover = (hovered===name && !activeFace) ? 1 : 0;
+    f.hover += (wantHover - f.hover)*0.10;
+
+    // ---- orientation: rotate toward camera, stop 12° short of flat (keeps the leaned parallelogram)
+    _qAlign.setFromUnitVectors(f.baseNormalLocal, _camDirLocal);
+    let ang = 2*Math.acos(Math.max(-1,Math.min(1,_qAlign.w)));
+    if (ang>1e-4){ _axis.set(_qAlign.x,_qAlign.y,_qAlign.z).normalize(); } else { _axis.set(0,1,0); }
+    _qPartial.setFromAxisAngle(_axis, Math.max(0, ang - 0.2094));  // 0.2094 rad = 12°
+    _tq.copy(_qPartial).multiply(f.baseQuat);
+    f.group.quaternion.copy(f.baseQuat).slerp(_tq, e);
+
+    // ---- scale: entrance base -> expanded, minus recede shrink, plus click confirm pulse
+    const entranceS = GAP*(0.96 + 0.04*eE);
+    let sc = entranceS + (EXPAND_SCALE - entranceS)*e;
+    sc *= (1 - 0.04*f.recedeT);
+    if (f._pulse){ const dp = now - f._pulse; if (dp < 120){ sc *= 1 + 0.02*Math.sin(Math.PI*dp/120); isAnimating=true; } else f._pulse=0; }
+    f.group.scale.setScalar(sc);
+
+    // ---- position: arc off the cube toward the centroid; receders sink back along view
+    _tmpPos.copy(f.basePos).lerp(cardCenter, e);
+    _tmpPos.addScaledVector(f.baseNormalLocal, DETACH*Math.sin(e*Math.PI));
+    _tmpPos.addScaledVector(_camDirLocal, -0.4*f.recedeT);
+    f.group.position.copy(_tmpPos);
+
+    // ---- uniforms
+    f.mat.uniforms.uReveal.value = eE * (1 - 0.7*f.recedeT);   // receders drop to ~0.30 opacity
+    f.mat.uniforms.uPhoto.value  = easeOut(pR);
+    f.mat.uniforms.uHover.value  = f.hover;
+    f.mat.uniforms.uExpand.value = f.gradeT;                   // grade crossfade
+    // edges: brighten on expand (~x1.6), dim on recede (~0.35)
+    const ei = (0.9*breathe + f.hover*0.5) * (1 + 0.6*e) * (1 - 0.65*f.recedeT);
+    for (const m of f.mats){ m.emissiveIntensity = ei; m.opacity = eE * (1 - 0.5*f.recedeT); }
   }
 
-  if (!REDUCED || needStatic){ composer.render(); needStatic=false; }
+  mark.updateMatrixWorld(true);
+  updateCaption();
+
+  if (!REDUCED || needStatic || isAnimating){ composer.render(); needStatic=false; }
 }
 
 /* ---------- boot ---------- */
@@ -614,6 +811,7 @@ setTimeout(()=>{ const l=document.getElementById('load'); if(l) l.style.display=
 
 // expose for QA / verification
 window.__mark = mark; window.__faces = faces; window.__camera = camera; window.__canvas = canvas;
+window.__setActive = setActive;
 </script>
 
 <!-- ===== Image gallery lightbox (entrance group / ЖК renders) ===== -->
