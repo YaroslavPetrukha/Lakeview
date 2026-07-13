@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lakeview — Концепт hero «Куб Вигоди»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --em:#0F4C3A; --em-deep:#061e16; --em-deep2:#04140e;
+  --gold:#C5A55A; --gold-aa:#85661F; --gold-l:#D4BA7A;
+  --f1:'Cormorant Garamond',Georgia,serif;
+  --f2:'Outfit',system-ui,sans-serif;
+  --cube: clamp(220px, 27vw, 360px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:var(--f2); color:#fff; background:var(--em-deep2);
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+
+/* ===== HERO SHELL ===== */
+.hero{
+  position:relative; min-height:100vh; min-height:100svh; overflow:hidden;
+  display:flex; flex-direction:column;
+  background:
+    radial-gradient(120% 90% at 78% 18%, rgba(21,86,64,.55) 0%, rgba(6,30,22,0) 55%),
+    radial-gradient(90% 80% at 12% 90%, rgba(15,76,58,.45) 0%, rgba(6,30,22,0) 60%),
+    linear-gradient(160deg, #0b3327 0%, var(--em-deep) 55%, var(--em-deep2) 100%);
+}
+/* faint giant brand watermark */
+.hero::before{
+  content:""; position:absolute; right:-6%; top:50%; transform:translateY(-50%);
+  width:60vw; height:60vw; opacity:.05; pointer-events:none;
+  background:url("assets/vygoda-mark.svg") center/contain no-repeat;
+  filter:grayscale(1) brightness(2);
+}
+/* grain */
+.hero::after{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.35; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+/* ===== TOP BAR ===== */
+.bar{
+  position:relative; z-index:5; display:flex; align-items:center; justify-content:space-between;
+  gap:24px; padding:22px clamp(20px,4vw,56px);
+}
+.brand{display:flex;align-items:center;gap:12px;letter-spacing:.28em;font-weight:500;font-size:15px}
+.brand .lv{font-family:var(--f1);letter-spacing:.32em;font-size:22px}
+.nav{display:flex;gap:28px;font-size:14px;color:rgba(255,255,255,.72)}
+.nav a{transition:color .25s}.nav a:hover{color:var(--gold-l)}
+.bar-right{display:flex;align-items:center;gap:20px}
+.phone{font-size:14.5px;letter-spacing:.02em;white-space:nowrap}
+.btn-ghost{
+  border:1px solid rgba(212,186,122,.5); color:var(--gold-l);
+  padding:11px 20px; border-radius:100px; font-size:13.5px; font-weight:500;
+  transition:.25s; white-space:nowrap;
+}
+.btn-ghost:hover{background:rgba(212,186,122,.12);border-color:var(--gold-l)}
+@media(max-width:1080px){.nav{display:none}}
+@media(max-width:640px){.phone{display:none}}
+
+/* ===== HERO GRID ===== */
+.hero-grid{
+  position:relative; z-index:4; flex:1;
+  display:grid; grid-template-columns:1.05fr 1fr; align-items:center; gap:24px;
+  max-width:1440px; width:100%; margin:0 auto; padding:0 clamp(20px,4vw,56px);
+}
+
+/* ---- Left copy ---- */
+.copy{max-width:560px;padding:24px 0}
+.tags{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:26px}
+.tag{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border-radius:100px;
+  font-size:12.5px;font-weight:500;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.16);
+  backdrop-filter:blur(8px);
+}
+.tag.gold{background:rgba(197,165,90,.16);border-color:rgba(197,165,90,.42);color:var(--gold-l)}
+.tag .dot{width:7px;height:7px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.55)}70%{box-shadow:0 0 0 8px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+
+h1{
+  font-family:var(--f1); font-weight:500; line-height:1.04; letter-spacing:-.01em;
+  font-size:clamp(40px,5.6vw,78px); margin-bottom:22px; text-shadow:0 4px 40px rgba(0,0,0,.35);
+}
+h1 em{font-style:italic;color:var(--gold-l)}
+.lead{font-size:clamp(15px,1.3vw,17.5px);line-height:1.7;color:rgba(255,255,255,.82);max-width:480px;margin-bottom:34px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:44px}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:100px;
+  font-size:14.5px;font-weight:600;transition:transform .25s,box-shadow .25s,background .25s;
+}
+.btn svg{width:18px;height:18px}
+.btn-gold{background:linear-gradient(135deg,var(--gold-l),var(--gold));color:#241c04;box-shadow:0 10px 30px -8px rgba(197,165,90,.5)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 16px 40px -8px rgba(197,165,90,.6)}
+.btn-line{border:1px solid rgba(255,255,255,.28);color:#fff}
+.btn-line:hover{background:rgba(255,255,255,.08);transform:translateY(-2px)}
+
+/* metrics ribbon */
+.nums{display:grid;grid-template-columns:repeat(5,auto);gap:clamp(18px,2.4vw,40px);padding-top:26px;border-top:1px solid rgba(255,255,255,.12)}
+.nums .v{font-family:var(--f1);font-size:clamp(26px,2.6vw,34px);color:var(--gold-l);line-height:1}
+.nums .l{font-size:12px;color:rgba(255,255,255,.6);margin-top:6px}
+
+/* ===== CUBE STAGE ===== */
+.stage{
+  position:relative; height:min(72vh,640px); display:flex; align-items:center; justify-content:center;
+  perspective:1500px; perspective-origin:50% 42%;
+}
+.parallax{transform-style:preserve-3d;will-change:transform}
+.float{transform-style:preserve-3d}
+.cube{
+  position:relative; width:var(--cube); height:var(--cube);
+  transform-style:preserve-3d;
+  transform:rotateX(-30deg) rotateY(-45deg);
+  /* NOTE: never put filter/opacity/overflow on this element — it flattens preserve-3d */
+}
+/* cast shadow — 2D element OUTSIDE the 3D context so it can't flatten the cube */
+.cube-cast{
+  position:absolute; left:50%; top:52%; width:58%; height:66%; transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse at 50% 60%, rgba(0,0,0,.55), rgba(0,0,0,0) 66%);
+  filter:blur(22px); pointer-events:none; z-index:0;
+}
+.parallax{position:relative; z-index:1}
+/* reflection puddle */
+.stage::after{
+  content:""; position:absolute; bottom:9%; left:50%; width:52%; height:60px; transform:translateX(-50%);
+  background:radial-gradient(ellipse at center, rgba(212,186,122,.2), rgba(212,186,122,0) 70%);
+  filter:blur(6px); pointer-events:none; z-index:0;
+}
+.face{
+  position:absolute; inset:0; width:var(--cube); height:var(--cube);
+  overflow:hidden; backface-visibility:hidden;
+  border:1px solid rgba(212,186,122,.6);
+  box-shadow:inset 0 0 0 1px rgba(212,186,122,.28), inset 0 0 60px rgba(0,0,0,.4);
+  background:#0c2c22;
+}
+.face img{width:100%;height:100%;object-fit:cover;display:block}
+/* darken so gold edges + labels read; top face a touch brighter */
+.face .veil{position:absolute;inset:0;background:linear-gradient(160deg,rgba(6,30,22,.15),rgba(6,30,22,.62));transition:opacity .4s}
+.cube:not(.reduced) .face{transition:box-shadow .4s}
+
+/* face transforms — half of --cube = translateZ */
+.f-front {transform:translateZ(calc(var(--cube)/2))}
+.f-right {transform:rotateY(90deg)  translateZ(calc(var(--cube)/2))}
+.f-top   {transform:rotateX(90deg)  translateZ(calc(var(--cube)/2))}
+.f-left  {transform:rotateY(-90deg) translateZ(calc(var(--cube)/2)); background:linear-gradient(135deg,#0f3a2c,#0a251c)}
+.f-back  {transform:rotateY(180deg) translateZ(calc(var(--cube)/2)); background:linear-gradient(135deg,#0f3a2c,#0a251c)}
+.f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--cube)/2)); background:#08201a}
+
+/* hidden faces: keep gold mark hint */
+.f-left::after,.f-back::after{
+  content:""; position:absolute; inset:0; opacity:.14;
+  background:url("assets/vygoda-mark.svg") center/48% no-repeat;
+}
+
+/* interactive portal faces */
+.portal{cursor:pointer}
+.portal:hover .veil{opacity:.35}
+.portal:hover{box-shadow:inset 0 0 0 1px var(--gold-l), 0 0 30px rgba(212,186,122,.35), inset 0 0 60px rgba(0,0,0,.3)}
+.f-right .plan-wrap{position:absolute;inset:0;background:#f4f1ea;display:flex;align-items:center;justify-content:center}
+.f-right .plan-wrap img{object-fit:contain;padding:6%}
+
+/* corner label chips (echo client's sketch annotations) */
+.anno{position:absolute;z-index:6;pointer-events:none;opacity:0}
+.anno .chip{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:100px;
+  background:rgba(6,30,22,.72);border:1px solid rgba(212,186,122,.5);backdrop-filter:blur(8px);
+  font-size:12.5px;font-weight:500;color:var(--gold-l);white-space:nowrap;
+}
+.anno .chip b{color:#fff;font-weight:600}
+.anno::before{content:"";position:absolute;background:linear-gradient(90deg,rgba(212,186,122,.7),rgba(212,186,122,0));height:1px}
+.anno.a-zhk   {top:8%;  right:2%}
+.anno.a-zhk::before   {width:64px;left:-58px;top:50%;transform:rotate(18deg)}
+.anno.a-entr  {top:44%; left:-2%; text-align:right}
+.anno.a-entr::before  {width:60px;right:-54px;top:50%;transform:rotate(-14deg);background:linear-gradient(270deg,rgba(212,186,122,.7),rgba(212,186,122,0))}
+.anno.a-plan  {bottom:12%; right:4%}
+.anno.a-plan::before  {width:60px;left:-54px;top:50%;transform:rotate(-16deg)}
+.anno .badge{background:var(--gold);color:#241c04;font-weight:700;font-size:11px;padding:2px 8px;border-radius:100px;margin-left:2px}
+
+/* scroll cue */
+.cue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.5);font-size:11px;letter-spacing:.18em}
+.cue .m{width:22px;height:36px;border:1px solid rgba(255,255,255,.4);border-radius:12px;position:relative}
+.cue .m::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;border-radius:2px;background:var(--gold-l);transform:translateX(-50%);animation:scr 1.8s infinite}
+@keyframes scr{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,12px)}}
+
+/* ===== LIGHTBOX ===== */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(4,15,11,.9);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:5vh 5vw}
+.lb.open{display:flex}
+.lb img{max-width:100%;max-height:90vh;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6);background:#fff}
+.lb-x{position:absolute;top:24px;right:28px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.4);color:#fff;font-size:22px;cursor:pointer;display:grid;place-items:center}
+.lb-cap{position:absolute;bottom:26px;left:0;right:0;text-align:center;color:rgba(255,255,255,.8);font-size:14px}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr;gap:0;padding-top:8px}
+  .copy{max-width:none;order:2;text-align:center;margin:0 auto}
+  .tags,.ctas,.nums{justify-content:center}
+  .lead{margin-left:auto;margin-right:auto}
+  .stage{order:1;height:min(40vh,360px);margin-bottom:-8px}
+  :root{--cube:clamp(180px,44vw,260px)}
+  .nums{grid-template-columns:repeat(3,auto);gap:20px 26px}
+  .nums>div:nth-child(4),.nums>div:nth-child(5){display:none}
+  .anno{display:none}
+  .hero::before{opacity:.04}
+}
+@media(max-width:560px){
+  .hero-grid{padding-bottom:70px}
+  h1{font-size:clamp(34px,10vw,46px)}
+  .nums{grid-template-columns:repeat(3,auto);gap:16px}
+  .cue{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  .parallax,.float{transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <!-- top bar -->
+  <header class="bar">
+    <a class="brand" href="#"><span class="lv">LAKEVIEW</span></a>
+    <nav class="nav">
+      <a href="#">Квартири</a><a href="#">Вхідні групи</a><a href="#">Локація</a>
+      <a href="#">Забудовник</a><a href="#">Комерція</a><a href="#">FAQ</a>
+    </nav>
+    <div class="bar-right">
+      <a class="phone" href="tel:+380969900390">+38 096 990 03 90</a>
+      <a class="btn-ghost" href="#">Замовити дзвінок</a>
+    </div>
+  </header>
+
+  <div class="hero-grid">
+    <!-- LEFT: copy (static → LCP-safe) -->
+    <div class="copy">
+      <div class="tags" data-in>
+        <span class="tag"><span class="dot"></span> Будівництво активне</span>
+        <span class="tag gold">вул. В. Великого, 2а — Львів</span>
+        <span class="tag gold">від $1650/м²</span>
+      </div>
+      <h1 data-in>Сімейний ЖК<br>бізнес-класу<br>біля <em>озера</em></h1>
+      <p class="lead" data-in>Від 44 м² з видом на озеро. Розстрочка від забудовника. Броньовані двері, вікна та штукатурка вже включені в ціну.</p>
+      <div class="ctas" data-in>
+        <a class="btn btn-gold" href="#">Отримати каталог планувань
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a class="btn btn-line" href="#">Комерційні приміщення
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+      </div>
+      <div class="nums" data-in>
+        <div><div class="v">4</div><div class="l">секції</div></div>
+        <div><div class="v">44–183</div><div class="l">м² площі</div></div>
+        <div><div class="v">$1650</div><div class="l">від / м²</div></div>
+        <div><div class="v">2 рівні</div><div class="l">паркінг</div></div>
+        <div><div class="v">2027</div><div class="l">здача</div></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: 3D Vygoda cube -->
+    <div class="stage" id="stage">
+      <div class="cube-cast"></div>
+      <div class="parallax" id="parallax">
+        <div class="float" id="float">
+          <div class="cube" id="cube">
+            <!-- TOP → рендер ЖК -->
+            <div class="face f-top portal" data-portal="zhk">
+              <img src="assets/zhk-facade.webp" alt="Рендер ЖК Lakeview — фасади">
+              <div class="veil"></div>
+            </div>
+            <!-- FRONT → вхідна група -->
+            <div class="face f-front portal" data-portal="entr">
+              <img src="assets/entrance-lobby.webp" alt="Рендер вхідної групи Lakeview">
+              <div class="veil"></div>
+            </div>
+            <!-- RIGHT → планування акційної квартири -->
+            <div class="face f-right portal" data-portal="plan">
+              <div class="plan-wrap"><img src="assets/plan-kv-b21.webp" alt="Планування квартири Кв В-2.1, 63,6 м²"></div>
+            </div>
+            <!-- hidden faces (brand hint) -->
+            <div class="face f-left"></div>
+            <div class="face f-back"></div>
+            <div class="face f-bottom"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- annotation chips (echo client's sketch) -->
+      <div class="anno a-zhk"  data-anno><span class="chip"><b>Рендер</b> ЖК</span></div>
+      <div class="anno a-entr" data-anno><span class="chip"><b>Рендер</b> вхідної групи</span></div>
+      <div class="anno a-plan" data-anno><span class="chip"><b>Планування</b> квартири<span class="badge">АКЦІЯ</span></span></div>
+    </div>
+  </div>
+
+  <div class="cue"><span>ГОРТАЙТЕ</span><span class="m"></span></div>
+</section>
+
+<!-- Lightbox for the promo plan -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Планування квартири Кв В-2.1">
+  <button class="lb-x" id="lbx" aria-label="Закрити">×</button>
+  <img src="assets/plan-kv-b21.webp" alt="Планування квартири Кв В-2.1, Секція 4, 63,6 м²">
+  <div class="lb-cap">Кв В-2.1 · Секція 4 · 63,6 м² · тераса · <b style="color:var(--gold-l)">акційна пропозиція</b></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const hasGSAP = typeof gsap !== 'undefined';
+  const cube = document.getElementById('cube');
+  const parallax = document.getElementById('parallax');
+  const floatEl = document.getElementById('float');
+
+  /* ---- Intro: brand "assembles" into 3D + copy reveal ---- */
+  if (hasGSAP && !reduced){
+    gsap.set('[data-in]',{opacity:0,y:22});
+    gsap.set('[data-anno]',{opacity:0});
+    gsap.set(cube,{opacity:0});
+    gsap.set('.face',{opacity:0});
+
+    const tl = gsap.timeline({delay:.15});
+    // copy first (perceived speed)
+    tl.to('[data-in]',{opacity:1,y:0,duration:.7,stagger:.12,ease:'power3.out'},0);
+    // cube spins in from a flat mark pose
+    tl.fromTo(cube,{opacity:0,rotationY:-165,scale:.6},
+                   {opacity:1,rotationY:-45,scale:1,duration:1.3,ease:'power3.out'},.25);
+    tl.to('.face',{opacity:1,duration:.5,stagger:.08,ease:'power2.out'},.5);
+    tl.to('[data-anno]',{opacity:1,duration:.6,stagger:.14,ease:'power2.out'},1.0);
+
+    // idle breathing float
+    gsap.to(floatEl,{rotationY:'+=8',duration:6,ease:'sine.inOut',yoyo:true,repeat:-1,transformOrigin:'50% 50%'});
+    gsap.to(floatEl,{y:-14,duration:3.4,ease:'sine.inOut',yoyo:true,repeat:-1});
+  } else {
+    cube && cube.classList.add('reduced');
+    document.querySelectorAll('[data-in],[data-anno]').forEach(e=>e.style.opacity=1);
+  }
+
+  /* ---- Cursor parallax (desktop) ---- */
+  const stage = document.getElementById('stage');
+  if (stage && !reduced && matchMedia('(pointer:fine)').matches){
+    let tx=0,ty=0,cx=0,cy=0;
+    stage.addEventListener('mousemove',e=>{
+      const r=stage.getBoundingClientRect();
+      tx=((e.clientX-r.left)/r.width-.5); ty=((e.clientY-r.top)/r.height-.5);
+    });
+    stage.addEventListener('mouseleave',()=>{tx=0;ty=0});
+    (function loop(){
+      cx+=(tx-cx)*.06; cy+=(ty-cy)*.06;
+      if(parallax) parallax.style.transform=`rotateY(${cx*16}deg) rotateX(${-cy*14}deg)`;
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  /* ---- Gyro parallax (mobile, non-intrusive) ---- */
+  if (parallax && !reduced && window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission!=='function'){
+    window.addEventListener('deviceorientation',e=>{
+      const gy=Math.max(-1,Math.min(1,(e.gamma||0)/30));
+      const bx=Math.max(-1,Math.min(1,((e.beta||0)-45)/30));
+      parallax.style.transform=`rotateY(${gy*12}deg) rotateX(${-bx*10}deg)`;
+    });
+  }
+
+  /* ---- Portal interactions ---- */
+  const lb=document.getElementById('lb');
+  const openLb=()=>{lb.classList.add('open')};
+  const closeLb=()=>{lb.classList.remove('open')};
+  document.querySelectorAll('[data-portal]').forEach(p=>{
+    p.addEventListener('click',()=>{
+      const k=p.dataset.portal;
+      if(k==='plan') openLb();
+      else console.log('[concept] portal click →',k,'(scroll to section in prod)');
+    });
+  });
+  document.getElementById('lbx').addEventListener('click',closeLb);
+  lb.addEventListener('click',e=>{if(e.target===lb)closeLb()});
+  addEventListener('keydown',e=>{if(e.key==='Escape')closeLb()});
+})();
+</script>
+</body>
+</html>
