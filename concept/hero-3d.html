@@ -396,24 +396,32 @@ function drawTourRing(x){
 const U_GLASS = new THREE.Color(0x0A2A1F);
 const U_GOLD  = new THREE.Color(0xC5A55A);
 const faceVert = `
-  varying vec2 vUv; varying vec3 vN; varying vec3 vView;
+  varying vec2 vUv; varying vec3 vN; varying vec3 vView; varying vec4 vClip;
   void main(){
     vUv = uv;
     vec4 wp = modelMatrix * vec4(position,1.0);
     vN = normalize(mat3(modelMatrix) * normal);
     vView = cameraPosition - wp.xyz;
-    gl_Position = projectionMatrix * viewMatrix * wp;
+    vClip = projectionMatrix * viewMatrix * wp;
+    gl_Position = vClip;
   }`;
 const faceFrag = `
   precision highp float;
   uniform sampler2D uMap;  uniform float uHasMap;
   uniform sampler2D uMap2; uniform float uHasMap2;   // lighter "developed print" grade
   uniform vec3 uGlass; uniform vec3 uGold;
-  uniform float uPhoto; uniform float uReveal; uniform float uHover; uniform float uExpand;
-  varying vec2 vUv; varying vec3 vN; varying vec3 vView;
+  uniform float uPhoto; uniform float uReveal; uniform float uHover; uniform float uExpand; uniform float uOpaque;
+  uniform vec2 uSCenter; uniform float uSHalf; uniform float uAspect;   // screen-space upright-photo mapping
+  varying vec2 vUv; varying vec3 vN; varying vec3 vView; varying vec4 vClip;
   void main(){
-    vec3 p1 = (uHasMap  > 0.5) ? texture2D(uMap,  vUv).rgb : uGlass;
-    vec3 p2 = (uHasMap2 > 0.5) ? texture2D(uMap2, vUv).rgb : p1;
+    // UPRIGHT, axis-aligned, cover-fill photo sampled in SCREEN space; the rhombus geometry is the crop/frame,
+    // so the horizon stays horizontal regardless of the face's iso shear (like the floor aerial reads upright).
+    vec2 ndc = vClip.xy / vClip.w;
+    vec2 s   = vec2(ndc.x * uAspect, ndc.y);
+    vec2 uv  = (s - uSCenter) / (2.0 * uSHalf) + 0.5;
+    uv = clamp(uv, 0.0, 1.0);
+    vec3 p1 = (uHasMap  > 0.5) ? texture2D(uMap,  uv).rgb : uGlass;
+    vec3 p2 = (uHasMap2 > 0.5) ? texture2D(uMap2, uv).rgb : p1;
     // crossfade to the lighter grade as the card develops
     vec3 photo = mix(p1, p2, uExpand);
     photo *= mix(uPhoto, 1.0, uExpand);
@@ -426,6 +434,7 @@ const faceFrag = `
     // emerald multiply relaxes (0.28->0.12 feel): gentle overall lift when expanded
     col = mix(col, col*1.14, uExpand * 0.5);
     float a = clamp(0.85 + f * 0.11, 0.0, 0.96) * uReveal;
+    a = mix(a, 1.0, uOpaque);           // active card renders fully opaque -> no bleed-through
     gl_FragColor = vec4(col, a);
   }`;
 
@@ -439,18 +448,18 @@ const mark = new THREE.Group(); scene.add(mark);
 const faces = {};
 
 function buildFrame(side){
-  const g = new THREE.Group(); const h = side/2; const mats=[];
+  const g = new THREE.Group(); const h = side/2; const mats=[]; const meshes=[];
   // brighter edges toward the upper-right key (top + right), dimmer/cooler away (bottom + left)
   const bar=(w,ht,px,py,bright)=>{
     const m=edgeMat(bright); mats.push(m);
     const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,ht,BT), m);
-    mesh.position.set(px,py,0); g.add(mesh);
+    mesh.position.set(px,py,0); g.add(mesh); meshes.push(mesh);
   };
   bar(side+BT, BT,  0,  h, true);    // top   (lit)
   bar(side+BT, BT,  0, -h, false);   // bottom(shadow)
   bar(BT, side+BT, -h,  0, false);   // left  (shadow)
   bar(BT, side+BT,  h,  0, true);    // right (lit)
-  return { group:g, mats };
+  return { group:g, mats, meshes };
 }
 
 function makeFace(name, {clickable=false}={}){
@@ -459,7 +468,8 @@ function makeFace(name, {clickable=false}={}){
     vertexShader:faceVert, fragmentShader:faceFrag, transparent:true, depthWrite:false,
     uniforms:{ uMap:{value:null}, uHasMap:{value:0}, uMap2:{value:null}, uHasMap2:{value:0},
                uGlass:{value:U_GLASS}, uGold:{value:U_GOLD},
-               uPhoto:{value:0}, uReveal:{value:0}, uHover:{value:0}, uExpand:{value:0} }
+               uPhoto:{value:0}, uReveal:{value:0}, uHover:{value:0}, uExpand:{value:0}, uOpaque:{value:0},
+               uSCenter:{value:new THREE.Vector2(0,0)}, uSHalf:{value:1}, uAspect:{value:1} }
   });
   const glass = new THREE.Mesh(new THREE.PlaneGeometry(side,side), mat);
   glass.position.z = -RECESS; glass.renderOrder = 0; g.add(glass);
@@ -470,7 +480,8 @@ function makeFace(name, {clickable=false}={}){
   // inside its own rhombus. (It scales with the card on hover, so the expanded target stays large.)
   const hit = new THREE.Mesh(new THREE.PlaneGeometry(side*0.62,side*0.62), new THREE.MeshBasicMaterial({visible:false, side:THREE.DoubleSide}));
   hit.position.z = 0.002; g.add(hit); hit.userData.face = name;
-  faces[name] = { group:g, mat, mats:fr.mats, hit, clickable, hover:0, order:Object.keys(faces).length };
+  faces[name] = { group:g, mat, mats:fr.mats, glass, frameGroup:fr.group, frameMeshes:fr.meshes,
+                  hit, clickable, hover:0, order:Object.keys(faces).length };
   return g;
 }
 
@@ -513,7 +524,8 @@ function ensureLight(f){
   const lo={ gray:18, bright:0.95, contrast:1.04, sat:1.02,
              tint:'rgba(15,61,44,0.12)', topDark:(o.topDark??0.5)*0.5, topH:o.topH, gold:0.20 };
   const {canvas:gc, ctx}=gradeImage(f.srcImg, lo);
-  drawCardFrame(ctx);
+  // NOTE: no baked border here — with screen-space upright UVs a baked frame would misalign with the
+  // rhombus; the 3D gold bars provide the rhombus outline. The tour ring stays centred/upright.
   if (f.addRing) drawTourRing(ctx);
   const t=new THREE.CanvasTexture(gc); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4;
   f.lightTex=t; f.mat.uniforms.uMap2.value=t; f.mat.uniforms.uHasMap2.value=1; render1();
@@ -574,8 +586,10 @@ const fxaa = new ShaderPass(FXAAShader);
 composer.addPass(fxaa);
 
 /* ---------- sizing ---------- */
+let ASPECT = 1;   // viewport aspect, used to keep the screen-space photo undistorted & upright
 function resize(){
   const w = hero.clientWidth, h = hero.clientHeight;
+  ASPECT = w/h;
   placeCamera(); updateFrustum(w/h);
   renderer.setSize(w,h,false); composer.setSize(w,h);
   const pr = renderer.getPixelRatio();
@@ -669,6 +683,23 @@ const _qAlign=new THREE.Quaternion(), _axis=new THREE.Vector3(), _qPartial=new T
 const _tmpPos=new THREE.Vector3(), _proj=new THREE.Vector3();
 const easeExpand = k => 1-Math.pow(1-k,3);    // power3.out, no overshoot
 
+/* ---------- screen-space UV: project the face's rhombus, feed centre+extent so the photo stays upright ---------- */
+function updateFaceUV(f){
+  const g = f.group; g.updateWorldMatrix(true, false);
+  const side = S*IMG*0.5;
+  const cs = [[-side,-side],[side,-side],[side,side],[-side,side]];
+  let minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;
+  for (let i=0;i<4;i++){
+    _proj.set(cs[i][0],cs[i][1],0).applyMatrix4(g.matrixWorld).project(camera);
+    const sx=_proj.x*ASPECT, sy=_proj.y;
+    if(sx<minx)minx=sx; if(sx>maxx)maxx=sx; if(sy<miny)miny=sy; if(sy>maxy)maxy=sy;
+  }
+  const h = Math.max(maxx-minx, maxy-miny)*0.5;   // square cover-fill region (max extent) -> undistorted
+  f.mat.uniforms.uSCenter.value.set((minx+maxx)*0.5, (miny+maxy)*0.5);
+  f.mat.uniforms.uSHalf.value  = Math.max(h, 1e-3);
+  f.mat.uniforms.uAspect.value = ASPECT;
+}
+
 /* ---------- caption overlay pinned to the card's lower-left projected vertex ---------- */
 function updateCaption(){
   if (!activeFace || faces[activeFace].expandT < 0.12){ rcard.classList.remove('on'); return; }
@@ -759,35 +790,48 @@ function frame(){
     const wantHover = (hovered===name && !activeFace) ? 1 : 0;
     f.hover += (wantHover - f.hover)*0.10;
 
-    // ---- orientation: rotate toward camera, stop 12° short of flat (keeps the leaned parallelogram)
-    _qAlign.setFromUnitVectors(f.baseNormalLocal, _camDirLocal);
-    let ang = 2*Math.acos(Math.max(-1,Math.min(1,_qAlign.w)));
-    if (ang>1e-4){ _axis.set(_qAlign.x,_qAlign.y,_qAlign.z).normalize(); } else { _axis.set(0,1,0); }
-    _qPartial.setFromAxisAngle(_axis, Math.max(0, ang - 0.2094));  // 0.2094 rad = 12°
-    _tq.copy(_qPartial).multiply(f.baseQuat);
-    f.group.quaternion.copy(f.baseQuat).slerp(_tq, e);
+    // ---- orientation: KEEP the face's own iso-plane orientation. The card grows as the SAME rhombus
+    //      (the 30° mark diamond), never rotating toward camera into a tilted square.
+    f.group.quaternion.copy(f.baseQuat);
 
-    // ---- scale: entrance base -> expanded, minus recede shrink, plus click confirm pulse
+    // ---- scale IN-PLANE: entrance base -> expanded, minus recede shrink, plus click confirm pulse
     const entranceS = GAP*(0.96 + 0.04*eE);
     let sc = entranceS + (EXPAND_SCALE - entranceS)*e;
     sc *= (1 - 0.04*f.recedeT);
     if (f._pulse){ const dp = now - f._pulse; if (dp < 120){ sc *= 1 + 0.02*Math.sin(Math.PI*dp/120); isAnimating=true; } else f._pulse=0; }
     f.group.scale.setScalar(sc);
 
-    // ---- position: arc off the cube toward the centroid; receders sink back along view
+    // ---- position: lift off the cube toward the centroid; receders sink decisively BEHIND the front card
     _tmpPos.copy(f.basePos).lerp(cardCenter, e);
     _tmpPos.addScaledVector(f.baseNormalLocal, DETACH*Math.sin(e*Math.PI));
-    _tmpPos.addScaledVector(_camDirLocal, -0.4*f.recedeT);
+    _tmpPos.addScaledVector(_camDirLocal, -0.9*f.recedeT);
     f.group.position.copy(_tmpPos);
 
+    // ---- UPRIGHT photo: recompute the face's screen-space bbox so the image stays axis-aligned/horizon-level
+    updateFaceUV(f);
+
+    const isActive = (activeFace===name);
+    const solid = isActive && f.expandT > 0.5;   // developed card -> render in the OPAQUE pass, occluding the rest
     // ---- uniforms
-    f.mat.uniforms.uReveal.value = eE * (1 - 0.7*f.recedeT);   // receders drop to ~0.30 opacity
+    f.mat.uniforms.uReveal.value = eE * (1 - 0.92*f.recedeT);  // receders fade to near-nil (no bleed in the front card's frame gap)
     f.mat.uniforms.uPhoto.value  = easeOut(pR);
     f.mat.uniforms.uHover.value  = f.hover;
     f.mat.uniforms.uExpand.value = f.gradeT;                   // grade crossfade
-    // edges: brighten on expand (~x1.6), dim on recede (~0.35)
+    f.mat.uniforms.uOpaque.value = isActive ? f.expandT : 0.0; // active card fully opaque
+
+    // ---- NO BLEED-THROUGH: the developed card enters the OPAQUE pass (writes depth first); the other two
+    //      faces + all gold edges stay transparent and are depth-tested BEHIND it -> nothing shows over the card.
+    f.mat.transparent = !solid;
+    f.mat.depthWrite  = solid || (isActive && f.expandT > 0.35);
+    f.mat.depthTest   = true;
+    const ro = isActive ? 20 : 0;
+    f.glass.renderOrder = ro;
+    for (const mesh of f.frameMeshes) mesh.renderOrder = ro + 2;
+
+    // edges: brighten on expand, dim on recede. Receder gold edges fade HARD so no gold line crosses a front card.
     const ei = (0.9*breathe + f.hover*0.5) * (1 + 0.6*e) * (1 - 0.65*f.recedeT);
-    for (const m of f.mats){ m.emissiveIntensity = ei; m.opacity = eE * (1 - 0.5*f.recedeT); }
+    const edgeOp = isActive ? eE : (eE * (1 - 0.95*f.recedeT));
+    for (const m of f.mats){ m.emissiveIntensity = ei; m.opacity = edgeOp; m.depthWrite = solid; m.depthTest = true; }
   }
 
   mark.updateMatrixWorld(true);
