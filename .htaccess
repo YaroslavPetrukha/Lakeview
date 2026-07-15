@@ -31,6 +31,10 @@ DirectoryIndex index.html
     AddType image/svg+xml .svg .svgz
     AddType font/woff2 .woff2
     AddType application/manifest+json .webmanifest
+    # 3D model for the apartment tour. Required: with X-Content-Type-Options: nosniff
+    # a .glb served as the default type can be rejected by the browser.
+    AddType model/gltf-binary .glb
+    AddType model/gltf+json .gltf
 </IfModule>
 
 # ─── 3. Compression ─────────────────────────────────────────────────────────
@@ -65,6 +69,7 @@ DirectoryIndex index.html
     ExpiresByType image/svg+xml                 "access plus 30 days"
     ExpiresByType font/woff2                    "access plus 30 days"
     ExpiresByType font/ttf                      "access plus 30 days"
+    ExpiresByType model/gltf-binary             "access plus 30 days"
     ExpiresByType application/manifest+json     "access plus 7 days"
 </IfModule>
 
@@ -75,7 +80,9 @@ DirectoryIndex index.html
     </FilesMatch>
 
     # Static assets — long-cache, immutable
-    <FilesMatch "\.(css|js|woff2|ttf|otf|jpe?g|png|webp|avif|svg|ico)$">
+    # .glb included: without it the 1.8 MB apartment model falls through to
+    # ExpiresDefault (10 minutes) and is re-downloaded on almost every visit.
+    <FilesMatch "\.(css|js|woff2|ttf|otf|jpe?g|png|webp|avif|svg|ico|glb)$">
         Header set Cache-Control "public, max-age=2592000, immutable"
     </FilesMatch>
 

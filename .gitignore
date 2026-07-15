@@ -47,3 +47,8 @@ logs/*.log
 # Keep essential images
 !img/**
 .deploy-env
+
+# Build-only deps for tools/build-glb.mjs (run via npx / scratchpad)
+/node_modules/
+/package.json
+/package-lock.json

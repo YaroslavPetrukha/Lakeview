@@ -18,6 +18,30 @@ assets/
 Рендера/
 Планування/
 червень/
+# Architect's raw deliverables. MUST stay excluded: this folder holds the client's
+# source model (Квартира.glb) and the proprietary BIMx container — without these lines
+# rsync uploads both to prod, where they become publicly downloadable.
+# The web-ready derivative is built from here into img/3d/ by tools/build-glb.mjs.
+#
+# ⚠️ THREE patterns on purpose — one is not enough. macOS stores filenames in Unicode
+# NFD (decomposed): the "й" in "новий" is on disk as "и" + U+0306, so a plain NFC
+# pattern below silently fails to match and the .bimx WAS still being uploaded
+# (verified with `rsync -avn`, 2026-07-15). "концепт" has no composable characters,
+# so `*концепт/` matches under either normalisation. `*.bimx` is the ASCII backstop.
+новий концепт/
+*концепт/
+*.bimx
+
+# Debug screenshot left at repo root. The neighbouring /*.png and /*.jpeg rules show
+# the intent was "no dev snapshots on prod" — .jpg was simply missed, so a 1.4 MB
+# debug-final.jpg has been shipping to the prod root.
+/*.jpg
+
+# Build-only tooling (not served)
+/tools/
+/node_modules/
+/package.json
+/package-lock.json
 # Monthly photo source drops (Cyrillic-named originals at repo root, pre-processing)
 /*-source/
 /*_source/
