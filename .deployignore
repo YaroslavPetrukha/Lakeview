@@ -46,7 +46,9 @@ node_modules/
 tmp/
 
 # Old screenshots / dev snapshots in repo root
+# Leading slash anchors these to the deploy root only — img/**/*.jpg is unaffected.
 /*.png
+/*.jpg
 /*.jpeg
 /*.bak
 /audit.md
