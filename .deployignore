@@ -18,6 +18,13 @@ assets/
 Рендера/
 Планування/
 червень/
+# Unreleased concept work (WebGL hero / 3D tour) — lives on its own branch, never served
+concept/
+# Client source drops: raw architect PDFs, BIMx model, WhatsApp photos — internal only.
+# WARNING: macOS ships openrsync, which SPLITS EXCLUDE PATTERNS ON WHITESPACE — a literal
+# "новий концепт/" is parsed as two patterns ("новий" + "концепт") and silently matches
+# nothing. Any folder name containing a space MUST be excluded via a space-free wildcard.
+*концепт*
 # Monthly photo source drops (Cyrillic-named originals at repo root, pre-processing)
 /*-source/
 /*_source/
