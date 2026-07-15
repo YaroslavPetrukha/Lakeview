@@ -286,7 +286,6 @@ h1 em{font-style:italic;color:var(--gold-l)}
       <path d="M155.95,108.52l-44.58-25.74V31.3l44.58,25.74v51.48ZM112.37,82.2l42.58,24.59v-49.17l-42.58-24.59v49.17Z"/>
       <path d="M64.65,108.52v-51.48l44.58-25.74v51.48l-.25.14-44.33,25.6ZM65.65,57.61v49.17l42.58-24.59v-49.17l-42.58,24.59Z"/>
     </svg>
-    <div class="mc-ring"><div class="rc"></div><div class="rl">3D-ТУР</div></div>
     <div class="mc-cap"><div class="mc-k"></div><div class="mc-t"></div><div class="mc-a"></div></div>
   </div>
 </section>
@@ -552,7 +551,7 @@ function loadGraded(name, url, gradeOpts, addRing=false){
   const im = new Image();
   im.onload = ()=>{
     const {canvas:gc, ctx} = gradeImage(im, gradeOpts);
-    if (addRing) drawTourRing(ctx);
+    /* tour play-ring + "3D-ТУР" label removed per client request */
     const t = new THREE.CanvasTexture(gc); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4;
     const f=faces[name]; f.mat.uniforms.uMap.value=t; f.mat.uniforms.uHasMap.value=1;
     // stash source + opts so we can generate the lighter "developed" grade lazily on first hover
@@ -589,7 +588,7 @@ function ensureLight(f){
   const {canvas:gc, ctx}=gradeImage(f.srcImg, lo);
   // NOTE: no baked border here — with screen-space upright UVs a baked frame would misalign with the
   // rhombus; the 3D gold bars provide the rhombus outline. The tour ring stays centred/upright.
-  if (f.addRing) drawTourRing(ctx);
+  /* tour play-ring + "3D-ТУР" label removed per client request */
   const t=new THREE.CanvasTexture(gc); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4;
   f.lightTex=t; f.mat.uniforms.uMap2.value=t; f.mat.uniforms.uHasMap2.value=1; render1();
 }
@@ -676,7 +675,7 @@ const noop = function(){};
 const CARD = {
   floor:     { k:'ОГЛЯД',        t:'Панорама ЖК',        a:'Дивитись галерею →' },
   entrance:  { k:'ВХІДНА ГРУПА', t:'Вхідна група',        a:'Дивитись галерею →' },
-  apartment: { k:'3D-ТУР',       t:'Планування квартири', a:'3D-ТУР ▶' },
+  apartment: { k:'КВАРТИРА',     t:'Планування квартири', a:'Дивитись →' },
 };
 const rcard = document.getElementById('rcard');
 const hitList = ()=>Object.values(faces).map(f=>f.hit);
