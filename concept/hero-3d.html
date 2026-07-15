@@ -143,6 +143,51 @@ h1 em{font-style:italic;color:var(--gold-l)}
   color:var(--gold-l);opacity:0;transition:opacity .32s ease .18s}
 .rcard.on .ra{opacity:.92}
 
+/* ===== MARK CARD — the hover-reveal is the FULL Вигода cube outline (hexagon + inner Y) ===== */
+/* HTML overlay: an upright render clipped to the mark silhouette, gold mark drawn on top as a glowing frame. */
+#gl{transition:opacity .5s ease, filter .5s ease}
+.hero.cardon #gl{opacity:.34; filter:saturate(.85) brightness(.9)}
+.hero.cardon .hint{opacity:0}
+.markcard{
+  position:fixed; z-index:6; left:50%; top:50%;
+  width:min(46vw,54vh); aspect-ratio:913/1048;   /* = Вигода hexagon bbox 91.3 x 104.81 */
+  transform:translate(-50%,-50%) scale(.9);
+  opacity:0; pointer-events:none; will-change:transform,opacity;
+  transition:opacity .5s ease, transform .56s cubic-bezier(.16,1,.3,1);
+}
+.markcard.on{opacity:1; transform:translate(-50%,-50%) scale(1); pointer-events:auto; cursor:pointer}
+/* the render — object-fit:cover so the photo is always UPRIGHT, clipped to the hexagon mark silhouette */
+.mc-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0;
+  transition:opacity .5s ease, filter .55s ease; filter:brightness(.62) saturate(.82);
+  -webkit-clip-path:polygon(50% 0%,100% 24.56%,100% 73.68%,50% 100%,0% 73.68%,0% 24.56%);
+          clip-path:polygon(50% 0%,100% 24.56%,100% 73.68%,50% 100%,0% 73.68%,0% 24.56%);
+  background:#08201A}
+.markcard.on .mc-img.show{opacity:1; filter:brightness(1) saturate(1)}   /* grade lifts as it opens */
+/* the gold mark — outer hexagon + inner Y edges, EXACTLY like vygoda-mark.svg — glowing frame over the photo */
+.mc-frame{position:absolute; inset:0; width:100%; height:100%; overflow:visible;
+  filter:drop-shadow(0 0 5px rgba(212,186,122,.75)) drop-shadow(0 0 15px rgba(212,186,122,.45))}
+.mc-frame path{fill:#D4BA7A}
+/* centred gold "3D-ТУР ▶" ring — apartment face only */
+.mc-ring{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  display:none; flex-direction:column; align-items:center; gap:14px; pointer-events:none}
+.markcard[data-face="apartment"] .mc-ring{display:flex}
+.mc-ring .rc{width:clamp(72px,8vw,102px); aspect-ratio:1; border-radius:50%;
+  border:2px solid rgba(212,186,122,.92); display:grid; place-items:center;
+  background:rgba(4,18,12,.28); backdrop-filter:blur(2px);
+  box-shadow:0 0 34px rgba(212,186,122,.42), inset 0 0 22px rgba(0,0,0,.3)}
+.mc-ring .rc::before{content:""; margin-left:20%;
+  border-left:1.4em solid #E4CE93; border-top:.9em solid transparent; border-bottom:.9em solid transparent}
+.mc-ring .rl{font-family:var(--f2); font-size:clamp(11px,1.1vw,13px); font-weight:600;
+  letter-spacing:.22em; text-transform:uppercase; color:#E4CE93; text-shadow:0 2px 12px rgba(0,0,0,.8)}
+/* caption sits just below the mark */
+.mc-cap{position:absolute; top:calc(100% + 16px); left:50%; transform:translateX(-50%);
+  width:150%; text-align:center; text-shadow:0 3px 20px rgba(0,0,0,.7)}
+.mc-k{font-family:var(--f2); font-size:11px; font-weight:600; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--gold-l); margin-bottom:7px}
+.mc-t{font-family:var(--f1); font-style:italic; font-weight:500; line-height:1.05;
+  font-size:clamp(24px,2.4vw,33px); color:var(--ink)}
+.mc-a{margin-top:11px; font-family:var(--f2); font-size:12.5px; letter-spacing:.08em; color:var(--gold-l); opacity:.92}
+
 /* loading shimmer */
 .load{position:absolute;inset:0;z-index:7;display:flex;align-items:center;justify-content:center;
   background:#04140E;transition:opacity .8s ease;pointer-events:none}
@@ -166,6 +211,10 @@ h1 em{font-style:italic;color:var(--gold-l)}
 @media(prefers-reduced-motion:reduce){
   .load .m{animation:none}
   .tag .dot,.hint .rg::after,.grain{animation:none}
+  .markcard{transition:opacity .2s ease}
+  .markcard.on{transform:translate(-50%,-50%) scale(1)}
+  .mc-img{transition:opacity .2s ease; filter:none}
+  .markcard.on .mc-img.show{filter:none}
 }
 </style>
 </head>
@@ -226,6 +275,20 @@ h1 em{font-style:italic;color:var(--gold-l)}
   <div class="hint" id="hint"><span class="rg"></span> Наведіть · клікніть на грань «Квартира»</div>
   <div class="cap" id="cap"></div>
   <div class="rcard" id="rcard"><div class="rk"></div><div class="rt"></div><div class="ra"></div></div>
+
+  <!-- Mark card: the hover-reveal shaped as the FULL Вигода cube outline (hexagon + inner Y) -->
+  <div class="markcard" id="markcard" aria-hidden="true">
+    <img class="mc-img" data-f="floor"     src="assets/zhk-aerial.webp"        alt="" draggable="false">
+    <img class="mc-img" data-f="entrance"  src="assets/entrance-lobby.webp"    alt="" draggable="false">
+    <img class="mc-img" data-f="apartment" src="assets/entrance-elevators.webp" alt="" draggable="false">
+    <svg class="mc-frame" viewBox="64.65 31.3 91.3 104.81" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M110.3,136.11l-44.58-25.74,44.58-25.74,44.58,25.74-44.58,25.74ZM67.72,110.37l42.58,24.59,42.58-24.59-42.58-24.59-42.58,24.59Z"/>
+      <path d="M155.95,108.52l-44.58-25.74V31.3l44.58,25.74v51.48ZM112.37,82.2l42.58,24.59v-49.17l-42.58-24.59v49.17Z"/>
+      <path d="M64.65,108.52v-51.48l44.58-25.74v51.48l-.25.14-44.33,25.6ZM65.65,57.61v49.17l42.58-24.59v-49.17l-42.58,24.59Z"/>
+    </svg>
+    <div class="mc-ring"><div class="rc"></div><div class="rl">3D-ТУР</div></div>
+    <div class="mc-cap"><div class="mc-k"></div><div class="mc-t"></div><div class="mc-a"></div></div>
+  </div>
 </section>
 
 <script type="importmap">
@@ -596,6 +659,7 @@ function resize(){
   const bw = MOBILE ? w*0.5 : w, bh = MOBILE ? h*0.5 : h;   // half-res bloom on mobile
   bloom.setSize(bw,bh);
   fxaa.material.uniforms.resolution.value.set(1/(w*pr), 1/(h*pr));
+  if (activeFace) positionCard();
   render1();
 }
 window.addEventListener('resize', resize);
@@ -617,6 +681,56 @@ const CARD = {
 const rcard = document.getElementById('rcard');
 const hitList = ()=>Object.values(faces).map(f=>f.hit);
 
+/* ---------- MARK CARD overlay: the hover-reveal = the FULL Вигода cube outline ---------- */
+const MC = document.getElementById('markcard');
+const MCimgs = MC.querySelectorAll('.mc-img');
+let overCard = false;
+function positionCard(){
+  mark.updateMatrixWorld(true);
+  const p = mark.position.clone().project(camera);      // cube's central corner = hexagon centre
+  const r = canvas.getBoundingClientRect();
+  const vw = window.innerWidth, vh = window.innerHeight;
+  let cx = r.left + (p.x*0.5+0.5)*r.width;
+  let cy = r.top  + (-p.y*0.5+0.5)*r.height;
+  let w;
+  if (MOBILE){ w = Math.min(vw*0.70, vh*0.34); cx = vw*0.5; cy = vh*0.245; }
+  else       { w = Math.min(vw*0.46, vh*0.54); }
+  const h = w/0.8712;
+  if (!MOBILE){                                          // never cross into the left copy column
+    const minCx = vw*0.52 + w/2, maxCx = vw - w/2 - 14;
+    cx = Math.max(minCx, Math.min(cx, maxCx));
+  }
+  cy = Math.max(h/2 + 20, Math.min(cy, vh - h/2 - 96));  // keep in view + room for caption below
+  MC.style.width = w + 'px';
+  MC.style.left  = cx + 'px';
+  MC.style.top   = cy + 'px';
+}
+function openCard(name){
+  const d = CARD[name] || {};
+  MC.dataset.face = name;
+  MC.querySelector('.mc-k').textContent = d.k || '';
+  MC.querySelector('.mc-t').textContent = d.t || '';
+  MC.querySelector('.mc-a').textContent = MOBILE ? 'Відкрити →' : (d.a || '');
+  MCimgs.forEach(i => i.classList.toggle('show', i.dataset.f === name));
+  positionCard();
+  MC.classList.add('on');
+  hero.classList.add('cardon');
+}
+function closeCard(){
+  overCard = false;
+  MC.classList.remove('on');
+  hero.classList.remove('cardon');
+}
+MC.addEventListener('pointerenter', ()=>{ overCard = true; });
+MC.addEventListener('pointermove',  ()=>{ overCard = true; });
+MC.addEventListener('pointerleave', ()=>{ overCard = false; });
+MC.addEventListener('click', (e)=>{
+  e.stopPropagation();                                   // route straight from the card; don't double-fire window click
+  if (activeFace && faces[activeFace] && faces[activeFace].clickable){
+    confirmPulse(activeFace); (FACE_ACTION[activeFace] || noop)();
+  }
+});
+
 function pointerToNDC(clientX, clientY){
   const r = canvas.getBoundingClientRect();
   ptr.x = ((clientX-r.left)/r.width)*2-1;
@@ -630,7 +744,7 @@ function pickName(){
 function setActive(name){
   if (name === activeFace) return;
   activeFace = name; commitTime = performance.now();
-  if (name){ ensureLight(faces[name]); }
+  if (name){ openCard(name); } else { closeCard(); }
   render1();
 }
 function onMove(e){
@@ -646,6 +760,7 @@ function onMove(e){
 // desktop hover intent-gate, evaluated per frame (continuous 90ms hover before expand; 220ms min-commit)
 function updateHoverGate(now){
   if (MOBILE) return;             // reduced-motion still uses the desktop hover path (in-place crossfade only)
+  if (overCard && activeFace){ commitTime = now; return; }   // pointer is over the open card -> keep it open
   if (hovered && faces[hovered].clickable){
     if (now - hoverSince >= 90) setActive(hovered);
   } else if (!hovered){
@@ -778,8 +893,10 @@ function frame(){
     const eE = easeOut(eR);
 
     // expand / grade-lag / recede state (damped toward targets; asymmetric expand vs return)
-    const want    = (activeFace===name) ? 1 : 0;
-    const wantRec  = (activeFace && activeFace!==name) ? 1 : 0;
+    // The hover-reveal is now the HTML MARK CARD overlay, not a 3D face transform — so the resting
+    // cube stays put (never expands) and simply dims behind the opaque card (see .hero.cardon #gl).
+    const want    = 0;
+    const wantRec  = 0;
     f.expandT += (want - f.expandT) * (want > f.expandT ? 0.16 : 0.11);
     f.gradeT  += (want - f.gradeT ) * 0.11;                 // grade LAGS behind the shape
     f.recedeT += (wantRec - f.recedeT) * 0.14;
