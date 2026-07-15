@@ -1488,8 +1488,8 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         <div class="pc-b"><h3>53.19 м²</h3><span>Секція 1 · поверх 10</span></div>
         <div class="pc-f"><span class="pc-price">$87 763,50</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
       </div>
-      <div class="pc rv rv3" data-type="1k" onclick="openApt(this)">
-        <div class="pc-img"><picture><source type="image/avif" srcset="img/plans/s4-177-1k-63m2-720.avif 720w, img/plans/s4-177-1k-63m2.avif 1600w" sizes="(max-width:768px) 100vw, 360px"><source type="image/webp" srcset="img/plans/s4-177-1k-63m2-720.webp 720w, img/plans/s4-177-1k-63m2.webp 1600w" sizes="(max-width:768px) 100vw, 360px"><img src="img/plans/s4-177-1k-63m2.jpg" alt="1-кімнатна 63.6 м², секція 4" width="1600" height="1131" loading="lazy"></picture><div class="pc-promo">★ Акційна ціна</div><div class="pc-badge">1-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
+      <div class="pc rv rv3" data-type="1k" data-plan-full="img/plans/s4-177-1k-63m2-full.jpg" onclick="openApt(this)">
+        <div class="pc-img"><picture><source type="image/avif" srcset="img/plans/s4-177-1k-63m2-720.avif 720w, img/plans/s4-177-1k-63m2.avif 1600w" sizes="(max-width:768px) 100vw, 360px"><source type="image/webp" srcset="img/plans/s4-177-1k-63m2-720.webp 720w, img/plans/s4-177-1k-63m2.webp 1600w" sizes="(max-width:768px) 100vw, 360px"><img src="img/plans/s4-177-1k-63m2.jpg" alt="1-кімнатна 63.6 м², секція 4" width="1600" height="1029" loading="lazy"></picture><div class="pc-promo">★ Акційна ціна</div><div class="pc-badge">1-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
         <div class="pc-b"><h3>63.6 м²</h3><span>Секція 4 · поверх 3</span></div>
         <div class="pc-f"><span class="pc-price promo">$94 764</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
       </div>
@@ -2783,7 +2783,10 @@ function openPlanLb(e,card){
   var area=card.querySelector('.pc-b h3').textContent;
   var info=card.querySelector('.pc-b span').textContent;
   var badge=card.querySelector('.pc-badge').textContent;
-  openPlanLbDirect(img.src,img.alt,badge+' · '+area,info);
+  /* Cards may ship a separate full-detail plan for the zoom view (e.g. the card
+     thumbnail is cropped to the drawing, while the zoom keeps the room legend).
+     Falls back to the card image when data-plan-full is absent. */
+  openPlanLbDirect(card.dataset.planFull||img.src,img.alt,badge+' · '+area,info);
 }
 function openPlanLbDirect(src,alt,title,sub){
   document.getElementById('planLbImg').src=src;
