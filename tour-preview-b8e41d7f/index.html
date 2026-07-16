@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>3D-тур квартирою — Кв В-2.1, 63,6 м² · ЖК Lakeview</title>
+<meta name="description" content="Інтерактивна 3D-прогулянка квартирою 63,6 м² у ЖК Lakeview: спальня 20 м², кухня-вітальня 31,3 м², тераса. Висота стелі 2,7 м.">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --em:#0F4C3A; --em-deep:#061E16; --em-deep2:#04140E;
+  --gold:#C5A55A; --gold-aa:#85661F; --gold-l:#D4BA7A;
+  --ink:#EDE7D9;
+  --f1:'Cormorant Garamond',Georgia,serif;
+  --f2:'Outfit',system-ui,-apple-system,sans-serif;
+  --r:16px; --r2:24px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--em-deep2)}
+body{font-family:var(--f2);color:var(--ink);-webkit-font-smoothing:antialiased}
+#app{position:fixed;inset:0}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+
+/* skip link — keyboard users must be able to escape a canvas */
+.skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--em);color:var(--ink);
+  padding:12px 18px;border-radius:0 0 var(--r) 0;font-size:14px}
+.skip:focus{left:0}
+
+/* ── top bar ── */
+.bar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;
+  gap:14px;padding:14px 18px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(4,20,14,.85),rgba(4,20,14,0))}
+.badge{pointer-events:auto;font-family:var(--f1);font-size:18px;letter-spacing:.02em;
+  color:var(--ink);white-space:nowrap}
+.badge b{color:var(--gold-l);font-weight:600}
+.badge span{font-family:var(--f2);font-size:13px;opacity:.72;margin-left:8px}
+.bar-sp{flex:1}
+
+/* ── buttons ── */
+.btn{pointer-events:auto;font-family:var(--f2);font-size:13px;font-weight:400;
+  color:var(--ink);background:rgba(15,76,58,.55);border:1px solid rgba(197,165,90,.35);
+  border-radius:999px;padding:9px 16px;cursor:pointer;backdrop-filter:blur(8px);
+  transition:background .18s,border-color .18s,transform .18s}
+.btn:hover{background:rgba(15,76,58,.85);border-color:var(--gold)}
+.btn:active{transform:scale(.97)}
+.btn[aria-pressed="true"]{background:var(--gold-aa);border-color:var(--gold-l);color:#fff}
+.btn:focus-visible{outline:2px solid var(--gold-l);outline-offset:3px}
+
+/* ── waypoint rail ── */
+.rail{position:absolute;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;
+  gap:8px;padding:16px 14px calc(16px + env(safe-area-inset-bottom));flex-wrap:wrap;
+  pointer-events:none;background:linear-gradient(0deg,rgba(4,20,14,.9),rgba(4,20,14,0))}
+.wp{pointer-events:auto;font-size:13px;color:var(--ink);background:rgba(6,30,22,.7);
+  border:1px solid rgba(197,165,90,.28);border-radius:999px;padding:10px 16px;cursor:pointer;
+  backdrop-filter:blur(8px);white-space:nowrap;transition:background .18s,border-color .18s}
+.wp:hover{border-color:var(--gold)}
+.wp:focus-visible{outline:2px solid var(--gold-l);outline-offset:3px}
+.wp[aria-current="true"]{background:var(--gold-aa);border-color:var(--gold-l);color:#fff}
+.wp i{font-style:normal;opacity:.6;font-size:11px;margin-left:6px}
+
+/* ── loader ── */
+.load{position:absolute;inset:0;z-index:40;display:grid;place-items:center;
+  background:var(--em-deep2);transition:opacity .5s}
+.load[hidden]{display:none}
+.load.out{opacity:0;pointer-events:none}
+.load-in{text-align:center;max-width:280px}
+.ring{width:44px;height:44px;margin:0 auto 18px;border:2px solid rgba(197,165,90,.2);
+  border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-t{font-family:var(--f1);font-size:20px;color:var(--gold-l);margin-bottom:8px}
+.load-s{font-size:13px;opacity:.6}
+.pbar{width:180px;height:2px;background:rgba(197,165,90,.18);border-radius:2px;margin:14px auto 0;overflow:hidden}
+.pbar i{display:block;height:100%;width:0;background:var(--gold);transition:width .2s}
+
+/* ── error card ── */
+.err{position:absolute;inset:0;z-index:50;display:grid;place-items:center;
+  background:var(--em-deep2);padding:24px}
+.err[hidden]{display:none}
+.err-in{max-width:380px;text-align:center}
+.err-t{font-family:var(--f1);font-size:24px;color:var(--gold-l);margin-bottom:10px}
+.err-s{font-size:14px;opacity:.75;line-height:1.6;margin-bottom:20px}
+.err a.btn,.err button.btn{display:inline-block;margin:4px;text-decoration:none}
+
+/* ── walk hud ── */
+.hud{position:absolute;inset:0;z-index:30;display:grid;place-items:center;cursor:pointer;
+  background:rgba(4,20,14,.55);backdrop-filter:blur(2px)}
+.hud[hidden]{display:none}
+.hud-in{text-align:center;pointer-events:none}
+.hud-t{font-family:var(--f1);font-size:22px;color:var(--gold-l);margin-bottom:8px}
+.hud-s{font-size:13px;opacity:.7;line-height:1.7}
+kbd{font-family:var(--f2);background:rgba(197,165,90,.16);border:1px solid rgba(197,165,90,.3);
+  border-radius:5px;padding:2px 7px;font-size:12px}
+
+/* ── hint / disclaimer ── */
+/* Дисклеймер лягає на світлі стіни — без плашки він нечитабельний (перевірено). */
+.note{position:absolute;left:18px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:19;
+  font-size:11px;max-width:260px;line-height:1.5;pointer-events:none;color:var(--ink);
+  background:rgba(4,20,14,.62);border:1px solid rgba(197,165,90,.18);
+  border-radius:10px;padding:8px 11px;backdrop-filter:blur(6px)}
+
+@media (max-width:600px){
+  .badge{font-size:15px}
+  .badge span{display:none}
+  .btn{padding:8px 12px;font-size:12px}
+  .wp{padding:9px 13px;font-size:12px}
+  .wp i{display:none}
+  .note{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .ring{animation:none}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#leave">Пропустити 3D-тур</a>
+
+<div id="app">
+  <canvas id="c" aria-label="Інтерактивна 3D-модель квартири Кв В-2.1. Використовуйте кнопки внизу, щоб перейти між кімнатами." role="img"></canvas>
+
+  <div class="bar">
+    <div class="badge">Кв <b>В-2.1</b> · 63,6 м²<span>секція 4 · стеля 2,7 м</span></div>
+    <div class="bar-sp"></div>
+    <button class="btn" id="btnWalk" aria-pressed="false" hidden>Вільна прогулянка</button>
+    <button class="btn" id="btnReset">Спочатку</button>
+  </div>
+
+  <nav class="rail" id="rail" aria-label="Кімнати квартири"></nav>
+
+  <p class="note">Меблі та оздоблення — візуалізація дизайнера, не комплектація квартири.</p>
+
+  <div class="hud" id="hud" hidden>
+    <div class="hud-in">
+      <div class="hud-t">Натисніть, щоб іти</div>
+      <div class="hud-s"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> — рух · миша — огляд<br><kbd>Esc</kbd> — вийти</div>
+    </div>
+  </div>
+
+  <div class="load" id="load">
+    <div class="load-in">
+      <div class="ring"></div>
+      <div class="load-t">Готуємо квартиру</div>
+      <div class="load-s">Завантаження 3D-моделі…</div>
+      <div class="pbar"><i id="pbar"></i></div>
+    </div>
+  </div>
+
+  <div class="err" id="err" hidden>
+    <div class="err-in">
+      <div class="err-t" id="errT">Не вдалося показати 3D-тур</div>
+      <p class="err-s" id="errS">Схоже, ваш пристрій або з'єднання не потягнули 3D-модель. Планування квартири можна подивитись у PDF.</p>
+      <a class="btn" href="/img/plans/" id="errPlan">Дивитись планування</a>
+      <button class="btn" id="errRetry">Спробувати ще раз</button>
+    </div>
+  </div>
+</div>
+
+<div id="leave" tabindex="-1"></div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "/js/three/three.module.js",
+    "three/addons/": "/js/three/addons/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader }        from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls }     from 'three/addons/controls/OrbitControls.js';
+import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+import { RoomEnvironment }   from 'three/addons/environments/RoomEnvironment.js';
+
+/* ═══════════════════════════════════════════════════════════════════
+   МОДЕЛЬ — виміряні константи (не вгадані)
+   Джерело: thoughts/research/2026-07-15-apartment-glb-walkthrough.md §1-2
+   Ноди GLB несуть scale 0.01 + translation [-198.504,-21.964,0] (модель у см).
+   У світових координатах: підлога Y=-18.9644 (raw 300), стеля Y=-16.2644 (raw 570).
+   ⚠️ bb.min.y — це ҐРУНТ ТЕРАСИ (-19.364), а НЕ підлога. Ставити камеру по
+   bb.min.y = закопати її на 40 см у підлогу.
+   ═══════════════════════════════════════════════════════════════════ */
+const FLOOR_WORLD_Y = -18.9644;
+const CEILING_H     = 2.70;
+const EYE           = 1.60;
+
+/* Точки огляду — після центрування (підлога y=0, XZ у нулі).
+   НЕ вгадані: зняті рейкастами по живій моделі в реальному Chrome (карта прохідності —
+   промінь вниз шукає підлогу на 1.4-1.8 м, 8 променів по горизонту міряють просвіт).
+   Кожна точка має підлогу під ногами і >0.7 м вільного простору навколо.
+   Перша ітерація стояла в стінах саме тому, що координати виводились «з логіки». */
+const WAYPOINTS = [
+  { id:'living',  name:'Кухня-вітальня',area:'31,3 м²', pos:[-0.60,EYE,-2.60], look:[-0.85,EYE-0.10,-7.00] },
+  { id:'terrace', name:'Тераса',        area:'6,2 м²',  pos:[-1.00,EYE,-7.50], look:[-0.90,EYE-0.08,-3.20] },
+  { id:'hall',    name:'Передпокій',    area:'',        pos:[-1.00,EYE, 0.00], look:[-1.00,EYE-0.08, 4.60] },
+  { id:'bath',    name:'Ванна',         area:'4,4 м²',  pos:[-0.60,EYE, 0.75], look:[ 0.60,EYE-0.20, 1.60] },
+  { id:'bed',     name:'Спальня',       area:'20,0 м²', pos:[-1.00,EYE, 8.25], look:[-1.00,EYE-0.10, 4.00] },
+];
+
+const REDUCED = matchMedia('(prefers-reduced-motion:reduce)').matches;
+const TOUCH   = matchMedia('(hover:none) and (pointer:coarse)').matches;
+const DPR_CAP = TOUCH ? 1.5 : 2;   // 3× DPR = 9× fill; capping ~doubles mobile fps
+
+const $ = (s)=>document.querySelector(s);
+const canvas=$('#c'), elLoad=$('#load'), elErr=$('#err'), elBar=$('#pbar'), elHud=$('#hud');
+
+/* ── renderer ───────────────────────────────────────────────────── */
+let renderer;
+try{
+  renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance' });
+}catch(e){ fail('WebGL недоступний', 'Ваш браузер не підтримує 3D-графіку. Планування можна подивитись у PDF.'); }
+
+renderer.setPixelRatio(Math.min(devicePixelRatio, DPR_CAP));
+renderer.setSize(innerWidth, innerHeight);
+// AgX, не ACESFilmic: ACES документовано знебарвлює й «вимиває» текстури.
+// AgX — дефолт Blender 4.x, тож браузер показує те саме, що бачив архітектор.
+renderer.toneMapping = THREE.AgXToneMapping;
+// Експозиція/інтенсивності підібрані візуально в реальному Chrome (AMD Radeon Pro 5300M).
+// Стартові 1.15 давали пересвічену молочну кашу — модель світла сама по собі.
+renderer.toneMappingExposure = 0.78;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x04140E);
+
+const camera = new THREE.PerspectiveCamera(58, innerWidth/innerHeight, 0.05, 120);
+camera.position.set(...WAYPOINTS[0].pos);
+
+/* ── env + light ────────────────────────────────────────────────── */
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+// r160 не має scene.environmentIntensity (з'явився в r163) — тому вплив
+// середовища регулюємо через envMapIntensity на матеріалах (див. нижче).
+// Один спрямований ключ — саме він дає напрямок і контраст. Шість точкових ламп
+// «по кімнатах» коштували б дорого й нічого б не додали.
+const sun = new THREE.DirectionalLight(0xfff0d8, 2.6);
+sun.position.set(-2, 7, -14);              // крізь скління тераси, з боку -Z
+scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xdfe9ff, 0x2a2418, 0.10));
+
+/* ── controls: огляд з точки ────────────────────────────────────── */
+const orbit = new OrbitControls(camera, renderer.domElement);
+orbit.enableDamping = true; orbit.dampingFactor = 0.075;
+orbit.enableZoom = false; orbit.enablePan = false;   // ходимо точками, не зумом
+orbit.rotateSpeed = -0.32;                            // інверсія: тягнеш світ, а не камеру
+orbit.minPolarAngle = 0.44;                           // ~25° — не даємо дивитись у зеніт
+orbit.maxPolarAngle = 2.70;                           // ~155° — і в надір
+orbit.target.set(...WAYPOINTS[0].look);
+
+const walk = new PointerLockControls(camera, renderer.domElement);
+let walkMode = false;
+const keys = Object.create(null);
+
+/* ── render-on-demand ───────────────────────────────────────────────
+   Камера в точці огляду СТОЇТЬ. Малювати 60 разів на секунду статичний
+   кадр = гріти телефон і втрачати fps на 2-й хвилині через тротлінг. */
+let dirty = true;
+const invalidate = ()=>{ dirty = true; };
+orbit.addEventListener('change', invalidate);
+
+/* ── load ───────────────────────────────────────────────────────── */
+let model = null;
+const loader = new GLTFLoader();
+
+loader.load('/img/3d/kv-b21.glb',
+  onLoaded,
+  (e)=>{ if(e.lengthComputable) elBar.style.width = (e.loaded/e.total*100).toFixed(0)+'%'; },
+  (e)=>{ console.error('GLB load failed:', e);
+         fail('Не вдалося завантажити 3D-тур','Модель квартири не завантажилась. Перевірте з\'єднання або подивіться планування у PDF.'); }
+);
+
+async function onLoaded(gltf){
+  model = gltf.scene;
+
+  /* Центрування: XZ у нуль, ПІДЛОГА у y=0.
+     Свідомо НЕ використовуємо bb.min.y — там ґрунт тераси, на 40 см нижче підлоги. */
+  const bb  = new THREE.Box3().setFromObject(model);
+  const ctr = bb.getCenter(new THREE.Vector3());
+  model.position.set(-ctr.x, -FLOOR_WORLD_Y, -ctr.z);
+
+  // Перевіряємо припущення, а не віримо в нього.
+  const bb2 = new THREE.Box3().setFromObject(model);
+  const topY = bb2.max.y;
+  if (Math.abs(topY - CEILING_H) > 0.15)
+    console.warn(`[tour] верх моделі після центрування ${topY.toFixed(2)} м, очікували ~${CEILING_H} — перевірити FLOOR_WORLD_Y`);
+  console.info(`[tour] bbox після центрування: X ${bb2.min.x.toFixed(2)}..${bb2.max.x.toFixed(2)}, `
+    + `Y ${bb2.min.y.toFixed(2)}..${bb2.max.y.toFixed(2)}, Z ${bb2.min.z.toFixed(2)}..${bb2.max.z.toFixed(2)}`);
+
+  /* Рантайм-запобіжник. Пайплайн (tools/build-glb.mjs) уже прибрав хибний
+     alphaMode=BLEND з 15 матеріалів, але якщо модель колись перезберуть без
+     скрипта — не пускаємо стіни в прозорий прохід із depthWrite=false. */
+  let rescued = 0;
+  model.traverse((o)=>{
+    if(!o.isMesh) return;
+    for(const m of (Array.isArray(o.material) ? o.material : [o.material])){
+      if(!m) continue;
+      const isGlass = /скло|стекло|glass/i.test(m.name || '');
+      if(!isGlass && m.transparent && !m.alphaMap && m.opacity >= 1){ m.transparent = false; m.depthWrite = true; rescued++; }
+      if('envMapIntensity' in m) m.envMapIntensity = 0.5;   // заміна scene.environmentIntensity для r160
+    }
+  });
+  if(rescued) console.warn(`[tour] рантайм-фікс прозорості: ${rescued} матеріалів (пайплайн регресував?)`);
+
+  /* СТЕЛІ В МОДЕЛІ НЕМАЄ. Перевірено рейкастом угору з вітальні: 0 влучань.
+     ArchiCAD віддав інтер'єр відкритим зверху — так роблять для рендерів, щоб
+     світити зверху. У прогулянці це діра: дивишся вгору — бачиш фон сцени.
+     Стіни доходять до 2.70 (bbox max Y = 2.71), тож кладемо площину рівно туди. */
+  const ceilGeo = new THREE.PlaneGeometry(7, 22); ceilGeo.rotateX(Math.PI/2);
+  const ceilMesh = new THREE.Mesh(ceilGeo, new THREE.MeshStandardMaterial({
+    color:0xEDE9E1, roughness:0.95, side:THREE.DoubleSide, envMapIntensity:0.5 }));
+  ceilMesh.name = '__ceiling'; ceilMesh.position.y = CEILING_H;
+  scene.add(ceilMesh);
+
+  // A/B для doubleSided: ?side=front — перевірити, чи не з'являться дірки (перевернуті нормалі)
+  if(new URLSearchParams(location.search).get('side') === 'front'){
+    model.traverse(o=>{ if(o.isMesh){ const ms=Array.isArray(o.material)?o.material:[o.material];
+      ms.forEach(m=>m && (m.side = THREE.FrontSide)); } });
+    console.info('[tour] side=FrontSide — шукаємо дірки в стінах');
+  }
+
+  scene.add(model);
+  buildRail();
+
+  // Компілюємо шейдери й вантажимо текстури на GPU ПОКИ ще видно лоадер,
+  // інакше перший кадр дає фриз саме в момент показу.
+  try{ await renderer.compileAsync(scene, camera); }catch(e){ /* r160 fallback */ }
+
+  goTo(0, /*instant*/ true);
+  elLoad.classList.add('out');
+  setTimeout(()=>{ elLoad.hidden = true; }, 500);
+  if(!TOUCH) $('#btnWalk').hidden = false;   // Pointer Lock не існує в iOS Safari — ЖОДНІЙ версії
+  invalidate();
+}
+
+/* ── waypoints ──────────────────────────────────────────────────── */
+let current = -1, tween = null;
+
+function buildRail(){
+  const rail = $('#rail');
+  rail.innerHTML = '';
+  WAYPOINTS.forEach((w,i)=>{
+    const b = document.createElement('button');
+    b.className='wp'; b.type='button';
+    b.innerHTML = `${w.name}${w.area?`<i>${w.area}</i>`:''}`;
+    b.setAttribute('aria-label', `Перейти: ${w.name}${w.area?', '+w.area:''}`);
+    b.addEventListener('click', ()=>goTo(i));
+    rail.appendChild(b);
+  });
+}
+
+function goTo(i, instant=false){
+  if(walkMode) toggleWalk(false);
+  const w = WAYPOINTS[i];
+  current = i;
+  document.querySelectorAll('.wp').forEach((b,k)=>b.setAttribute('aria-current', k===i ? 'true':'false'));
+
+  const from = { p:camera.position.clone(), t:orbit.target.clone() };
+  const to   = { p:new THREE.Vector3(...w.pos), t:new THREE.Vector3(...w.look) };
+
+  if(instant || REDUCED){
+    camera.position.copy(to.p); orbit.target.copy(to.t); orbit.update(); invalidate(); return;
+  }
+  tween = { from, to, t0:performance.now(), dur:900 };
+  invalidate();
+}
+
+// easeInOutCubic — миттєвий стрибок дезорієнтує, довгий переліт дратує. ~0.9 с.
+const ease = (x)=> x<0.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2;
+
+/* ── walk mode (desktop only) ───────────────────────────────────── */
+function toggleWalk(on){
+  walkMode = on;
+  $('#btnWalk').setAttribute('aria-pressed', String(on));
+  elHud.hidden = !on;
+  orbit.enabled = !on;
+  if(!on && walk.isLocked) walk.unlock();
+  invalidate();
+}
+$('#btnWalk').addEventListener('click', ()=> toggleWalk(!walkMode));
+elHud.addEventListener('click', ()=> walk.lock());
+walk.addEventListener('unlock', ()=>{ if(walkMode) elHud.hidden = false; });
+walk.addEventListener('lock',   ()=>{ elHud.hidden = true; });
+addEventListener('keydown', (e)=>{
+  keys[e.code]=true;
+  if(e.code==='Escape' && walkMode) toggleWalk(false);
+});
+addEventListener('keyup', (e)=>{ keys[e.code]=false; });
+
+$('#btnReset').addEventListener('click', ()=> goTo(0));
+
+/* Межі руху — з карти прохідності, знятої рейкастами по живій моделі
+   (bbox моделі ширший: у нього входять фасад і ґрунт тераси, а не лише інтер'єр).
+   apartment-tour.html клампив x 0.35..16.9 / z 0.35..4.4 — межі параметричної
+   квартири; для GLB це безглуздя, користувача виштовхнуло б за геометрію. */
+const LIMIT = { x:[-2.30, 0.90], z:[-8.30, 9.40] };
+
+/* ── loop ───────────────────────────────────────────────────────── */
+const clock = new THREE.Clock();
+const vel = new THREE.Vector3();
+
+function frame(){
+  requestAnimationFrame(frame);
+  const dt = Math.min(clock.getDelta(), 0.05);
+
+  if(tween){
+    const k = Math.min(1, (performance.now()-tween.t0)/tween.dur), e = ease(k);
+    camera.position.lerpVectors(tween.from.p, tween.to.p, e);
+    orbit.target.lerpVectors(tween.from.t, tween.to.t, e);
+    if(k>=1) tween=null;
+    dirty = true;
+  }
+
+  if(walkMode && walk.isLocked){
+    const sp = 2.4*dt;
+    vel.set(0,0,0);
+    if(keys['KeyW']||keys['ArrowUp'])    vel.z += 1;
+    if(keys['KeyS']||keys['ArrowDown'])  vel.z -= 1;
+    if(keys['KeyA']||keys['ArrowLeft'])  vel.x -= 1;
+    if(keys['KeyD']||keys['ArrowRight']) vel.x += 1;
+    if(vel.lengthSq()>0){
+      vel.normalize();
+      walk.moveRight(vel.x*sp); walk.moveForward(vel.z*sp);
+      camera.position.x = THREE.MathUtils.clamp(camera.position.x, LIMIT.x[0], LIMIT.x[1]);
+      camera.position.z = THREE.MathUtils.clamp(camera.position.z, LIMIT.z[0], LIMIT.z[1]);
+      camera.position.y = EYE;
+      dirty = true;
+    }
+  } else {
+    if(orbit.enableDamping) orbit.update();
+  }
+
+  if(dirty){ renderer.render(scene, camera); dirty = false; }
+}
+frame();
+
+/* ── resize ─────────────────────────────────────────────────────── */
+let rt;
+addEventListener('resize', ()=>{
+  // iOS тече пам'яттю при зміні розміру WebGL-канви — дебаунсимо, не перестворюємо контекст
+  clearTimeout(rt);
+  rt = setTimeout(()=>{
+    camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+    renderer.setPixelRatio(Math.min(devicePixelRatio, DPR_CAP));
+    renderer.setSize(innerWidth, innerHeight);
+    invalidate();
+  }, 150);
+});
+
+/* ── context loss ───────────────────────────────────────────────── */
+canvas.addEventListener('webglcontextlost', (e)=>{
+  e.preventDefault();
+  fail('3D-тур зупинився', 'Браузеру забракло ресурсів для 3D. Оновіть сторінку, щоб продовжити.');
+});
+
+function fail(title, msg){
+  if(elLoad) elLoad.hidden = true;
+  $('#errT').textContent = title;
+  $('#errS').textContent = msg;
+  elErr.hidden = false;
+  $('#errRetry').focus();
+}
+$('#errRetry').addEventListener('click', ()=> location.reload());
+
+/* ── QA hooks (як у hero-3d.html) ───────────────────────────────── */
+Object.assign(window, {
+  __THREE:THREE, __camera:camera, __scene:scene, __orbit:orbit,
+  __waypoints:WAYPOINTS, __goTo:goTo, __renderer:renderer,
+  __model:()=>model,
+});
+</script>
+</body>
+</html>

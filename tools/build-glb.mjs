@@ -27,28 +27,49 @@ import { statSync } from 'node:fs';
 const [, , inPath = 'новий концепт/Квартира.glb', outPath = 'img/3d/kv-b21.glb'] = process.argv;
 
 /**
- * Матеріали, які МАЮТЬ лишитись прозорими. Наразі — жоден.
- * У цій моделі скло («Стекло - Голубое») експортоване як OPAQUE, а бетон як BLEND —
- * інверсія, доказ що alphaMode тут суто транспортний артефакт, а не авторський намір.
- * Якщо архітектор колись віддасть модель зі справжнім склом — додати сюди.
+ * Скло. Експорт переплутав усе навпаки: бетон/паркет/штукатурка приїхали BLEND,
+ * а СКЛО — OPAQUE, opacity 1, roughness 0.9. Тобто скління тераси рендериться
+ * матовим сіро-блакитним пластиком і замуровує головну перевагу квартири —
+ * терасу й денне світло. Перевірено рейкастом у реальному Chrome: промінь із
+ * вітальні до тераси впирався в «Стекло - Голубое» за 2.89 м.
+ * Значення підібрані візуально в реальному Chrome (скління пліковане, промінь
+ * ловить 3 шари на 2.89/2.97/3.01 м — тому низька непрозорість, інакше серпанок).
  */
-const KEEP_BLEND = /(^__never_match__$)/i;
+const GLASS = /скло|стекло|glass/i;
+const GLASS_ALPHA = 0.09;
 
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const doc = await io.read(inPath);
 const root = doc.getRoot();
 
-// ── 1. alphaMode: BLEND → OPAQUE ────────────────────────────────────────────
-let fixed = 0;
+// ── 1. alphaMode: виправити ОБИДВІ помилки експорту ─────────────────────────
+let fixed = 0, glassFixed = 0;
 for (const mat of root.listMaterials()) {
   const name = mat.getName() || '(unnamed)';
-  if (mat.getAlphaMode() === 'BLEND' && !KEEP_BLEND.test(name)) {
+  if (GLASS.test(name)) {
+    // OPAQUE → справжнє скло. Власний відтінок кожного скла ЗБЕРІГАЄМО:
+    // просто підмішуємо його до світлого й ставимо альфу. Якщо задати обом
+    // однаковий колір — dedup зіллє їх в один і зітре задум архітектора
+    // («Стекло - Голубое» #a0acb6 і темніше «Стекло голубое» #517180).
+    const [r, g, b] = mat.getBaseColorFactor();
+    mat.setAlphaMode('BLEND');
+    mat.setAlpha(GLASS_ALPHA);
+    mat.setRoughnessFactor(0.02);
+    mat.setMetallicFactor(0);
+    mat.setBaseColorFactor([
+      Math.min(1, r * 0.35 + 0.65), Math.min(1, g * 0.35 + 0.65), Math.min(1, b * 0.35 + 0.68),
+      GLASS_ALPHA,
+    ]);
+    glassFixed++;
+  } else if (mat.getAlphaMode() === 'BLEND') {
+    // BLEND → OPAQUE (доведено: жодного невидимого пікселя в текстурі)
     mat.setAlphaMode('OPAQUE');
-    mat.setAlpha(1.0); // прибрати залишковий baseColorFactor[3] < 1
+    mat.setAlpha(1.0);
     fixed++;
   }
 }
 console.log(`alphaMode BLEND→OPAQUE: ${fixed} матеріалів`);
+console.log(`скло OPAQUE→прозоре:   ${glassFixed} матеріалів`);
 
 // ── 2. doubleSided — НЕ чіпаємо ─────────────────────────────────────────────
 // 38/38 матеріалів doubleSided. Вимкнення = ~2× менше растеризації, АЛЕ якщо
@@ -76,7 +97,10 @@ const trisAfter = countTris(root);
 await io.write(outPath, doc);
 
 // ── 4. Gates ───────────────────────────────────────────────────────────────
-const blendLeft = root.listMaterials().filter((m) => m.getAlphaMode() === 'BLEND').length;
+const blendLeft = root.listMaterials()
+  .filter((m) => m.getAlphaMode() === 'BLEND' && !GLASS.test(m.getName() || '')).length;
+const glassBlend = root.listMaterials()
+  .filter((m) => m.getAlphaMode() === 'BLEND' && GLASS.test(m.getName() || '')).length;
 const bytes = statSync(outPath).size;
 const srcBytes = statSync(inPath).size;
 
@@ -86,7 +110,8 @@ console.log(`→ ${outPath}`);
 
 let failed = false;
 const gate = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) failed = true; };
-gate(blendLeft === 0, `0 BLEND-матеріалів (маємо ${blendLeft})`);
+gate(blendLeft === 0, `0 хибно-прозорих матеріалів (маємо ${blendLeft})`);
+gate(glassBlend === 2, `скло прозоре (маємо ${glassBlend}/2)`);
 gate(bytes <= 2.0 * 1048576, `розмір ≤ 2.0 MB (маємо ${(bytes / 1048576).toFixed(2)} MB)`);
 gate(trisAfter === trisBefore, `геометрія не втрачена (${trisBefore} → ${trisAfter})`);
 // Меші/ноди мають лишитись усі. Кількість МАТЕРІАЛІВ може легітимно впасти: dedup зливає
