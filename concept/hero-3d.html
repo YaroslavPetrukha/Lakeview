@@ -29,7 +29,7 @@ a{color:inherit;text-decoration:none}
   background:radial-gradient(115% 90% at 62% 40%, #0B2C20 0%, #071E16 46%, #04140E 100%);
 }
 /* WebGL canvas fills the hero, sits behind copy */
-#gl{position:absolute; inset:0; width:100%; height:100%; z-index:1; display:block}
+#gl{position:absolute; inset:0; width:100%; height:100%; z-index:1; display:block; touch-action:none; cursor:pointer}
 /* very soft dark scrim on the left so copy stays legible — subtle, no hard edge */
 .scrim{position:absolute; inset:0; z-index:2; pointer-events:none;
   background:linear-gradient(90deg,rgba(3,15,10,.80) 0%,rgba(3,15,10,.46) 32%,rgba(3,15,10,0) 58%);}
@@ -188,6 +188,28 @@ h1 em{font-style:italic;color:var(--gold-l)}
   font-size:clamp(24px,2.4vw,33px); color:var(--ink)}
 .mc-a{margin-top:11px; font-family:var(--f2); font-size:12.5px; letter-spacing:.08em; color:var(--gold-l); opacity:.92}
 
+/* ===== BOTTOM-SHEET — the touch-portrait tap reveal (replaces the floating mark card that collided with the H1) ===== */
+.sheet{position:fixed; left:0; right:0; bottom:0; z-index:8; display:none;
+  transform:translateY(100%); transition:transform .42s cubic-bezier(.16,1,.3,1);
+  background:linear-gradient(0deg,rgba(4,16,11,.98) 0%,rgba(4,16,11,.92) 100%);
+  border-top:1px solid rgba(212,186,122,.3); border-radius:20px 20px 0 0;
+  box-shadow:0 -24px 60px rgba(0,0,0,.5);
+  padding:14px 20px calc(20px + env(safe-area-inset-bottom))}
+.sheet.on{transform:translateY(0)}
+.sheet .sh-grip{width:38px; height:4px; border-radius:100px; background:rgba(237,231,217,.28); margin:0 auto 14px}
+.sheet .sh-img{width:100%; height:min(34vh,300px); object-fit:cover; border-radius:12px; background:#08201A; filter:brightness(.92)}
+.sheet .sh-k{margin-top:15px; font-family:var(--f2); font-size:11px; font-weight:600;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--gold-l)}
+.sheet .sh-t{margin-top:4px; font-family:var(--f1); font-style:italic; font-weight:500; line-height:1.05;
+  font-size:clamp(24px,7vw,32px); color:var(--ink)}
+.sheet .sh-go{margin-top:16px; width:100%; padding:15px; border-radius:100px; border:0; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  background:var(--gold-aa); color:#F5EFE1; font-family:var(--f2); font-size:15px; font-weight:600}
+.sheet .sh-go svg{width:17px; height:17px}
+@media (prefers-reduced-motion:reduce){ .sheet{transition:transform .2s ease} }
+/* only touch-portrait uses the sheet; the projected mark card is hidden there */
+@media (max-width:900px) and (orientation:portrait){ .markcard{display:none} .sheet{display:block} }
+
 /* loading shimmer */
 .load{position:absolute;inset:0;z-index:7;display:flex;align-items:center;justify-content:center;
   background:#04140E;transition:opacity .8s ease;pointer-events:none}
@@ -196,17 +218,66 @@ h1 em{font-style:italic;color:var(--gold-l)}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ===== RESPONSIVE ===== */
-@media(max-width:900px){
-  .grid{grid-template-columns:1fr;align-items:end}
-  .copy{max-width:none;order:2;padding-bottom:40px}
-  .scrim{background:linear-gradient(0deg,rgba(3,15,10,.94) 0%,rgba(3,15,10,.55) 40%,rgba(3,15,10,.04) 72%)}
-  .nums{grid-template-columns:repeat(3,auto);gap:18px 26px}
-  .nums>div:nth-child(4),.nums>div:nth-child(5){display:none}
-  .hint{display:none}
+
+/* --- Portrait phones/tablets: the cube gets its OWN top band, copy sits below it (they can never overlap).
+   The full-bleed WebGL canvas is unchanged; the cube is seated into this band by the camera (see computeLayout). --- */
+@media (max-width:900px) and (orientation:portrait){
+  .hero{ --cube-band: clamp(250px, 34svh, 340px); }   /* svh honours dynamic mobile toolbars */
+  .grid{
+    grid-template-columns:1fr;
+    grid-template-rows: var(--cube-band) auto;         /* row1 = cube zone, row2 = copy */
+  }
+  .copy{ grid-row:2; align-self:start; max-width:none; padding-bottom:36px }
+  .scrim{ background:linear-gradient(0deg,rgba(3,15,10,.94) 0%,rgba(3,15,10,.55) 40%,rgba(3,15,10,.04) 72%) }
+  .nums{ grid-template-columns:repeat(3,auto); gap:18px 26px }
+  .nums>div:nth-child(4),.nums>div:nth-child(5){ display:none }
+  /* touch tap-hint: shown, centred; its `top` is set in JS (layoutBandAndHint) from the cube's real bottom. */
+  .hint{ display:flex; left:0; right:0; justify-content:center; bottom:auto;
+         font-size:11px; letter-spacing:.13em; text-align:center; padding:0 20px }
 }
-@media(max-width:560px){
-  h1{font-size:clamp(35px,10vw,48px)}
-  .ctas .btn{flex:1;justify-content:center}
+/* phones (short portrait): tighten copy + drop the stats row so tags + H1 + both CTAs win the fold.
+   Tablets (tall portrait, ≥880 high) keep the stats. */
+/* phones (all portrait phones — shorter than a tablet): tighten copy + drop the stats row so tags + H1 +
+   both CTAs win the fold. Tablets (tall portrait, ≥880 high) keep the roomier spacing + stats. */
+@media (max-width:900px) and (orientation:portrait) and (max-height:879px){
+  .hero{ --cube-band: clamp(190px, 28svh, 280px); }    /* pre-JS fallback; JS overrides from the real cube */
+  h1{ font-size:clamp(30px,8vw,42px); margin-bottom:14px }
+  .lead{ margin-bottom:16px; line-height:1.62 }
+  .tags{ margin-bottom:16px }
+  .ctas{ margin-bottom:0 }
+  .copy{ padding-bottom:24px }
+  .nums{ display:none }                                /* P2 content — genuinely doesn't fit above the fold on a phone */
+}
+/* short viewports (≤739: small phones / URL-bar visible): drop the secondary lead paragraph + tighten
+   so tags + H1 + BOTH CTAs stay above the fold. (Matches the computeLayout shortVP<740 smaller-cube tier.) */
+@media (max-width:900px) and (orientation:portrait) and (max-height:779px){
+  .hint{ font-size:10.5px }
+  h1{ font-size:clamp(28px,7.6vw,36px); margin-bottom:12px }
+  .lead{ display:none }
+  .tags{ margin-bottom:14px }
+}
+
+/* --- Landscape phones / short-wide: single-column can't fit ~390px tall — keep the desktop 2-column layout --- */
+@media (max-width:960px) and (orientation:landscape) and (max-height:520px){
+  .grid{ grid-template-columns:1.05fr .95fr; grid-template-rows:1fr; align-items:center }
+  .copy{ grid-row:auto; align-self:center; max-width:520px; padding:10px 0 }
+  .scrim{ background:linear-gradient(90deg,rgba(3,15,10,.86) 0%,rgba(3,15,10,.42) 42%,rgba(3,15,10,0) 62%) }
+  .tags{ margin-bottom:14px }
+  h1{ font-size:clamp(24px,6vh,36px); line-height:1.02; margin-bottom:14px }   /* height-based: fits the short viewport */
+  .lead{ display:none }                                 /* no vertical room in landscape — message lives in the h1 + tags */
+  .ctas{ flex-direction:row; flex-wrap:wrap; gap:10px; margin-bottom:0 }
+  .ctas .btn{ width:auto; padding:12px 20px; font-size:13.5px }
+  .nums{ display:none }
+  .hint{ display:none }
+}
+
+/* --- CTAs: deterministic full-width column stack across every phone width (no ragged side-by-side wrap) --- */
+@media (max-width:600px){
+  .ctas{ flex-direction:column; gap:10px }
+  .ctas .btn{ width:100%; justify-content:center }
+}
+@media (max-width:560px){
+  h1{ font-size:clamp(35px,9vw,48px) }
 }
 @media(prefers-reduced-motion:reduce){
   .load .m{animation:none}
@@ -288,6 +359,17 @@ h1 em{font-style:italic;color:var(--gold-l)}
     </svg>
     <div class="mc-cap"><div class="mc-k"></div><div class="mc-t"></div><div class="mc-a"></div></div>
   </div>
+
+  <!-- Bottom-sheet: touch-portrait tap reveal (slides up on tapping a cube face; the desktop hover card is untouched) -->
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="sh-grip"></div>
+    <img class="sh-img" id="sheetImg" alt="" draggable="false">
+    <div class="sh-k" id="sheetK"></div>
+    <div class="sh-t" id="sheetT"></div>
+    <button class="sh-go" id="sheetGo" type="button">Відкрити
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>
+  </div>
 </section>
 
 <script type="importmap">
@@ -312,7 +394,13 @@ import { VignetteShader } from 'three/addons/shaders/VignetteShader.js';
 import { FXAAShader } from 'three/addons/shaders/FXAAShader.js';
 
 const REDUCED = matchMedia('(prefers-reduced-motion:reduce)').matches;
-const MOBILE  = matchMedia('(max-width:900px)').matches || /iPhone|iPad|Android/i.test(navigator.userAgent);
+/* TOUCH = device capability (interaction model + perf tier) — does NOT change on rotation */
+const TOUCH   = (matchMedia('(hover:none) and (pointer:coarse)').matches)
+             || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+/* LAYOUT = current responsive mode — recomputed on every resize / orientation change (see computeLayout) */
+const mqPhoneP = matchMedia('(max-width:900px) and (orientation:portrait)');
+const mqPhoneL = matchMedia('(max-width:960px) and (orientation:landscape) and (max-height:520px)');
+let   LAYOUT   = 'desktop';   // 'desktop' | 'phoneP' | 'phoneL'
 
 const canvas = document.getElementById('gl');
 const hero   = document.getElementById('hero');
@@ -320,7 +408,7 @@ const capEl  = document.getElementById('cap');
 
 /* ---------- renderer ---------- */
 const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance', alpha:false });
-renderer.setPixelRatio(Math.min(devicePixelRatio, MOBILE ? 1.5 : 2));   // DPR cap ≤ 2
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));   // DPR cap ≤ 2 (was 1.5 on touch → cube looked pixelated on 2–3× phones)
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -334,7 +422,7 @@ scene.fog = new THREE.Fog(0x04140E, 14, 42);
    so the silhouette overlays the Вигода mark. */
 const camera = new THREE.OrthographicCamera(-1,1,1,-1,0.1,120);
 const CAM_D = 9;                   // ortho: distance only affects clip/fog, not size
-let   FRUST = MOBILE ? 3.7 : 4.6;  // half vertical world extent (framing)
+let   FRUST = 4.6;                 // half vertical world extent (framing) — set per-layout by computeLayout()
 const camTarget = new THREE.Vector3(0,0,0);
 function placeCamera(){
   camera.position.set(CAM_D, CAM_D, CAM_D);
@@ -344,8 +432,10 @@ function placeCamera(){
   camera.updateMatrixWorld();
   const right = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,0);
   const up    = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,1);
-  const panX = MOBILE ? 0.0 : -2.2;   // keep cube on the RIGHT of the hero
-  const panY = MOBILE ? -2.7 : 0.2;
+  // portrait phone: cube centered + lowered into its own top band, clear of the header;
+  // desktop & landscape phone: cube on the RIGHT beside the copy.
+  const panX = (LAYOUT === 'phoneP') ? 0.0 : -2.2;
+  const panY = CUBE_PANY;                              // portrait: seat the cube in its band, below the header
   const pan = right.multiplyScalar(panX).add(up.multiplyScalar(panY));
   camera.position.add(pan); camTarget.add(pan); camera.lookAt(camTarget);
 }
@@ -353,6 +443,22 @@ function updateFrustum(aspect){
   camera.left = -FRUST*aspect; camera.right = FRUST*aspect;
   camera.top  =  FRUST;        camera.bottom = -FRUST;
   camera.updateProjectionMatrix();
+}
+/* recompute the responsive mode + its framing knobs; safe to call every resize/orientation change */
+let CUBE_PANY = 0.2;   // vertical camera pan for the current layout (set by computeLayout, used by placeCamera)
+function computeLayout(){
+  LAYOUT = mqPhoneP.matches ? 'phoneP' : (mqPhoneL.matches ? 'phoneL' : 'desktop');
+  if (LAYOUT === 'phoneP'){
+    // Copy height is ~fixed in px, so on shorter viewports the cube must take a SMALLER share to keep the
+    // primary CTA above the fold. Two tiers: short phones (URL-bar visible) get a smaller, higher cube +
+    // the lead paragraph is dropped (CSS); taller viewports get a roomier cube. Band + hint derived in JS.
+    const shortVP = innerHeight < 780;
+    FRUST = shortVP ? 8.2 : 6.2;               // higher FRUST = smaller cube
+    CUBE_PANY = shortVP ? -4.1 : -3.0;
+  } else {
+    FRUST = 4.6; CUBE_PANY = 0.2;            // desktop + landscape phone: cube on the right, beside the copy
+  }
+  if (typeof mark !== 'undefined' && mark) mark.scale.setScalar(LAYOUT === 'phoneP' ? 0.74 : 1.0);
 }
 
 /* ---------- background: off-centre emerald room, no purple, faint depth render + god-ray ---------- */
@@ -607,7 +713,7 @@ loadGraded('entrance', 'assets/entrance-lobby.webp',   { gray:58, bright:0.65, s
 loadGraded('apartment','assets/entrance-elevators.webp',{ gray:56, bright:0.62, sat:0.88, tint:'rgba(15,61,44,0.24)', topDark:0.34, gold:0.24 }, true);
 
 mark.position.set(H*0.62, H*0.42, H*0.62);
-if (MOBILE) mark.scale.setScalar(0.74);
+computeLayout();   // sets LAYOUT + FRUST + mark.scale for the initial paint
 
 /* capture each face's resting (cube) transform — the hover-reveal animates FROM here */
 for (const f of Object.values(faces)){
@@ -620,7 +726,7 @@ for (const f of Object.values(faces)){
 /* ---------- a whisper of gold dust (≤30, soft) ---------- */
 let dust=null;
 if (!REDUCED){
-  const N = MOBILE ? 14 : 26;
+  const N = TOUCH ? 14 : 26;
   const pos = new Float32Array(N*3), spd = new Float32Array(N);
   for(let i=0;i<N;i++){ pos[i*3]=(Math.random()-0.5)*13; pos[i*3+1]=(Math.random()-0.5)*10;
     pos[i*3+2]=(Math.random()-0.5)*8-1; spd[i]=0.015+Math.random()*0.04; }
@@ -650,18 +756,61 @@ composer.addPass(fxaa);
 /* ---------- sizing ---------- */
 let ASPECT = 1;   // viewport aspect, used to keep the screen-space photo undistorted & upright
 function resize(){
+  computeLayout();                    // FIRST: refresh LAYOUT/FRUST/mark.scale before framing
   const w = hero.clientWidth, h = hero.clientHeight;
   ASPECT = w/h;
   placeCamera(); updateFrustum(w/h);
   renderer.setSize(w,h,false); composer.setSize(w,h);
   const pr = renderer.getPixelRatio();
-  const bw = MOBILE ? w*0.5 : w, bh = MOBILE ? h*0.5 : h;   // half-res bloom on mobile
-  bloom.setSize(bw,bh);
+  bloom.setSize(w,h);   // bloom at CSS-px res (≈half device-px) — full quarter-res on touch was blocky on the gold glow
   fxaa.material.uniforms.resolution.value.set(1/(w*pr), 1/(h*pr));
   if (activeFace) positionCard();
+  layoutBandAndHint();
   render1();
 }
 window.addEventListener('resize', resize);
+
+/* ---------- portrait: drive the cube band + hint from the cube's ACTUAL bottom vertex ----------
+   A CSS `svh`-based band can't track the cube: the ortho camera frames the cube using the real pixel
+   height, while `svh` is fixed to the SMALLEST viewport — so on iPhone Safari (dynamic URL bar) the band
+   under-reserves and the cube's bottom lands on the copy/hint. Instead we measure the resting bottom
+   vertex each resize and set `--cube-band` + the hint from it, so the gap is always real. */
+const hintEl = document.getElementById('hint');
+const barEl  = document.querySelector('.bar');
+const _hMat = new THREE.Matrix4();
+const _hScale = new THREE.Vector3(GAP, GAP, GAP);
+const _hV = new THREE.Vector3();
+function layoutBandAndHint(){
+  if (!hintEl) return;
+  if (LAYOUT !== 'phoneP'){                              // desktop/landscape: CSS owns band + hint
+    hero.style.removeProperty('--cube-band');
+    hintEl.style.top=''; hintEl.style.display='';
+    return;
+  }
+  mark.updateMatrixWorld(true);
+  const cv = canvas.getBoundingClientRect();
+  const hs = S*0.5;                                      // full cube-outline half-extent
+  let maxY = -1e9;
+  for (const f of Object.values(faces)){
+    _hMat.compose(f.basePos, f.baseQuat, _hScale);       // RESTING transform (ignores entrance scale → stable even at boot)
+    _hMat.premultiply(mark.matrixWorld);
+    for (const c of [[-hs,-hs],[hs,-hs],[hs,hs],[-hs,hs]]){
+      _hV.set(c[0],c[1],0).applyMatrix4(_hMat).project(camera);
+      const sy = cv.top + (-_hV.y*0.5+0.5)*cv.height;
+      if (sy > maxY) maxY = sy;
+    }
+  }
+  const barBottom = barEl ? barEl.getBoundingClientRect().bottom : 88;
+  const GAP_PX = 48;                                     // cube→copy gap (holds the hint + breathing room)
+  const band = Math.max(120, Math.round(maxY + GAP_PX - barBottom));
+  hero.style.setProperty('--cube-band', band + 'px');    // copy row now starts a real gap below the cube
+  hintEl.style.display = 'flex';                          // hint sits in that gap, just under the cube (float amp ~5px < 16)
+  hintEl.style.top = Math.round(maxY + 16) + 'px';
+  hintEl.style.bottom = 'auto';
+}
+// rotation + iOS URL-bar show/hide change the viewport without a classic 'resize' on some devices
+window.addEventListener('orientationchange', ()=> setTimeout(resize, 60));
+if (window.visualViewport) visualViewport.addEventListener('resize', resize);
 
 /* ---------- interaction: hover-reveal + click, bound to WINDOW (no overlay blocks it) ---------- */
 const ray = new THREE.Raycaster();
@@ -684,6 +833,12 @@ const hitList = ()=>Object.values(faces).map(f=>f.hit);
 const MC = document.getElementById('markcard');
 const MCimgs = MC.querySelectorAll('.mc-img');
 let overCard = false;
+/* bottom-sheet (touch-portrait): a clean slide-up reveal that never lands on the H1 */
+const SH = document.getElementById('sheet');
+const SHimg = document.getElementById('sheetImg');
+const SHk = document.getElementById('sheetK');
+const SHt = document.getElementById('sheetT');
+const SRC = { floor:'assets/zhk-aerial.webp', entrance:'assets/entrance-lobby.webp', apartment:'assets/entrance-elevators.webp' };
 function positionCard(){
   mark.updateMatrixWorld(true);
   const p = mark.position.clone().project(camera);      // cube's central corner = hexagon centre
@@ -692,10 +847,10 @@ function positionCard(){
   let cx = r.left + (p.x*0.5+0.5)*r.width;
   let cy = r.top  + (-p.y*0.5+0.5)*r.height;
   let w;
-  if (MOBILE){ w = Math.min(vw*0.70, vh*0.34); cx = vw*0.5; cy = vh*0.245; }
-  else       { w = Math.min(vw*0.46, vh*0.54); }
+  if (LAYOUT === 'phoneP'){ w = Math.min(vw*0.70, vh*0.34); cx = vw*0.5; cy = vh*0.245; }  // (portrait uses the bottom-sheet; kept for safety)
+  else                    { w = Math.min(vw*0.46, vh*0.54); }
   const h = w/0.8712;
-  if (!MOBILE){                                          // never cross into the left copy column
+  if (LAYOUT !== 'phoneP'){                              // desktop + landscape phone: never cross into the left copy column
     const minCx = vw*0.52 + w/2, maxCx = vw - w/2 - 14;
     cx = Math.max(minCx, Math.min(cx, maxCx));
   }
@@ -706,10 +861,19 @@ function positionCard(){
 }
 function openCard(name){
   const d = CARD[name] || {};
+  if (LAYOUT === 'phoneP'){                 // portrait phone → slide up the bottom-sheet (no floating card over the H1)
+    SH.dataset.face = name;
+    SHimg.src = SRC[name] || '';
+    SHk.textContent = d.k || '';
+    SHt.textContent = d.t || '';
+    SH.classList.add('on'); SH.setAttribute('aria-hidden','false');
+    hero.classList.add('cardon');
+    return;
+  }
   MC.dataset.face = name;
   MC.querySelector('.mc-k').textContent = d.k || '';
   MC.querySelector('.mc-t').textContent = d.t || '';
-  MC.querySelector('.mc-a').textContent = MOBILE ? 'Відкрити →' : (d.a || '');
+  MC.querySelector('.mc-a').textContent = TOUCH ? 'Відкрити →' : (d.a || '');
   MCimgs.forEach(i => i.classList.toggle('show', i.dataset.f === name));
   positionCard();
   MC.classList.add('on');
@@ -718,6 +882,7 @@ function openCard(name){
 function closeCard(){
   overCard = false;
   MC.classList.remove('on');
+  SH.classList.remove('on'); SH.setAttribute('aria-hidden','true');
   hero.classList.remove('cardon');
 }
 MC.addEventListener('pointerenter', ()=>{ overCard = true; });
@@ -729,6 +894,14 @@ MC.addEventListener('click', (e)=>{
     confirmPulse(activeFace); (FACE_ACTION[activeFace] || noop)();
   }
 });
+// bottom-sheet "Відкрити →" opens the destination; stopPropagation so the window click doesn't re-close it
+document.getElementById('sheetGo').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  const n = SH.dataset.face;
+  if (n && faces[n] && faces[n].clickable){ confirmPulse(n); (FACE_ACTION[n] || noop)(); }
+});
+// tapping the sheet body shouldn't bubble to the window handler (which would collapse it)
+SH.addEventListener('click', (e)=> e.stopPropagation());
 
 function pointerToNDC(clientX, clientY){
   const r = canvas.getBoundingClientRect();
@@ -753,12 +926,12 @@ function onMove(e){
     hovered = n; hoverSince = performance.now();
     canvas.style.cursor = (n && faces[n].clickable) ? 'pointer' : 'default';
   }
-  if (!MOBILE && !REDUCED){ target.x=(e.clientX/window.innerWidth-0.5); target.y=(e.clientY/window.innerHeight-0.5); }
+  if (!TOUCH && !REDUCED){ target.x=(e.clientX/window.innerWidth-0.5); target.y=(e.clientY/window.innerHeight-0.5); }
   render1();
 }
 // desktop hover intent-gate, evaluated per frame (continuous 90ms hover before expand; 220ms min-commit)
 function updateHoverGate(now){
-  if (MOBILE) return;             // reduced-motion still uses the desktop hover path (in-place crossfade only)
+  if (TOUCH) return;              // touch has no hover-intent gate (uses tap → bottom-sheet instead)
   if (overCard && activeFace){ commitTime = now; return; }   // pointer is over the open card -> keep it open
   if (hovered && faces[hovered].clickable){
     if (now - hoverSince >= 90) setActive(hovered);
@@ -775,21 +948,20 @@ function confirmPulse(name){ if (faces[name]) faces[name]._pulse = performance.n
 function onClick(e){
   pointerToNDC(e.clientX, e.clientY);
   const n = pickName();
-  if (MOBILE){
-    if (!n){ setActive(null); return; }             // tap empty -> collapse
-    if (n !== activeFace){ setActive(n); return; }   // 1st tap -> expand only (never opens)
-    if (faces[n].clickable){ confirmPulse(n); (FACE_ACTION[n]||noop)(); }  // 2nd tap same face -> open
+  if (TOUCH){
+    if (!n){ setActive(null); return; }   // tap empty → close the sheet
+    setActive(n);                         // tap a face → open its bottom-sheet (the sheet's button opens the destination)
     return;
   }
   const openName = n || activeFace;                  // desktop: hover=preview, click=open
   if (openName && faces[openName] && faces[openName].clickable){ confirmPulse(openName); (FACE_ACTION[openName]||noop)(); }
 }
 window.addEventListener('pointermove', onMove, {passive:true});
-window.addEventListener('click', onClick);
+if (TOUCH){ canvas.addEventListener('pointerup', onClick); } else { window.addEventListener('click', onClick); }
 window.addEventListener('pointerleave', ()=>{ target.x=0; target.y=0; hovered=null; setActive(null); });
 
 /* ---------- reveal math scratch + tunables ---------- */
-const EXPAND_SCALE = MOBILE ? 2.15 : 2.1;   // card grows (capped: ≤46% VW, long diagonal ~64% hero height)
+const EXPAND_SCALE = TOUCH ? 2.15 : 2.1;   // card grows (capped: ≤46% VW, long diagonal ~64% hero height)
 const DETACH = 0.35;                          // lift off the cube along the face normal (arc height)
 const cardCenter = new THREE.Vector3(-H*0.18, H*0.02, -H*0.18); // settle near cube centroid, slight up nudge, kept right
 const _toCam=new THREE.Vector3(), _camDirLocal=new THREE.Vector3(), _markInv=new THREE.Quaternion();
@@ -822,7 +994,7 @@ function updateCaption(){
     rcard.dataset.face = activeFace;
     rcard.querySelector('.rk').textContent = d.k;
     rcard.querySelector('.rt').textContent = d.t;
-    rcard.querySelector('.ra').textContent = MOBILE ? 'Відкрити →' : d.a;
+    rcard.querySelector('.ra').textContent = TOUCH ? 'Відкрити →' : d.a;
   }
   f.group.updateWorldMatrix(true, false);
   const r = canvas.getBoundingClientRect(), half = S*IMG*0.5;
@@ -960,6 +1132,11 @@ function frame(){
 resize();
 START = performance.now();
 frame();
+// touch devices: reword the hint (hover copy is meaningless) so users know to tap the faces
+if (TOUCH && hintEl){
+  hintEl.innerHTML = '<span class="rg"></span> Торкніться граней куба';
+  layoutBandAndHint();   // re-measure after the (shorter) touch text changes the hint height
+}
 if (REDUCED){
   for (const f of Object.values(faces)){ f.mat.uniforms.uReveal.value=1; f.mat.uniforms.uPhoto.value=1;
     f.group.scale.setScalar(GAP); for(const m of f.mats) m.opacity=1; }
@@ -971,7 +1148,7 @@ setTimeout(()=>{ const l=document.getElementById('load'); if(l) l.style.display=
 
 // expose for QA / verification
 window.__mark = mark; window.__faces = faces; window.__camera = camera; window.__canvas = canvas;
-window.__setActive = setActive;
+window.__setActive = setActive; window.__THREE = THREE; window.__LAYOUT = ()=>LAYOUT;
 </script>
 
 <!-- ===== Image gallery lightbox (entrance group / ЖК renders) ===== -->
