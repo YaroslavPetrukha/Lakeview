@@ -255,6 +255,10 @@ orbit.target.set(...WAYPOINTS[0].look);
 const walk = new PointerLockControls(camera, renderer.domElement);
 let walkMode = false;
 const keys = Object.create(null);
+// Без цього огляд мишею у вільній прогулянці не перемальовується: PointerLockControls
+// повертає камеру на кожен рух миші й шле 'change', але рендер у нас «за потреби» —
+// без підписки кадр оновлюється лише коли натиснеш клавішу руху.
+walk.addEventListener('change', ()=> invalidate());
 
 /* ── render-on-demand ───────────────────────────────────────────────
    Камера в точці огляду СТОЇТЬ. Малювати 60 разів на секунду статичний
@@ -353,17 +357,33 @@ function buildRail(){
   });
 }
 
+/* Стягуємо ціль орбіти впритул до камери (2 см попереду в тому ж напрямку огляду).
+   Без цього OrbitControls обертає камеру навколо точки look за ~4 м — перетягування
+   возить камеру дугою, і біля стін вона впирається в геометрію. З ціллю на 2 см
+   обертання = поворот погляду НА МІСЦІ (як у Matterport), кути видно повністю.
+   Напрямок огляду не міняється, тож візуального стрибка немає. */
+const NEAR = 0.02;
+function collapseTarget(){
+  const dir = orbit.target.clone().sub(camera.position);
+  if(dir.lengthSq() < 1e-9) dir.set(0,0,-1);
+  dir.normalize();
+  orbit.target.copy(camera.position).addScaledVector(dir, NEAR);
+  orbit.update();
+}
+
 function goTo(i, instant=false){
   if(walkMode) toggleWalk(false);
   const w = WAYPOINTS[i];
   current = i;
   document.querySelectorAll('.wp').forEach((b,k)=>b.setAttribute('aria-current', k===i ? 'true':'false'));
 
+  // Ціль для ПОЛЬОТУ — далека точка look (щоб камера повернулась у бік кімнати
+  // дорогою). Після прибуття collapseTarget() стягує її до камери для огляду.
   const from = { p:camera.position.clone(), t:orbit.target.clone() };
   const to   = { p:new THREE.Vector3(...w.pos), t:new THREE.Vector3(...w.look) };
 
   if(instant || REDUCED){
-    camera.position.copy(to.p); orbit.target.copy(to.t); orbit.update(); invalidate(); return;
+    camera.position.copy(to.p); orbit.target.copy(to.t); collapseTarget(); invalidate(); return;
   }
   tween = { from, to, t0:performance.now(), dur:900 };
   invalidate();
@@ -411,7 +431,7 @@ function frame(){
     const k = Math.min(1, (performance.now()-tween.t0)/tween.dur), e = ease(k);
     camera.position.lerpVectors(tween.from.p, tween.to.p, e);
     orbit.target.lerpVectors(tween.from.t, tween.to.t, e);
-    if(k>=1) tween=null;
+    if(k>=1){ tween=null; collapseTarget(); }   // стягнути ціль для огляду на місці
     dirty = true;
   }
 
@@ -468,9 +488,10 @@ $('#errRetry').addEventListener('click', ()=> location.reload());
 
 /* ── QA hooks (як у hero-3d.html) ───────────────────────────────── */
 Object.assign(window, {
-  __THREE:THREE, __camera:camera, __scene:scene, __orbit:orbit,
+  __THREE:THREE, __camera:camera, __scene:scene, __orbit:orbit, __walk:walk,
   __waypoints:WAYPOINTS, __goTo:goTo, __renderer:renderer,
   __model:()=>model,
+  __isDirty:()=>dirty,
 });
 </script>
 </body>
