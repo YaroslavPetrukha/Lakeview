@@ -352,7 +352,7 @@ h1 em{font-style:italic;color:var(--gold-l)}
   <div class="markcard" id="markcard" aria-hidden="true">
     <img class="mc-img" data-f="floor"     src="assets/zhk-aerial.webp"        alt="" draggable="false">
     <img class="mc-img" data-f="entrance"  src="assets/entrance-lobby.webp"    alt="" draggable="false">
-    <img class="mc-img" data-f="apartment" src="assets/entrance-elevators.webp" alt="" draggable="false">
+    <img class="mc-img" data-f="apartment" src="assets/apartment-interior.webp" alt="" draggable="false">
     <svg class="mc-frame" viewBox="64.65 31.3 91.3 104.81" preserveAspectRatio="none" aria-hidden="true">
       <path d="M110.3,136.11l-44.58-25.74,44.58-25.74,44.58,25.74-44.58,25.74ZM67.72,110.37l42.58,24.59,42.58-24.59-42.58-24.59-42.58,24.59Z"/>
       <path d="M155.95,108.52l-44.58-25.74V31.3l44.58,25.74v51.48ZM112.37,82.2l42.58,24.59v-49.17l-42.58-24.59v49.17Z"/>
@@ -711,7 +711,7 @@ const wallR = makeFace('apartment',{clickable:true}); wallR.position.set(0,0,-H)
 // identical film on all three; aerial gets an extra sky-crush
 loadGraded('floor',    'assets/zhk-aerial.webp',       { gray:62, bright:0.55, sat:0.82, tint:'rgba(15,61,44,0.34)', topDark:0.62, topH:0.62, gold:0.18 });
 loadGraded('entrance', 'assets/entrance-lobby.webp',   { gray:58, bright:0.65, sat:0.85, tint:'rgba(15,61,44,0.28)', topDark:0.40, gold:0.20 });
-loadGraded('apartment','assets/entrance-elevators.webp',{ gray:56, bright:0.62, sat:0.88, tint:'rgba(15,61,44,0.24)', topDark:0.34, gold:0.24 }, true);
+loadGraded('apartment','assets/apartment-interior.webp',{ gray:56, bright:0.62, sat:0.88, tint:'rgba(15,61,44,0.24)', topDark:0.34, gold:0.24 }, true);
 
 mark.position.set(H*0.62, H*0.42, H*0.62);
 computeLayout();   // sets LAYOUT + FRUST + mark.scale for the initial paint
@@ -839,7 +839,7 @@ const SH = document.getElementById('sheet');
 const SHimg = document.getElementById('sheetImg');
 const SHk = document.getElementById('sheetK');
 const SHt = document.getElementById('sheetT');
-const SRC = { floor:'assets/zhk-aerial.webp', entrance:'assets/entrance-lobby.webp', apartment:'assets/entrance-elevators.webp' };
+const SRC = { floor:'assets/zhk-aerial.webp', entrance:'assets/entrance-lobby.webp', apartment:'assets/apartment-interior.webp' };
 function positionCard(){
   mark.updateMatrixWorld(true);
   const p = mark.position.clone().project(camera);      // cube's central corner = hexagon centre
