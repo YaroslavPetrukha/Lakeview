@@ -90,7 +90,12 @@ await doc.transform(
   prune(),
   weld(),
   // Текстури вже ≤1024 (найбільша 999×443) — resize тут запобіжник, не оптимізація.
-  textureCompress({ encoder: sharp, targetFormat: 'webp', quality: 82, resize: [1024, 1024] }),
+  // q90, не q82: попіксельне порівняння показало, що q82 просаджував текстури ПІДЛОГИ
+  // (ламінат/паркет) до PSNR 37 dB — а на підлогу в прогулянці дивишся постійно.
+  // q90 піднімає їх до ~41 dB (візуально без втрат) і лишається 1.91 MB (< 2 MB).
+  // Вище не йдемо: q95 = 2.03 MB перевищує бюджет, а «Грунт» тераси все одно впирається
+  // у ~28 dB через власний шум — то не WebP, і гнатися нема за чим.
+  textureCompress({ encoder: sharp, targetFormat: 'webp', quality: 90, resize: [1024, 1024] }),
 );
 const trisAfter = countTris(root);
 
