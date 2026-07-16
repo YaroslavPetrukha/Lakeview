@@ -1,10 +1,27 @@
-# Preview folder for the apartment 3D tour — keep it out of every index.
-# The page also carries <meta name="robots" ...>; this header is defence in depth
-# and matches the existing /cube-preview-a7f39c2b/ pattern.
+# Preview folder for the apartment 3D tour.
 #
-# NOTE: unlike the cube preview, this folder needs NO relaxed CSP — the tour
-# self-hosts Three.js from /js/three/, so it passes the site-wide root CSP
-# (script-src 'self') as-is. Do not add cdn.jsdelivr.net here.
+# ── CSP (folder-scoped) ─────────────────────────────────────────────────────
+# CRITICAL: this MUST override the site-wide root CSP, or the tour ships a naked
+# grey model. The GLB embeds its 15 textures in the binary buffer; three.js
+# GLTFLoader decodes each via URL.createObjectURL() → a blob: URL, then fetches
+# it (ImageBitmapLoader) or sets img.src (Safari). The root policy has
+# `img-src 'self' data: https:` and `connect-src 'self'` — neither lists blob:,
+# so every texture request is refused ("Couldn't load texture blob:…") while the
+# GLB itself parses fine. Result: model loads, textures silently don't, no error
+# card. Verified under the exact prod CSP in real Chrome (2026-07-16).
+# The two additions that matter: blob: in BOTH img-src and connect-src.
+#
+# `always set` (not `set`) is required so this replaces the root's `always set`
+# rather than emitting a second CSP header the browser would intersect. Same
+# pattern the /cube-preview-a7f39c2b/ folder already uses.
+#
+# blob: is safe to allow: a blob: URL can only reference data the page itself
+# created via createObjectURL — it cannot pull external content.
+#
+# NOTE: no cdn.jsdelivr.net needed — the tour self-hosts Three.js from /js/three/.
 <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+
+    # Keep the preview out of every index (defence in depth alongside <meta robots>).
     Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
 </IfModule>

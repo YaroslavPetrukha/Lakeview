@@ -22,7 +22,7 @@ import { NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { dedup, prune, weld, textureCompress } from '@gltf-transform/functions';
 import sharp from 'sharp';
-import { statSync } from 'node:fs';
+import { statSync, renameSync, unlinkSync } from 'node:fs';
 
 const [, , inPath = 'новий концепт/Квартира.glb', outPath = 'img/3d/kv-b21.glb'] = process.argv;
 
@@ -43,7 +43,12 @@ const doc = await io.read(inPath);
 const root = doc.getRoot();
 
 // ── 1. alphaMode: виправити ОБИДВІ помилки експорту ─────────────────────────
+// Класифікація за назвою матеріалу — крихка: скло, назване інакше («шкло»,
+// «vitrage», друкарська помилка), поїде в else-гілку й стане матовим пластиком,
+// повернувши саме той баг, який цей скрипт лікує. Тому логуємо КОЖЕН
+// перекласифікований матеріал — щоб людина оком звірила після реекспорту.
 let fixed = 0, glassFixed = 0;
+const reclassified = [];
 for (const mat of root.listMaterials()) {
   const name = mat.getName() || '(unnamed)';
   if (GLASS.test(name)) {
@@ -61,15 +66,19 @@ for (const mat of root.listMaterials()) {
       GLASS_ALPHA,
     ]);
     glassFixed++;
+    reclassified.push(`  скло   → прозоре : ${name}`);
   } else if (mat.getAlphaMode() === 'BLEND') {
     // BLEND → OPAQUE (доведено: жодного невидимого пікселя в текстурі)
     mat.setAlphaMode('OPAQUE');
     mat.setAlpha(1.0);
     fixed++;
+    reclassified.push(`  BLEND  → opaque  : ${name}`);
   }
 }
 console.log(`alphaMode BLEND→OPAQUE: ${fixed} матеріалів`);
 console.log(`скло OPAQUE→прозоре:   ${glassFixed} матеріалів`);
+console.log('перекласифіковано (звірити оком після реекспорту):');
+for (const line of reclassified) console.log(line);
 
 // ── 2. doubleSided — НЕ чіпаємо ─────────────────────────────────────────────
 // 38/38 матеріалів doubleSided. Вимкнення = ~2× менше растеризації, АЛЕ якщо
@@ -99,36 +108,59 @@ await doc.transform(
 );
 const trisAfter = countTris(root);
 
-await io.write(outPath, doc);
+// Пишемо в ТИМЧАСОВИЙ файл. Гейти мають ЗАХИЩАТИ, а не лише звітувати: якщо
+// записати одразу в outPath, «провалений» гейт нічому не завадить — зламаний
+// актив уже лежить у img/3d/ готовий до деплою. Тому rename в outPath — тільки
+// після проходження всіх гейтів (fail-closed).
+// ⚠️ temp-шлях МУСИТЬ закінчуватись на .glb: gltf-transform обирає формат за
+// розширенням, і будь-що інше (.tmp) пише glTF-JSON БЕЗ бінарного буфера —
+// зламаний 70 КБ файл, який гейти по пам'яті не помітять.
+const tmpPath = outPath.replace(/\.glb$/i, '.building.glb');
+await io.write(tmpPath, doc);
 
 // ── 4. Gates ───────────────────────────────────────────────────────────────
+// Round-trip: перечитуємо те, що реально записали — ловить зіпсований/непарсабельний GLB.
+let roundTrip = true, roundTripErr = '';
+try { await new NodeIO().registerExtensions(ALL_EXTENSIONS).read(tmpPath); }
+catch (e) { roundTrip = false; roundTripErr = e.message; }
+
 const blendLeft = root.listMaterials()
   .filter((m) => m.getAlphaMode() === 'BLEND' && !GLASS.test(m.getName() || '')).length;
-const glassBlend = root.listMaterials()
-  .filter((m) => m.getAlphaMode() === 'BLEND' && GLASS.test(m.getName() || '')).length;
-const bytes = statSync(outPath).size;
+const glassOpaque = root.listMaterials()
+  .filter((m) => GLASS.test(m.getName() || '') && m.getAlphaMode() === 'OPAQUE').length;
+const bytes = statSync(tmpPath).size;
 const srcBytes = statSync(inPath).size;
 
 console.log(`\nтрикутники: ${trisBefore.toLocaleString()} → ${trisAfter.toLocaleString()}`);
 console.log(`розмір:     ${(srcBytes / 1048576).toFixed(2)} MB → ${(bytes / 1048576).toFixed(2)} MB (−${(100 - (bytes / srcBytes) * 100).toFixed(0)}%)`);
-console.log(`→ ${outPath}`);
+console.log(`меші/матеріали/текстури: ${root.listMeshes().length} / ${root.listMaterials().length} / ${root.listTextures().length}`);
 
 let failed = false;
 const gate = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) failed = true; };
+// Гейти виражають ІНВАРІАНТИ, а не точні числа цієї ревізії — інакше наступний
+// реекспорт архітектора (37 мешів, 3 скла) провалить збірку без реального дефекту.
+gate(roundTrip, `вихідний GLB перечитується${roundTrip ? '' : ` (${roundTripErr})`}`);
 gate(blendLeft === 0, `0 хибно-прозорих матеріалів (маємо ${blendLeft})`);
-gate(glassBlend === 2, `скло прозоре (маємо ${glassBlend}/2)`);
+gate(glassOpaque === 0, `жодне скло не лишилось матовим (маємо ${glassOpaque})`);
 gate(bytes <= 2.0 * 1048576, `розмір ≤ 2.0 MB (маємо ${(bytes / 1048576).toFixed(2)} MB)`);
-gate(trisAfter === trisBefore, `геометрія не втрачена (${trisBefore} → ${trisAfter})`);
-// Меші/ноди мають лишитись усі. Кількість МАТЕРІАЛІВ може легітимно впасти: dedup зливає
-// лише побайтово ідентичні. У цій моделі ArchiCAD віддав 2 дублікати під різними іменами
-// («Металл-Нержавеющая сталь» ≡ «Металл - Сталь Нержавеющая», «Краска-04» ≡ інша фарба).
-// Обидва були OPAQUE ще в джерелі ⇒ до фіксу alphaMode це відношення не має. 38→36 — норма.
-gate(root.listMeshes().length === 38, `38 мешів збережено (маємо ${root.listMeshes().length})`);
-gate(root.listMaterials().length >= 36, `матеріали не втрачені понад дублікати (маємо ${root.listMaterials().length}/38)`);
-gate(root.listTextures().length === 15, `15 текстур (маємо ${root.listTextures().length})`);
+// Нижня межа ловить «безтекстурний» вихід (напр. запис у не-.glb): 15 вбудованих
+// текстур не можуть важити менше ~0.25 MB. Гейти по пам'яті такого не бачать.
+gate(bytes >= 0.25 * 1048576, `текстури вбудовані — розмір ≥ 0.25 MB (маємо ${(bytes / 1048576).toFixed(2)} MB)`);
+gate(trisAfter <= trisBefore, `геометрія не роздута (${trisBefore} → ${trisAfter})`);
+gate(root.listMeshes().length >= 1, `є меші (${root.listMeshes().length})`);
+gate(root.listTextures().length >= 1, `є текстури (${root.listTextures().length})`);
+// Найзмістовніший гейт: жоден меш не лишився без матеріалу (→ magenta в рантаймі).
 gate(root.listMeshes().every((m) => m.listPrimitives().every((p) => p.getMaterial())),
   'кожен меш має матеріал');
-process.exit(failed ? 1 : 0);
+
+if (failed) {
+  unlinkSync(tmpPath);
+  console.error('\n✗ гейти не пройдено — актив НЕ записано (старий img/3d/kv-b21.glb недоторканий)');
+  process.exit(1);
+}
+renameSync(tmpPath, outPath);
+console.log(`\n✓ усі гейти пройдено → ${outPath}`);
+process.exit(0);
 
 function countTris(root) {
   let t = 0;

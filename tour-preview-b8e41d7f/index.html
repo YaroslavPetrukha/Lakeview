@@ -117,7 +117,9 @@ kbd{font-family:var(--f2);background:rgba(197,165,90,.16);border:1px solid rgba(
 </style>
 </head>
 <body>
-<a class="skip" href="#leave">Пропустити 3D-тур</a>
+<!-- Реальний вихід для клавіатури/скрінрідера: 3D-канва — не для всіх, тож ведемо
+     на планування у PDF, а не в порожній якір. -->
+<a class="skip" href="/img/plans/">Пропустити 3D-тур — дивитись планування</a>
 
 <div id="app">
   <canvas id="c" aria-label="Інтерактивна 3D-модель квартири Кв В-2.1. Використовуйте кнопки внизу, щоб перейти між кімнатами." role="img"></canvas>
@@ -158,8 +160,6 @@ kbd{font-family:var(--f2);background:rgba(197,165,90,.16);border:1px solid rgba(
     </div>
   </div>
 </div>
-
-<div id="leave" tabindex="-1"></div>
 
 <script type="importmap">
 {
@@ -214,11 +214,20 @@ const DPR_CAP = TOUCH ? 1.5 : 2;   // 3× DPR = 9× fill; capping ~doubles mobil
 const $ = (s)=>document.querySelector(s);
 const canvas=$('#c'), elLoad=$('#load'), elErr=$('#err'), elBar=$('#pbar'), elHud=$('#hud');
 
+// Прив'язуємо retry ОДРАЗУ, до створення рендерера. Якщо WebGL не створиться,
+// решта модуля впаде на renderer.setPixelRatio — і слухач унизу файлу не встигне
+// зареєструватись, лишивши кнопку «Спробувати ще раз» мертвою саме тоді, коли
+// вона найпотрібніша.
+$('#errRetry').addEventListener('click', ()=> location.reload());
+
 /* ── renderer ───────────────────────────────────────────────────── */
 let renderer;
 try{
   renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance' });
-}catch(e){ fail('WebGL недоступний', 'Ваш браузер не підтримує 3D-графіку. Планування можна подивитись у PDF.'); }
+}catch(e){
+  fail('WebGL недоступний', 'Ваш браузер не підтримує 3D-графіку. Планування можна подивитись у PDF.');
+  throw e;  // зупиняємо модуль чисто, щоб не впасти на undefined renderer нижче
+}
 
 renderer.setPixelRatio(Math.min(devicePixelRatio, DPR_CAP));
 renderer.setSize(innerWidth, innerHeight);
@@ -238,7 +247,10 @@ camera.position.set(...WAYPOINTS[0].pos);
 
 /* ── env + light ────────────────────────────────────────────────── */
 const pmrem = new THREE.PMREMGenerator(renderer);
-scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+const roomEnv = new RoomEnvironment(renderer);
+scene.environment = pmrem.fromScene(roomEnv, 0.04).texture;
+pmrem.dispose();                       // разова випічка — генератор більше не потрібен
+roomEnv.dispose?.();
 // r160 не має scene.environmentIntensity (з'явився в r163) — тому вплив
 // середовища регулюємо через envMapIntensity на матеріалах (див. нижче).
 // Один спрямований ключ — саме він дає напрямок і контраст. Шість точкових ламп
@@ -398,23 +410,27 @@ function goTo(i, instant=false){
 const ease = (x)=> x<0.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2;
 
 /* ── walk mode (desktop only) ───────────────────────────────────── */
+const clearKeys = ()=>{ for(const k in keys) keys[k]=false; };
 function toggleWalk(on){
   walkMode = on;
   $('#btnWalk').setAttribute('aria-pressed', String(on));
   elHud.hidden = !on;
   orbit.enabled = !on;
-  if(!on && walk.isLocked) walk.unlock();
+  if(!on){ clearKeys(); if(walk.isLocked) walk.unlock(); }  // не тягнемо затиснуту клавішу далі
   invalidate();
 }
 $('#btnWalk').addEventListener('click', ()=> toggleWalk(!walkMode));
 elHud.addEventListener('click', ()=> walk.lock());
-walk.addEventListener('unlock', ()=>{ if(walkMode) elHud.hidden = false; });
+walk.addEventListener('unlock', ()=>{ clearKeys(); if(walkMode) elHud.hidden = false; });
 walk.addEventListener('lock',   ()=>{ elHud.hidden = true; });
 addEventListener('keydown', (e)=>{
   keys[e.code]=true;
   if(e.code==='Escape' && walkMode) toggleWalk(false);
 });
 addEventListener('keyup', (e)=>{ keys[e.code]=false; });
+// Втрата фокусу вікна не шле keyup → без цього затиснута W «залипає» і камера
+// сама поповзе вперед при поверненні.
+addEventListener('blur', clearKeys);
 
 $('#btnReset').addEventListener('click', ()=> goTo(0));
 
@@ -455,7 +471,10 @@ function frame(){
       camera.position.y = EYE;
       dirty = true;
     }
-  } else {
+  } else if(!tween){
+    // НЕ під час твіна: orbit.update() перевиводить позицію з target+offset і
+    // застосовує полярні кламп-кути щоразу — для стрімкого look-вектора це
+    // вигнуло б траєкторію польоту. Демпінг доречний лише в режимі огляду.
     if(orbit.enableDamping) orbit.update();
   }
 
@@ -482,6 +501,10 @@ canvas.addEventListener('webglcontextlost', (e)=>{
   fail('3D-тур зупинився', 'Браузеру забракло ресурсів для 3D. Оновіть сторінку, щоб продовжити.');
 });
 
+// Деякі браузери скидають буфер малювання, коли вкладка у фоні. При render-on-demand
+// dirty=false, тож повернення показало б чорну/застарілу канву, доки не поворухнешся.
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) invalidate(); });
+
 function fail(title, msg){
   if(elLoad) elLoad.hidden = true;
   $('#errT').textContent = title;
@@ -489,7 +512,7 @@ function fail(title, msg){
   elErr.hidden = false;
   $('#errRetry').focus();
 }
-$('#errRetry').addEventListener('click', ()=> location.reload());
+// (слухач #errRetry прив'язано на початку модуля — до створення рендерера)
 
 /* ── QA hooks (як у hero-3d.html) ───────────────────────────────── */
 Object.assign(window, {
