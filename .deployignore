@@ -94,7 +94,9 @@ deploy.sh
 .env
 .env.*
 
-# Documentation (not user-facing)
+# Documentation (not user-facing) — /*.md covers root docs incl. the Cyrillic
+# КОНЦЕПТ-Vygoda-Cube-Hero.md that leaked to prod root in a deploy dry-run.
+/*.md
 README.md
 CLAUDE.md
 icons/README.md
