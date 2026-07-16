@@ -1,0 +1,10 @@
+# Preview folder for the apartment 3D tour — keep it out of every index.
+# The page also carries <meta name="robots" ...>; this header is defence in depth
+# and matches the existing /cube-preview-a7f39c2b/ pattern.
+#
+# NOTE: unlike the cube preview, this folder needs NO relaxed CSP — the tour
+# self-hosts Three.js from /js/three/, so it passes the site-wide root CSP
+# (script-src 'self') as-is. Do not add cdn.jsdelivr.net here.
+<IfModule mod_headers.c>
+    Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+</IfModule>
