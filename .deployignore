@@ -14,7 +14,9 @@
 .claude/
 
 # Source materials (not for serving)
-assets/
+# Leading slash anchors at deploy root — a bare `assets/` matched at ANY depth and
+# was silently excluding cube-preview-a7f39c2b/assets/ (the cube's own images) too.
+/assets/
 Рендера/
 Планування/
 червень/
@@ -42,6 +44,11 @@ assets/
 /node_modules/
 /package.json
 /package-lock.json
+
+# Dev prototype folder — the prod artifact is the mirrored /cube-preview-a7f39c2b/,
+# not this. Without excluding it, deploy leaks hero-cube.html, apartment-tour.html
+# and the internal BIMX-INTEGRATION.md / ART-DIRECTION.md notes to prod.
+/concept/
 # Monthly photo source drops (Cyrillic-named originals at repo root, pre-processing)
 /*-source/
 /*_source/

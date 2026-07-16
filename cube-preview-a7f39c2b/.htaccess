@@ -1,0 +1,17 @@
+# Preview folder for the "Куб Вигоди" 3D hero.
+#
+# Mirrors what was hand-uploaded to prod, now tracked in the repo so the next
+# deploy (`rsync --delete --delete-excluded`) does NOT wipe it — before this it
+# survived only because no deploy had run since the manual upload.
+#
+# CSP: the cube loads Three.js r160 from jsdelivr (script-src + connect-src), so
+# this folder relaxes those beyond the strict root policy. No blob: needed — the
+# cube has no embedded-texture GLB (face photos are same-origin webp; lighting is
+# procedural RoomEnvironment). frame-src dropped: the apartment tour now opens by
+# navigation to /tour-preview-b8e41d7f/, not a BIMx iframe, so nothing is framed.
+# `always set` replaces the root's `always set` rather than stacking a 2nd header.
+<IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://cdn.jsdelivr.net; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+
+    Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+</IfModule>
