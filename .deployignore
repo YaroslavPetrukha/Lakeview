@@ -20,6 +20,22 @@
 Рендера/
 Планування/
 червень/
+# Monthly photo drops arrive as Cyrillic month-named folders at the repo root
+# ("липень - лайквю"). Match by month-name prefix so any suffix the client adds is
+# covered. NOTE: patterns deliberately stop before any composable letter — see the
+# NFD warning below; a pattern containing "й" (лютий, лайквю) written here in NFC
+# silently fails to match, so "люти*" replaces "лютий*".
+січень*/
+люти*/
+березень*/
+квітень*/
+травень*/
+липень*/
+серпень*/
+вересень*/
+жовтень*/
+листопад*/
+грудень*/
 # Architect's raw deliverables. MUST stay excluded: this folder holds the client's
 # source model (Квартира.glb) and the proprietary BIMx container — without these lines
 # rsync uploads both to prod, where they become publicly downloadable.
