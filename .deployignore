@@ -50,10 +50,7 @@
 *концепт/
 *.bimx
 
-# Debug screenshot left at repo root. The neighbouring /*.png and /*.jpeg rules show
-# the intent was "no dev snapshots on prod" — .jpg was simply missed, so a 1.4 MB
-# debug-final.jpg has been shipping to the prod root.
-/*.jpg
+# (root-level /*.jpg is excluded with the other dev snapshots further down)
 
 # Build-only tooling (not served)
 /tools/
@@ -86,7 +83,9 @@ node_modules/
 tmp/
 
 # Old screenshots / dev snapshots in repo root
+# Leading slash anchors these to the deploy root only — img/**/*.jpg is unaffected.
 /*.png
+/*.jpg
 /*.jpeg
 /*.bak
 /audit.md
