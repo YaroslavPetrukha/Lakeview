@@ -25,6 +25,9 @@
 # covered. NOTE: patterns deliberately stop before any composable letter — see the
 # NFD warning below; a pattern containing "й" (лютий, лайквю) written here in NFC
 # silently fails to match, so "люти*" replaces "лютий*".
+# The client also drops folders named by content rather than by month
+# ("хід будівництва серпень"). Pattern stops before any composable letter.
+х*будівництва*/
 січень*/
 люти*/
 березень*/
