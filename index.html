@@ -143,6 +143,94 @@ body.modal-active .hero-bg img{transform:none!important}
 .btn-modal{width:100%;padding:15px;background:var(--em);color:#fff;font-size:15px;font-weight:600;border-radius:12px;transition:all var(--t);margin-top:4px}
 .btn-modal:hover{background:var(--em-l);transform:translateY(-1px)}
 
+/* ═══ PRICE NOTICE — попап + смуга у шапці (анонс підвищення 15.09.2026) ═══ */
+/* Висота смуги живе у змінній: нею ж зсуваються scroll-margin якорів і липкі
+   таби FAQ, тож коли смуги немає (закрили / минув дедлайн) усе саме стає на місце. */
+:root{--annh:0px}
+body.has-ann{--annh:38px}
+
+.ann{display:none;margin:0 -28px;background:var(--em-d);color:#fff}
+body.has-ann .ann{display:block}
+.ann-in{max-width:1320px;margin:0 auto;min-height:38px;display:flex;align-items:center;justify-content:center;gap:14px;padding:5px 46px 5px 16px;position:relative}
+.ann-t{font-size:13px;line-height:1.4;text-align:center;letter-spacing:.01em}
+.ann-t b{color:var(--gold-l);font-weight:600}
+.ann-a{flex-shrink:0;font-size:13px;font-weight:600;color:#fff;text-decoration:underline;text-underline-offset:3px;background:none;border:none;padding:4px 2px;font-family:inherit;cursor:pointer;white-space:nowrap}
+.ann-a:hover{color:var(--gold-l)}
+.ann-x{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1;color:rgba(255,255,255,.75);background:none;border:none;border-radius:50%;cursor:pointer;transition:color var(--t),background var(--t)}
+.ann-x:hover{color:#fff;background:rgba(255,255,255,.12)}
+
+.pn-box{background:var(--card);border-radius:var(--r2);width:calc(100% - 32px);max-width:460px;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;padding:44px 36px 26px;box-shadow:var(--sh2);animation:modalIn .35s ease-out}
+.pn-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r2) var(--r2) 0 0;background:linear-gradient(90deg,var(--em),var(--gold))}
+.pn-close{position:absolute;top:8px;right:8px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:26px;line-height:1;color:var(--txt2);background:none;border:none;cursor:pointer;border-radius:50%;transition:background var(--t)}
+.pn-close:hover{background:var(--bg2)}
+.pn-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-aa);margin-bottom:14px}
+.pn-eyebrow::before{content:'';width:22px;height:1.5px;background:var(--gold-aa)}
+.pn-h{font-family:var(--f1);font-size:30px;font-weight:500;line-height:1.2;color:var(--txt);margin-bottom:10px;padding-right:32px}
+.pn-h em{font-style:italic;color:var(--em)}
+.pn-p{font-size:15px;line-height:1.6;color:var(--txt2);margin-bottom:22px}
+/* Зміна ціни — це порівняння, тому й показана як порівняння, а не як число в тексті */
+.pn-rates{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:10px;margin-bottom:22px}
+.pn-rate{background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r);padding:15px 12px;text-align:center}
+.pn-rate.now{background:rgba(15,76,58,.06);border-color:rgba(15,76,58,.22)}
+.pn-rate-l{display:block;font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--txt2);margin-bottom:6px}
+.pn-rate-p{display:block;white-space:nowrap}
+.pn-rate-v{font-family:var(--f1);font-size:29px;font-weight:600;line-height:1;color:var(--em)}
+.pn-rate-u{font-size:13px;font-weight:500;color:var(--txt2)}
+.pn-rate.next .pn-rate-v{color:var(--gold-aa)}
+.pn-arrow{display:flex;align-items:center;justify-content:center;color:var(--txt3)}
+.pn-arrow svg{width:20px;height:20px}
+.pn-f{margin-bottom:10px}
+.pn-form input{width:100%;padding:14px 16px;background:var(--bg2);border:1.5px solid #8F8B84;border-radius:12px;font-size:16px;font-family:inherit;color:var(--txt);outline:none;transition:border-color var(--t)}
+.pn-form input::placeholder{color:var(--txt3)}
+.pn-form input:focus{border-color:var(--em)}
+.pn-cta{width:100%;padding:15px;background:var(--em);color:#fff;font-size:15px;font-weight:600;font-family:inherit;border:none;border-radius:12px;cursor:pointer;transition:all var(--t);margin-top:4px}
+.pn-cta:hover{background:var(--em-l);transform:translateY(-1px)}
+.pn-dismiss{display:block;width:100%;min-height:44px;margin-top:10px;padding:10px;background:none;border:none;border-radius:8px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--txt2);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.pn-dismiss:hover{color:var(--txt)}
+.pn-fine{font-size:12px;line-height:1.55;color:var(--txt2);text-align:center;margin-top:10px}
+.pn-fine a{text-decoration:underline}
+/* .fs розрахований на темні панелі — перефарбовуємо під білу картку */
+.pn-box .fs{background:rgba(15,76,58,.07);color:var(--em)}
+
+@media(max-width:768px){
+  body.has-ann{--annh:38px}
+  .ann{margin:0 -18px}
+  .ann-in{gap:10px;padding:5px 42px 5px 12px}
+  .ann-t{font-size:12px}
+  .ann-a{font-size:12px}
+}
+@media(max-width:600px){
+  .pn-box{padding:30px 18px 16px;border-radius:20px}
+  .pn-eyebrow{font-size:11px;margin-bottom:10px}
+  .pn-h{font-size:23px;padding-right:26px;margin-bottom:8px}
+  .pn-p{font-size:14px;margin-bottom:14px}
+  .pn-rates{grid-template-columns:1fr;gap:6px;margin-bottom:16px}
+  .pn-arrow{transform:rotate(90deg);height:16px}
+  .pn-rate{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;padding:11px 14px}
+  .pn-rate-l{margin-bottom:0}
+  .pn-rate-v{font-size:23px}
+  .pn-f{margin-bottom:8px}
+  .pn-form input{padding:12px 14px}
+  .pn-cta{padding:13px}
+  .pn-dismiss{margin-top:4px;padding:8px}
+  .pn-fine{font-size:11.5px;margin-top:6px}
+}
+/* Galaxy S8-клас (360×640): заголовок переноситься на рядок більше */
+@media(max-width:380px){
+  .pn-box{padding:26px 15px 12px}
+  .pn-eyebrow{display:none}   /* декор; заголовок і так усе називає */
+  .pn-h{font-size:21px;padding-right:44px}   /* без eyebrow заголовок піднімається під хрестик */
+  .pn-p{font-size:13.5px;margin-bottom:12px}
+  .pn-rates{margin-bottom:13px}
+  .pn-rate{padding:10px 13px}
+  .pn-dismiss{margin-top:2px;padding:7px}
+  .pn-fine{margin-top:4px;line-height:1.45}
+}
+@media(prefers-reduced-motion:reduce){
+  .pn-box{animation:none}
+  .pn-cta:hover{transform:none}
+}
+
 /* ═══ HERO ═══ */
 .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;padding-bottom:64px;overflow:hidden}
 .hero-bg{position:absolute;inset:0}
@@ -893,7 +981,7 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
 }
 
 /* Anchor offset for fixed header */
-#res-form,#com-form,#faq,#apartments,#conditions,#location,#construction,#developer,#commercial,#gallery{scroll-margin-top:96px}
+#res-form,#com-form,#faq,#apartments,#conditions,#location,#construction,#developer,#commercial,#gallery{scroll-margin-top:calc(96px + var(--annh))}
 
 /* ═══ QUICK FACTS — Editorial spec sheet ═══ */
 .qf-wrap{padding:96px 0 24px;position:relative}
@@ -914,7 +1002,7 @@ button.con-more{border:none;background:none;font:inherit;color:inherit;display:f
 .faq-sec{background:var(--bg2);position:relative;overflow:hidden}
 .faq-sec::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5}
 .faq-board{margin-top:48px;display:grid;grid-template-columns:260px 1fr;gap:64px;align-items:start}
-.faq-tabs{display:flex;flex-direction:column;gap:4px;position:sticky;top:108px;border-left:1px solid var(--border);padding-left:0}
+.faq-tabs{display:flex;flex-direction:column;gap:4px;position:sticky;top:calc(108px + var(--annh));border-left:1px solid var(--border);padding-left:0}
 .faq-tab{appearance:none;background:none;border:none;border-left:2px solid transparent;margin-left:-1px;padding:14px 20px 14px 22px;font-family:var(--f2);font-size:13.5px;font-weight:500;letter-spacing:.02em;color:var(--txt2);text-align:left;cursor:pointer;transition:color .2s ease,border-color .2s ease,background-color .2s ease;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;line-height:1.35;border-radius:0}
 .faq-tab .faq-tab-c{font-family:var(--f1);font-size:13px;font-style:italic;color:var(--txt3);font-weight:500;flex:0 0 auto}
 .faq-tab:hover{color:var(--em);background:rgba(15,76,58,.03)}
@@ -1301,6 +1389,44 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
   </div>
 </div>
 
+<!-- PRICE NOTICE POPUP (підвищення ціни 15.09.2026) -->
+<div class="modal-ov" id="pnModal" role="dialog" aria-modal="true" aria-labelledby="pnTitle" aria-describedby="pnDesc" aria-hidden="true">
+  <div class="pn-box">
+    <button type="button" class="pn-close" onclick="closePn('close')" aria-label="Закрити повідомлення">&times;</button>
+
+    <div class="pn-eyebrow">Повідомлення про ціни</div>
+    <h2 class="pn-h" id="pnTitle">З <em>15 вересня</em> базова ціна зростає на $50/м²</h2>
+    <p class="pn-p" id="pnDesc">Повідомляємо заздалегідь, щоб рішення не довелось ухвалювати поспіхом. Вартість фіксується договором.</p>
+
+    <div class="pn-rates">
+      <div class="pn-rate now">
+        <span class="pn-rate-l">До 14 вересня</span>
+        <span class="pn-rate-p"><span class="pn-rate-v">$1650</span><span class="pn-rate-u">/м²</span></span>
+      </div>
+      <div class="pn-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      <div class="pn-rate next">
+        <span class="pn-rate-l">З 15 вересня</span>
+        <span class="pn-rate-p"><span class="pn-rate-v">$1700</span><span class="pn-rate-u">/м²</span></span>
+      </div>
+    </div>
+
+
+    <form class="pn-form" id="fPN" action="/api/submit.php" method="POST" onsubmit="return hs(event,'fPN')">
+      <input type="hidden" name="_form" value="pricelock">
+      <input type="hidden" name="ts" value="">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <div class="pn-f"><label for="fPN-name" class="visually-hidden">Ваше імʼя</label><input id="fPN-name" name="name" type="text" placeholder="Ваше імʼя" required aria-required="true" autocomplete="name"></div>
+      <div class="pn-f"><label for="fPN-tel" class="visually-hidden">Телефон</label><input id="fPN-tel" name="phone" type="tel" inputmode="tel" maxlength="20" placeholder="+380 __ ___ __ __" required aria-required="true" pattern="^\+?[0-9\s\-]{10,20}$" autocomplete="tel"></div>
+      <button type="submit" class="pn-cta">Отримати прорахунок за чинною ціною</button>
+    </form>
+
+    <div class="fs" id="fPN-s" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зателефонуємо найближчим часом.</div>
+
+    <button type="button" class="pn-dismiss" onclick="closePn('later')">Зрозуміло, дякую</button>
+    <p class="pn-fine">Натискаючи, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener">обробкою персональних даних</a>.</p>
+  </div>
+</div>
+
 <!-- APARTMENT MODAL -->
 <div class="apt-modal-ov" id="aptModal" role="dialog" aria-modal="true" aria-labelledby="apt-title" aria-hidden="true">
   <div class="apt-modal">
@@ -1383,6 +1509,14 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
 
 <!-- HEADER -->
 <header class="hdr" id="hdr">
+  <!-- Анонс підвищення ціни. Прихована, доки JS не переконається, що дедлайн попереду. -->
+  <div class="ann" id="annBar">
+    <div class="ann-in">
+      <p class="ann-t">З <b>15 вересня</b> базова ціна зростає до <b>$1700/м²</b> (+$50)</p>
+      <button type="button" class="ann-a" onclick="openPn()">Детальніше</button>
+      <button type="button" class="ann-x" onclick="closeAnn()" aria-label="Сховати повідомлення про ціни">&times;</button>
+    </div>
+  </div>
   <div class="hdr-in">
     <a href="#" class="logo">LAKEVIEW</a>
     <nav class="nav" aria-label="Головна навігація">
@@ -2243,7 +2377,7 @@ document.querySelectorAll('.gal-scroll').forEach(function(g){
 
 /* Body lock — sync class + overflow when ANY modal/lightbox is open */
 function _anyOpen(){
-  return ['cbModal','aptModal','cuModal','conLb','planLb','mn'].some(function(id){
+  return ['cbModal','pnModal','aptModal','cuModal','conLb','planLb','mn'].some(function(id){
     var el=document.getElementById(id);return el&&el.classList.contains('open');
   });
 }
@@ -2298,7 +2432,7 @@ function _closeA11y(id){
 }
 /* Initialize inert on hidden modals/menus at load */
 document.addEventListener('DOMContentLoaded',function(){
-  ['cbModal','aptModal','cuModal','conLb','planLb','mn'].forEach(function(id){
+  ['cbModal','pnModal','aptModal','cuModal','conLb','planLb','mn'].forEach(function(id){
     var el=document.getElementById(id);
     if(el&&!el.classList.contains('open'))el.setAttribute('inert','');
   });
@@ -2317,6 +2451,72 @@ function cmn(){
 }
 
 /* Callback modal */
+/* ═══ PRICE NOTICE — анонс підвищення ціни з 15.09.2026 ═══
+   Сайт статичний, серверного рендерингу немає, тому дедлайн — константа тут.
+   Порівнюємо з абсолютним моментом (00:00 15.09 за Києвом = 21:00 14.09 UTC),
+   тож часовий пояс відвідувача ролі не грає — лише точність його годинника. */
+(function(){
+  var DEADLINE=Date.UTC(2026,8,14,21,0,0);   /* 2026-09-15T00:00+03:00 */
+  var K_POPUP='lv_pn_2026_09_15';            /* нове повідомлення — новий ключ */
+  var K_BAR='lv_ann_2026_09_15';
+  var SNOOZE_D=3, SNOOZE_SENT_D=365, SNOOZE_BAR_D=30;
+  var DELAY_MS=7000, SCROLL_PCT=0.2;
+
+  var pn=document.getElementById('pnModal'), bar=document.getElementById('annBar');
+
+  /* Дедлайн минув — прибираємо обидві сутності й нічого не вішаємо.
+     Працює і на закешованій сторінці, без деплою. */
+  if(Date.now()>=DEADLINE){
+    if(pn&&pn.parentNode)pn.parentNode.removeChild(pn);
+    if(bar&&bar.parentNode)bar.parentNode.removeChild(bar);
+    return;
+  }
+
+  /* Приватний режим Safari кидає виняток уже на доступі до localStorage */
+  function snoozed(k){try{var v=localStorage.getItem(k);return !!v&&Date.now()<+v}catch(_){return false}}
+  function snooze(k,d){try{localStorage.setItem(k,String(Date.now()+d*86400000))}catch(_){}}
+
+  window.openPn=function(){if(!document.body.classList.contains('modal-active'))_openA11y('pnModal')};
+  window.closePn=function(reason){snooze(K_POPUP,reason==='sent'?SNOOZE_SENT_D:SNOOZE_D);_closeA11y('pnModal')};
+  window.closeAnn=function(){snooze(K_BAR,SNOOZE_BAR_D);document.body.classList.remove('has-ann');document.body.style.removeProperty('--annh')};
+
+  if(pn){
+    pn.addEventListener('click',function(e){if(e.target===this)closePn('backdrop')});
+    var f=document.getElementById('fPN');
+    if(f)f.addEventListener('submit',function(){snooze(K_POPUP,SNOOZE_SENT_D)});
+  }
+
+  /* Смуга живе окремо від попапа: закритий попап її не ховає і навпаки */
+  if(bar&&!snoozed(K_BAR)){
+    document.body.classList.add('has-ann');
+    /* Висота смуги залежить від переносу тексту, тому міряємо, а не вгадуємо:
+       інакше scroll-margin-top якорів розходиться з реальністю на вузьких екранах */
+    var syncH=function(){document.body.style.setProperty('--annh',bar.offsetHeight+'px')};
+    syncH();
+    if(window.ResizeObserver)new ResizeObserver(syncH).observe(bar);
+    else window.addEventListener('resize',syncH);
+  }
+
+  if(!pn||snoozed(K_POPUP))return;
+  var fired=false,t;
+  function fire(){
+    if(fired)return;
+    var a=document.activeElement;
+    /* Не перебиваємо ні відкриту модалку, ні поле, у якому щось друкують */
+    if(document.body.classList.contains('modal-active')||(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))){
+      clearTimeout(t);t=setTimeout(fire,6000);return;
+    }
+    fired=true;clearTimeout(t);window.removeEventListener('scroll',onScroll);
+    if(!snoozed(K_POPUP))_openA11y('pnModal');
+  }
+  function onScroll(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    if(h>0&&window.scrollY/h>=SCROLL_PCT)fire();
+  }
+  t=setTimeout(fire,DELAY_MS);
+  window.addEventListener('scroll',onScroll,{passive:true});
+})();
+
 function openModal(){_openA11y('cbModal')}
 function closeModal(){_closeA11y('cbModal')}
 document.getElementById('cbModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
@@ -2438,7 +2638,7 @@ function _setTs(form){
   if(t&&!t.value)t.value=String(Date.now());
 }
 function _stampAllForms(){
-  ['fCB','fApt','fR','fC','fF','fCU'].forEach(function(id){
+  ['fCB','fPN','fApt','fR','fC','fF','fCU'].forEach(function(id){
     var f=document.getElementById(id);if(f)_setTs(f);
   });
 }
@@ -2451,7 +2651,7 @@ if(document.readyState==='loading'){
 /* Refresh ts when tab returns from background — prevents silent backend reject after long idle */
 document.addEventListener('visibilitychange',function(){
   if(document.visibilityState==='visible'){
-    ['fCB','fApt','fR','fC','fF','fCU'].forEach(function(id){
+    ['fCB','fPN','fApt','fR','fC','fF','fCU'].forEach(function(id){
       var f=document.getElementById(id);if(!f)return;
       var t=f.querySelector('input[name=ts]');if(t)t.value=String(Date.now());
     });
@@ -2815,6 +3015,8 @@ document.addEventListener('keydown',function(e){
     if(document.getElementById('conLb').classList.contains('open')){closeLb();return}
     if(document.getElementById('aptModal').classList.contains('open')){closeApt();return}
     if(document.getElementById('cuModal').classList.contains('open')){closeCu();return}
+    var _pn=document.getElementById('pnModal');
+    if(_pn&&_pn.classList.contains('open')){closePn('esc');return}
     if(document.getElementById('cbModal').classList.contains('open')){closeModal();return}
     if(document.getElementById('mn').classList.contains('open')){cmn();return}
   }
