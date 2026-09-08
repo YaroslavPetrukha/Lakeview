@@ -54,6 +54,9 @@
 
 # Build-only tooling (not served)
 /tools/
+# Python-оточення складальників каталогів (pymupdf/Pillow/python-pptx).
+# Без цього рядка rsync заливає ~4000 файлів venv у корінь прод-сайту.
+/.venv/
 /node_modules/
 /package.json
 /package-lock.json
@@ -122,6 +125,8 @@ api/config.example.php
 # Local rate-limit cache + log
 logs/rate/
 logs/submissions.log
+# Локальні копії серверного лога заявок перед деплоєм — на прод не повертаємо
+logs/backup/
 
 # Misc
 **/*.swp

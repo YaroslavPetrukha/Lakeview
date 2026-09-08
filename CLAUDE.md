@@ -93,7 +93,7 @@ Single-page site with sections:
 - **Sales office:** вул. В. Великого, 4, кабінет 406, Львів
 - **Phone:** +38 096 990 03 90 (`tel:+380969900390`)
 - **Email:** vygoda.sales@gmail.com
-- **Instagram:** @lakeviewlviv
+- **Instagram:** @vyhoda.lviv
 - **Price:** from $1650/m²
 - **Apartments:** 44–183 m² (1/2/3-room)
 - **4 sections**, up to 16 floors
