@@ -220,7 +220,6 @@ $FORM_LABELS = [
     'catalog'    => 'Каталог планувань (PDF)',
     'commercial' => 'Комерційні приміщення',
     'footer'     => 'Швидкий контакт (футер)',
-    'pricelock'  => '🔒 Фіксація ціни до 15.09',
 ];
 $THANKS_KEY = [
     'callback'   => 'fCB',
@@ -228,7 +227,6 @@ $THANKS_KEY = [
     'catalog'    => 'fR',
     'commercial' => 'fC',
     'footer'     => 'fF',
-    'pricelock'  => 'fPL',
 ];
 
 $formId = (string) $get('_form', '');
@@ -251,7 +249,6 @@ $requires = [
     'catalog'    => ['name', 'phone', 'messenger'],
     'commercial' => ['name', 'phone'],
     'footer'     => ['phone'],
-    'pricelock'  => ['name', 'phone'],
 ];
 
 foreach ($requires[$formId] as $req) {
