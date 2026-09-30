@@ -217,7 +217,7 @@ $limit = (int) ($CONF['RATE_LIMIT_PER_IP_PER_HOUR'] ?? 5);
 if (count($state['submissions']) >= $limit) {
     if ($rateFp) { @flock($rateFp, LOCK_UN); @fclose($rateFp); }
     log_submission($LOG_FILE, $ip, $get('_form', '?'), '?', '?', 'reject:rate-limit');
-    respond(429, false, 'Забагато заявок. Спробуйте через годину або зателефонуйте: +38 096 990 03 90');
+    respond(429, false, 'Забагато заявок. Спробуйте через годину або зателефонуйте: +38 097 990 03 90');
 }
 
 // ─── Form-id whitelist ───────────────────────────────────────────────────────
@@ -373,7 +373,7 @@ $chatId = (string) ($CONF['TELEGRAM_CHAT_ID']   ?? '');
 if ($token === '' || $chatId === '') {
     error_log('[lakeview/submit] Missing Telegram credentials');
     log_submission($LOG_FILE, $ip, $formId, $name, $phoneRaw, 'fail:no-credentials');
-    respond(500, false, 'Помилка обробки. Зателефонуйте: +38 096 990 03 90');
+    respond(500, false, 'Помилка обробки. Зателефонуйте: +38 097 990 03 90');
 }
 
 $tgUrl = 'https://api.telegram.org/bot' . $token . '/sendMessage';
@@ -408,7 +408,7 @@ if ($tgResp === false || $tgCode !== 200) {
         is_string($tgResp) ? substr($tgResp, 0, 300) : '(none)'
     ));
     log_submission($LOG_FILE, $ip, $formId, $name, $phoneRaw, 'fail:telegram:' . $tgCode);
-    respond(502, false, 'Тимчасова помилка. Зателефонуйте: +38 096 990 03 90');
+    respond(502, false, 'Тимчасова помилка. Зателефонуйте: +38 097 990 03 90');
 }
 
 // ─── Persist rate-limit (still holding flock from above) ────────────────────

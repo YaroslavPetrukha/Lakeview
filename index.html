@@ -674,6 +674,7 @@ body.modal-active .hero-bg img{transform:none!important}
 .ftr-ci{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:14px}
 .ftr-ci svg{width:16px;height:16px;color:var(--gold);flex-shrink:0}
 .ftr-fm{display:flex;gap:8px}
+.ftr-ci-note{font-size:12px;color:rgba(255,255,255,.72)}
 .ftr-consent{font-size:12px;line-height:1.5;color:rgba(255,255,255,.72);margin-top:8px}
 .apt-consent{margin-top:6px;line-height:1.5}
 .ftr-fm input{flex:1;padding:12px 14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:14px;outline:none}
@@ -1030,10 +1031,14 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       "@type": "Organization",
       "@id": "https://www.lakeview.com.ua/#org",
       "name": "Вигода",
-      "legalName": "ПП «ДІК \"Вигода +\"»",
+      "legalName": "ПП «ДІК «ВИГОДА +»",
       "taxID": "44876801",
       "url": "https://www.lakeview.com.ua/",
-      "telephone": "+380969900390",
+      "telephone": "+380979900390",
+      "contactPoint": [
+        { "@type": "ContactPoint", "telephone": "+380979900390", "contactType": "sales", "areaServed": "UA", "availableLanguage": "uk" },
+        { "@type": "ContactPoint", "telephone": "+380969900390", "contactType": "sales", "description": "Резервний номер", "areaServed": "UA", "availableLanguage": "uk" }
+      ],
       "email": "vygoda.sales@gmail.com",
       "sameAs": [
         "https://www.instagram.com/vyhoda.lviv/",
@@ -1045,7 +1050,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       "@id": "https://www.lakeview.com.ua/#sales-office",
       "name": "ЖК Lakeview — офіс продажу",
       "parentOrganization": { "@id": "https://www.lakeview.com.ua/#org" },
-      "telephone": "+380969900390",
+      "telephone": "+380979900390",
       "email": "vygoda.sales@gmail.com",
       "url": "https://www.lakeview.com.ua/",
       "image": "https://www.lakeview.com.ua/img/renders/hero.jpg",
@@ -1225,7 +1230,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         "availability": "https://schema.org/PreOrder",
         "seller": { "@id": "https://www.lakeview.com.ua/#org" },
         "url": "https://www.lakeview.com.ua/#commercial",
-        "description": "Ціни уточнюйте у комерційному відділі: +38 096 990 03 90"
+        "description": "Ціни уточнюйте у комерційному відділі: +38 097 990 03 90"
       },
       "isRelatedTo": { "@id": "https://www.lakeview.com.ua/#residence" }
     },
@@ -1270,7 +1275,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         {
           "@type": "Question",
           "name": "Скільки коштує квартира?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Ціна — від $1700 за м². Конкретна вартість залежить від секції, поверху та планування; актуальну вартість уточнюйте у відділі продажу: +38 096 990 03 90. Площі квартир — від 44 до 183 м²." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Ціна — від $1700 за м². Конкретна вартість залежить від секції, поверху та планування; актуальну вартість уточнюйте у відділі продажу: +38 097 990 03 90. Площі квартир — від 44 до 183 м²." }
         },
         {
           "@type": "Question",
@@ -1280,7 +1285,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         {
           "@type": "Question",
           "name": "Чи є розстрочка?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Так. Перший внесок — від 30%, далі графік платежів без процентної ставки на період будівництва. Розстрочка надається безпосередньо забудовником, без залучення банку. Деталі — у відділі продажу: +38 096 990 03 90." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Так. Перший внесок — від 30%, далі графік платежів без процентної ставки на період будівництва. Розстрочка надається безпосередньо забудовником, без залучення банку. Деталі — у відділі продажу: +38 097 990 03 90." }
         },
         {
           "@type": "Question",
@@ -1290,7 +1295,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         {
           "@type": "Question",
           "name": "Як подивитися документи на об'єкт?",
-          "acceptedAnswer": { "@type": "Answer", "text": "До укладення договору надаємо повний пакет: проектну декларацію, дозвільні документи на будівництво, відомості про забудовника та форму договору. Залиште заявку на сайті або зателефонуйте +38 096 990 03 90." }
+          "acceptedAnswer": { "@type": "Answer", "text": "До укладення договору надаємо повний пакет: проектну декларацію, дозвільні документи на будівництво, відомості про забудовника та форму договору. Залиште заявку на сайті або зателефонуйте +38 097 990 03 90." }
         }
       ]
     }
@@ -1313,7 +1318,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
   <a href="#developer" onclick="cmn()">Забудовник</a>
   <a href="#commercial" onclick="cmn()">Комерція</a>
   <a href="#faq" onclick="cmn()">Питання</a>
-  <a href="tel:+380969900390" style="color:var(--gold-l)" aria-label="Зателефонувати: +38 096 990 03 90">+38 096 990 03 90</a>
+  <a href="tel:+380979900390" style="color:var(--gold-l)" aria-label="Зателефонувати: +38 097 990 03 90">+38 097 990 03 90</a>
 </nav>
 
 <!-- CALLBACK MODAL -->
@@ -1368,7 +1373,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         </form>
         <div class="fs" id="fApt-s" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зв'яжемось найближчим часом.</div>
       </div>
-      <a href="tel:+380969900390" class="apt-call" aria-label="Зателефонувати зараз: +38 096 990 03 90">
+      <a href="tel:+380979900390" class="apt-call" aria-label="Зателефонувати зараз: +38 097 990 03 90">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
         Зателефонувати зараз
       </a>
@@ -1409,7 +1414,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         </form>
         <div class="fs" id="fCU-s" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зв'яжемось найближчим часом.</div>
       </div>
-      <a href="tel:+380969900390" class="apt-call" aria-label="Зателефонувати зараз: +38 096 990 03 90">
+      <a href="tel:+380979900390" class="apt-call" aria-label="Зателефонувати зараз: +38 097 990 03 90">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
         Зателефонувати зараз
       </a>
@@ -1431,7 +1436,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       <a href="#faq">FAQ</a>
     </nav>
     <div class="hdr-r">
-      <a href="tel:+380969900390" class="hdr-ph" aria-label="Зателефонувати: +38 096 990 03 90">+38 096 990 03 90</a>
+      <a href="tel:+380979900390" class="hdr-ph" aria-label="Зателефонувати: +38 097 990 03 90">+38 097 990 03 90</a>
       <button class="btn-cb" onclick="openModal()" type="button">Замовити дзвінок</button>
       <button class="mob-tog" onclick="omn()" type="button" aria-label="Відкрити меню" aria-expanded="false" aria-controls="mn"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
     </div>
@@ -2130,7 +2135,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
               <span class="faq-qa-n" aria-hidden="true">06</span>
               <div class="faq-qa-body">
                 <h4 class="faq-qa-q">Скільки коштує квартира?</h4>
-                <p class="faq-qa-a">Ціна — від $1700 за м². Конкретна вартість залежить від секції, поверху та планування; актуальну вартість уточнюйте у відділі продажу: <a href="tel:+380969900390">+38 096 990 03 90</a>. Площі квартир — від 44 до 183 м².</p>
+                <p class="faq-qa-a">Ціна — від $1700 за м². Конкретна вартість залежить від секції, поверху та планування; актуальну вартість уточнюйте у відділі продажу: <a href="tel:+380979900390">+38 097 990 03 90</a>. Площі квартир — від 44 до 183 м².</p>
               </div>
             </article>
             <article class="faq-qa">
@@ -2144,7 +2149,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
               <span class="faq-qa-n" aria-hidden="true">08</span>
               <div class="faq-qa-body">
                 <h4 class="faq-qa-q">Чи є розстрочка?</h4>
-                <p class="faq-qa-a">Так. Перший внесок — від 30%, далі графік платежів без процентної ставки на період будівництва. Розстрочка надається безпосередньо забудовником, без залучення банку. Деталі — у відділі продажу: <a href="tel:+380969900390">+38 096 990 03 90</a>.</p>
+                <p class="faq-qa-a">Так. Перший внесок — від 30%, далі графік платежів без процентної ставки на період будівництва. Розстрочка надається безпосередньо забудовником, без залучення банку. Деталі — у відділі продажу: <a href="tel:+380979900390">+38 097 990 03 90</a>.</p>
               </div>
             </article>
           </div>
@@ -2167,7 +2172,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
               <span class="faq-qa-n" aria-hidden="true">10</span>
               <div class="faq-qa-body">
                 <h4 class="faq-qa-q">Як подивитися документи на об'єкт?</h4>
-                <p class="faq-qa-a">До укладення договору надаємо повний пакет: проектну декларацію, дозвільні документи на будівництво, відомості про забудовника та форму договору. Залиште заявку на сайті або зателефонуйте <a href="tel:+380969900390">+38 096 990 03 90</a>.</p>
+                <p class="faq-qa-a">До укладення договору надаємо повний пакет: проектну декларацію, дозвільні документи на будівництво, відомості про забудовника та форму договору. Залиште заявку на сайті або зателефонуйте <a href="tel:+380979900390">+38 097 990 03 90</a>.</p>
               </div>
             </article>
           </div>
@@ -2215,7 +2220,8 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       </div>
       <div>
         <h3 class="ftr-h">Контакти</h3>
-        <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+380969900390">+38 096 990 03 90</a></div>
+        <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+380979900390">+38 097 990 03 90</a></div>
+        <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+380969900390">+38 096 990 03 90</a> <span class="ftr-ci-note">резервний</span></div>
         <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:vygoda.sales@gmail.com">vygoda.sales@gmail.com</a></div>
         <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>вул. В. Великого, 2а, Львів</div>
         <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg><a href="https://www.instagram.com/vyhoda.lviv/" target="_blank" rel="noopener">@vyhoda.lviv</a></div>
@@ -2245,7 +2251,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
 
 <!-- STICKY MOBILE CTA -->
 <div class="sticky-mob" role="region" aria-label="Швидкий зв'язок">
-  <a href="tel:+380969900390" class="sm-call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Зателефонувати</a>
+  <a href="tel:+380979900390" class="sm-call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Зателефонувати</a>
   <a href="#" class="sm-msg" onclick="openModal();return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Написати</a>
 </div>
 
@@ -2637,11 +2643,11 @@ async function _submitForm(form,id){
       }
       return;
     }
-    var msg=(data&&data.error)?data.error:'Виникла помилка. Спробуйте ще раз або зателефонуйте: +38 096 990 03 90';
+    var msg=(data&&data.error)?data.error:'Виникла помилка. Спробуйте ще раз або зателефонуйте: +38 097 990 03 90';
     alert(msg);
   }catch(err){
     if(location.search.indexOf('debug')!==-1)console.error('[submit]',err);
-    alert('Виникла помилка. Спробуйте ще раз або зателефонуйте: +38 096 990 03 90');
+    alert('Виникла помилка. Спробуйте ще раз або зателефонуйте: +38 097 990 03 90');
   }finally{
     if(btn)btn.disabled=false;
   }
