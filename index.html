@@ -33,6 +33,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-NMZFC3XN');</script>
 
+<!-- Binotel dynamic call tracking (CRM #76): swaps the number inside .binct-phone-number-1
+     for a per-visitor pool number and ties the call to the GA4 session (G-YLEXBZ88BW).
+     JSON-LD is untouched — it always keeps the primary 097 for the Google profile. -->
+<script src="https://widgets.binotel.com/calltracking/widgets/rzcpzaqf132c1k50zt14.js" async></script>
+
 <title>ЖК Lakeview — Квартири біля озера у Львові | Вигода</title>
 <meta name="description" content="ЖК Lakeview — бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1700/м². Розстрочка від забудовника Вигода. Здача 2027.">
 
@@ -1318,7 +1323,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
   <a href="#developer" onclick="cmn()">Забудовник</a>
   <a href="#commercial" onclick="cmn()">Комерція</a>
   <a href="#faq" onclick="cmn()">Питання</a>
-  <a href="tel:+380979900390" style="color:var(--gold-l)" aria-label="Зателефонувати: +38 097 990 03 90">+38 097 990 03 90</a>
+  <a class="binct-phone-number-1" href="tel:+380979900390" style="color:var(--gold-l)" aria-label="Зателефонувати: +38 097 990 03 90">+38 097 990 03 90</a>
 </nav>
 
 <!-- CALLBACK MODAL -->
@@ -1373,7 +1378,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         </form>
         <div class="fs" id="fApt-s" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зв'яжемось найближчим часом.</div>
       </div>
-      <a href="tel:+380979900390" class="apt-call" aria-label="Зателефонувати зараз: +38 097 990 03 90">
+      <a href="tel:+380979900390" data-binct-sync class="apt-call" aria-label="Зателефонувати зараз: +38 097 990 03 90">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
         Зателефонувати зараз
       </a>
@@ -1414,7 +1419,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         </form>
         <div class="fs" id="fCU-s" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зв'яжемось найближчим часом.</div>
       </div>
-      <a href="tel:+380979900390" class="apt-call" aria-label="Зателефонувати зараз: +38 097 990 03 90">
+      <a href="tel:+380979900390" data-binct-sync class="apt-call" aria-label="Зателефонувати зараз: +38 097 990 03 90">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
         Зателефонувати зараз
       </a>
@@ -1436,7 +1441,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       <a href="#faq">FAQ</a>
     </nav>
     <div class="hdr-r">
-      <a href="tel:+380979900390" class="hdr-ph" aria-label="Зателефонувати: +38 097 990 03 90">+38 097 990 03 90</a>
+      <a href="tel:+380979900390" class="hdr-ph binct-phone-number-1" aria-label="Зателефонувати: +38 097 990 03 90">+38 097 990 03 90</a>
       <button class="btn-cb" onclick="openModal()" type="button">Замовити дзвінок</button>
       <button class="mob-tog" onclick="omn()" type="button" aria-label="Відкрити меню" aria-expanded="false" aria-controls="mn"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
     </div>
@@ -2135,7 +2140,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
               <span class="faq-qa-n" aria-hidden="true">06</span>
               <div class="faq-qa-body">
                 <h4 class="faq-qa-q">Скільки коштує квартира?</h4>
-                <p class="faq-qa-a">Ціна — від $1700 за м². Конкретна вартість залежить від секції, поверху та планування; актуальну вартість уточнюйте у відділі продажу: <a href="tel:+380979900390">+38 097 990 03 90</a>. Площі квартир — від 44 до 183 м².</p>
+                <p class="faq-qa-a">Ціна — від $1700 за м². Конкретна вартість залежить від секції, поверху та планування; актуальну вартість уточнюйте у відділі продажу: <a class="binct-phone-number-1" href="tel:+380979900390">+38 097 990 03 90</a>. Площі квартир — від 44 до 183 м².</p>
               </div>
             </article>
             <article class="faq-qa">
@@ -2149,7 +2154,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
               <span class="faq-qa-n" aria-hidden="true">08</span>
               <div class="faq-qa-body">
                 <h4 class="faq-qa-q">Чи є розстрочка?</h4>
-                <p class="faq-qa-a">Так. Перший внесок — від 30%, далі графік платежів без процентної ставки на період будівництва. Розстрочка надається безпосередньо забудовником, без залучення банку. Деталі — у відділі продажу: <a href="tel:+380979900390">+38 097 990 03 90</a>.</p>
+                <p class="faq-qa-a">Так. Перший внесок — від 30%, далі графік платежів без процентної ставки на період будівництва. Розстрочка надається безпосередньо забудовником, без залучення банку. Деталі — у відділі продажу: <a class="binct-phone-number-1" href="tel:+380979900390">+38 097 990 03 90</a>.</p>
               </div>
             </article>
           </div>
@@ -2172,7 +2177,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
               <span class="faq-qa-n" aria-hidden="true">10</span>
               <div class="faq-qa-body">
                 <h4 class="faq-qa-q">Як подивитися документи на об'єкт?</h4>
-                <p class="faq-qa-a">До укладення договору надаємо повний пакет: проектну декларацію, дозвільні документи на будівництво, відомості про забудовника та форму договору. Залиште заявку на сайті або зателефонуйте <a href="tel:+380979900390">+38 097 990 03 90</a>.</p>
+                <p class="faq-qa-a">До укладення договору надаємо повний пакет: проектну декларацію, дозвільні документи на будівництво, відомості про забудовника та форму договору. Залиште заявку на сайті або зателефонуйте <a class="binct-phone-number-1" href="tel:+380979900390">+38 097 990 03 90</a>.</p>
               </div>
             </article>
           </div>
@@ -2220,7 +2225,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       </div>
       <div>
         <h3 class="ftr-h">Контакти</h3>
-        <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+380979900390">+38 097 990 03 90</a></div>
+        <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a class="binct-phone-number-1" href="tel:+380979900390">+38 097 990 03 90</a></div>
         <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+380969900390">+38 096 990 03 90</a> <span class="ftr-ci-note">резервний</span></div>
         <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:vygoda.sales@gmail.com">vygoda.sales@gmail.com</a></div>
         <div class="ftr-ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>вул. В. Великого, 2а, Львів</div>
@@ -2251,7 +2256,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
 
 <!-- STICKY MOBILE CTA -->
 <div class="sticky-mob" role="region" aria-label="Швидкий зв'язок">
-  <a href="tel:+380979900390" class="sm-call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Зателефонувати</a>
+  <a href="tel:+380979900390" data-binct-sync class="sm-call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Зателефонувати</a>
   <a href="#" class="sm-msg" onclick="openModal();return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Написати</a>
 </div>
 
@@ -2491,6 +2496,28 @@ document.addEventListener('click',function(e){
   if(h.indexOf('tel:')===0)_track('phone_click',{link_location:where});
   else if(/instagram\.com|facebook\.com|t\.me|viber|wa\.me/.test(h))_track('social_click',{link_url:h,link_location:where});
 });
+
+/* ─── Binotel sync — icon-only call buttons (mobile sticky «Зателефонувати», modal
+   buttons) can't carry the binct class: Binotel rewrites the element's whole innerHTML
+   with the number and would wipe the icon/label. They get [data-binct-sync] instead and
+   copy whatever tel: the tracked header link currently has, so calls from the main
+   mobile button are attributed too. ── */
+(function(){
+  function sync(){
+    var src=document.querySelector('a.binct-phone-number-1[href^="tel:"]');if(!src)return;
+    var href=src.getAttribute('href'),num=(src.textContent||'').trim();
+    document.querySelectorAll('a[data-binct-sync]').forEach(function(a){
+      if(a.getAttribute('href')!==href)a.setAttribute('href',href);
+      var l=a.getAttribute('aria-label');
+      if(l&&num)a.setAttribute('aria-label',l.replace(/\+?[\d][\d ()-]{8,}\d/,num));
+    });
+  }
+  function start(){
+    var src=document.querySelector('a.binct-phone-number-1');if(!src||!window.MutationObserver)return;
+    new MutationObserver(sync).observe(src,{attributes:true,attributeFilter:['href'],childList:true,characterData:true,subtree:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
 
 /* ─── Form submit handler — POSTs to /api/submit.php, redirects on success ── */
 function _setTs(form){
