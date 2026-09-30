@@ -266,7 +266,7 @@ body.modal-active .hero-bg img{transform:none!important}
 .apt-title{font-family:var(--f1);font-size:30px;font-weight:600;color:var(--txt);margin-bottom:20px;line-height:1.2}
 .apt-details{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
 .apt-det{padding:12px 14px;background:var(--bg2);border-radius:10px}
-.apt-det-l{display:block;font-size:12px;color:var(--txt3);margin-bottom:2px}
+.apt-det-l{display:block;font-size:12px;color:#66666B;margin-bottom:2px} /* was --txt3: 3.4:1, below AA for 12px */
 .apt-det-v{font-size:16px;font-weight:600;color:var(--txt)}
 .apt-det-price{background:linear-gradient(135deg,rgba(15,76,58,.08),rgba(15,76,58,.04))}
 .apt-det-price .apt-det-v{color:var(--em);font-family:var(--f1);font-size:20px}
@@ -278,7 +278,7 @@ body.modal-active .hero-bg img{transform:none!important}
 .apt-field input:focus{border-color:var(--em)}
 .apt-submit{width:100%;padding:15px;background:var(--gold-aa);color:#fff;font-size:15px;font-weight:600;border-radius:11px;border:none;cursor:pointer;transition:all var(--t);margin-top:4px}
 .apt-submit:hover{background:var(--gold-aa-d);transform:translateY(-1px);box-shadow:0 6px 20px rgba(140,109,42,.35)}
-.apt-note{font-size:12px;color:var(--txt3);text-align:center;margin-top:8px}
+.apt-note{font-size:12px;color:#66666B;text-align:center;margin-top:8px} /* was --txt3: below AA */
 .apt-call{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border:1.5px solid var(--border);border-radius:11px;font-size:14px;font-weight:600;color:var(--em);transition:all var(--t)}
 .apt-call:hover{border-color:var(--em);background:rgba(15,76,58,.04)}
 @media(max-width:768px){
@@ -1331,7 +1331,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       <button type="submit" class="btn-modal">Зателефонуйте мені</button>
     </form>
     <div class="fs" id="fCB-s" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зателефонуємо найближчим часом.</div>
-    <p class="privacy" style="color:var(--txt3);margin-top:12px">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a>, зокрема з передачею даних Google і Meta для вимірювання реклами.</p>
+    <p class="privacy" style="color:#66666B;margin-top:12px">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a>, зокрема з передачею даних Google і Meta для вимірювання реклами.</p>
   </div>
 </div>
 
@@ -1978,7 +1978,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         </div>
       </div>
 
-      <div class="cu-grid rv" id="cu-grid" role="list" aria-label="Перелік приміщень"></div>
+      <div class="cu-grid rv" id="cu-grid" role="group" aria-label="Перелік приміщень"></div>
       <div class="cu-empty" id="cu-empty" hidden>Жодне приміщення не відповідає обраним фільтрам. Спробуйте інше поєднання поверху чи секції.</div>
       <div class="cu-loadmore" id="cu-loadmore" hidden>
         <button type="button" id="cu-loadmore-btn">Показати ще 6</button>
@@ -2181,7 +2181,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       <p><strong>Умови розстрочки</strong>, графік платежів та валюта розрахунків встановлюються індивідуально та закріплюються у договорі. Розстрочка надається безпосередньо забудовником, без залучення банку. Дозвільні документи на будівництво (проектна декларація, дозвіл на виконання будівельних робіт, відомості про забудовника) надаються до укладення договору відповідно до ст. 15 ЗУ «Про захист прав споживачів» та ст. 25 ЗУ «Про рекламу».</p>
     </aside>
 
-    <div class="faq-foot rv" role="complementary">
+    <div class="faq-foot rv">
       <p class="faq-foot-t">Не знайшли відповіді? <em>Зателефонуємо за 5 хвилин</em>.</p>
       <a href="#" class="faq-foot-cta" onclick="event.preventDefault();openModal()">
         Замовити дзвінок
@@ -2244,7 +2244,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
 </footer>
 
 <!-- STICKY MOBILE CTA -->
-<div class="sticky-mob">
+<div class="sticky-mob" role="region" aria-label="Швидкий зв'язок">
   <a href="tel:+380969900390" class="sm-call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Зателефонувати</a>
   <a href="#" class="sm-msg" onclick="openModal();return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Написати</a>
 </div>
@@ -2751,7 +2751,7 @@ var COMMERCIAL_UNITS=[
     var statusLbl=STATUS_LABEL[u.status]||u.status;
     var area=fmtArea(u.area);
     var alt='План приміщення №'+num+' — '+area+' м², '+floorLbl+', Секція '+u.section;
-    return '<button class="cu-card rv" type="button" role="listitem" data-cu-code="'+u.code+'" aria-label="Приміщення №'+num+', '+area+' м², '+floorLbl+', Секція '+u.section+', '+statusLbl+'">'
+    return '<button class="cu-card rv" type="button" data-cu-code="'+u.code+'" aria-label="Приміщення №'+num+', '+area+' м², '+floorLbl+', Секція '+u.section+', '+statusLbl+'">'
       +  '<div class="cu-card-img">'
       +    '<picture>'
       +      '<source type="image/avif" srcset="img/plans/commercial/'+b+'-720.avif 720w, img/plans/commercial/'+b+'.avif 1400w" sizes="(max-width:768px) 100vw, (max-width:1024px) 50vw, 33vw">'
