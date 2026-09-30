@@ -4,7 +4,8 @@ declare(strict_types=1);
 /**
  * ЖК Lakeview — universal lead form handler.
  *
- * Handles 5 forms (callback, apartment, catalog, commercial, footer).
+ * Handles 5 form types (callback, apartment, catalog, commercial, footer) from 6 forms
+ * on the page — `form_place` tells the two `commercial` forms apart.
  * Validates honeypot, time-trap, origin, fields. Rate-limits per IP.
  * Delivers via Telegram Bot API. Logs to /logs/submissions.log.
  *
@@ -73,13 +74,19 @@ function is_ajax(): bool {
         || strcasecmp($xrw, 'XMLHttpRequest') === 0;
 }
 
-/** Send JSON response or 303 redirect, then exit. */
-function respond(int $status, bool $ok, string $message, ?string $redirect = null): never {
+/**
+ * Send JSON response or 303 redirect, then exit.
+ * $extra is merged into a successful JSON payload — used for lead_id, which only a
+ * real lead gets. Bot fake-successes call this without it, so the front end never
+ * fires a conversion for them while the response still looks like success to the bot.
+ */
+function respond(int $status, bool $ok, string $message, ?string $redirect = null, array $extra = []): never {
     http_response_code($status);
     if (is_ajax()) {
         header('Content-Type: application/json; charset=utf-8');
         $payload = ['ok' => $ok];
         if ($ok && $redirect) $payload['redirect'] = $redirect;
+        if ($ok) $payload += $extra;
         if (!$ok) $payload['error'] = $message;
         echo json_encode($payload, JSON_UNESCAPED_UNICODE);
     } else {
@@ -274,6 +281,13 @@ if (in_array('name', $requires[$formId], true)) {
 
 // Phone — strip non-digits, must be 10–15 digits
 $phoneDigits = preg_replace('~\D+~', '', $phoneRaw) ?? '';
+// Normalise Ukrainian numbers to 380XXXXXXXXX regardless of how they arrived (mask,
+// autofill, paste): Telegram shows a dialable number and the Meta CAPI hash matches.
+if (strlen($phoneDigits) === 10 && $phoneDigits[0] === '0') {
+    $phoneDigits = '38' . $phoneDigits;
+} elseif (strlen($phoneDigits) === 11 && str_starts_with($phoneDigits, '80')) {
+    $phoneDigits = '3' . $phoneDigits;
+}
 $phoneLen = strlen($phoneDigits);
 if ($phoneLen < 10 || $phoneLen > 15) {
     log_submission($LOG_FILE, $ip, $formId, $name, $phoneRaw, 'reject:phone-format');
@@ -281,6 +295,39 @@ if ($phoneLen < 10 || $phoneLen > 15) {
 }
 // Pretty phone: prefix + with single space chunks
 $phonePretty = '+' . $phoneDigits;
+
+// ─── Attribution (hidden fields stamped by index.html) ───────────────────────
+// Fully attacker-controlled and shown to sales in Telegram + written to the pipe-
+// delimited log, so: whitelist form_place, reduce UTMs to a safe charset (no newlines,
+// no "://" → no forged fields or clickable links), and drop — not truncate — click ids
+// that don't fit, since a truncated fbclid produces a corrupt fbc.
+$FORM_PLACES = ['callback', 'apartment', 'commercial_modal', 'catalog', 'commercial_section', 'footer'];
+$formPlace = (string) $get('form_place', '');
+if (!in_array($formPlace, $FORM_PLACES, true)) $formPlace = '';
+
+$attr = [];
+foreach (['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as $k) {
+    $v = (string) $get($k, '');
+    $v = str_replace('://', ' ', $v);
+    $v = preg_replace('~[^\p{L}\p{N} _.+\-/]~u', '_', $v) ?? '';
+    $v = trim(mb_substr($v, 0, 100, 'UTF-8'));
+    if ($v !== '') $attr[$k] = $v;
+}
+foreach (['gclid', 'gbraid', 'wbraid', 'fbclid'] as $k) {
+    $v = (string) $get($k, '');
+    if ($v !== '' && preg_match('~^[A-Za-z0-9._\-]{1,500}$~', $v)) $attr[$k] = $v;
+}
+// When the ad click was first seen (ms) — Meta wants the click time in a built fbc.
+$attrTs = (string) $get('attr_ts', '');
+$attrTsMs = (ctype_digit($attrTs) && (int) $attrTs <= $nowMs && (int) $attrTs > $nowMs - 90 * 86400000) ? (int) $attrTs : $nowMs;
+
+// Minted per lead on the server — never taken from the client — so a second lead from
+// the same page load (Back from thanks, another apartment) is not deduped away by Meta.
+// Returned as lead_id; the browser Pixel reuses it, so Pixel ↔ CAPI dedup still holds.
+$rb = random_bytes(16);
+$rb[6] = chr((ord($rb[6]) & 0x0f) | 0x40);
+$rb[8] = chr((ord($rb[8]) & 0x3f) | 0x80);
+$eventId = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($rb), 4));
 
 // ─── Compose Telegram message ────────────────────────────────────────────────
 $kyivTz = new DateTimeZone('Europe/Kyiv');
@@ -298,11 +345,23 @@ if ($apartment !== '' && in_array($formId, ['apartment', 'commercial'], true)) {
     $label = $formId === 'commercial' ? '🏢 <b>Приміщення:</b> ' : '🏠 <b>Квартира:</b> ';
     $lines[] = $label . safe_html($apartment);
 }
+if ($attr) {
+    $src = [];
+    if (isset($attr['utm_source']))   $src[] = $attr['utm_source'] . (isset($attr['utm_medium']) ? ' / ' . $attr['utm_medium'] : '');
+    if (isset($attr['utm_campaign'])) $src[] = 'кампанія: ' . $attr['utm_campaign'];
+    if (isset($attr['utm_content']))  $src[] = 'оголошення: ' . $attr['utm_content'];
+    if (isset($attr['utm_term']))     $src[] = 'ключ: ' . $attr['utm_term'];
+    if (isset($attr['gclid']) || isset($attr['gbraid']) || isset($attr['wbraid'])) $src[] = 'клік Google Ads';
+    // fbclid is also added to organic Instagram/Facebook links — it means "came from Meta", not "from an ad"
+    if (isset($attr['fbclid']))       $src[] = 'перехід з Facebook/Instagram';
+    // <code> keeps Telegram from turning any leftover text into a link
+    $lines[] = '📣 <b>Джерело:</b> <code>' . safe_html(implode(' · ', $src)) . '</code>';
+}
 $lines[] = '';
 $lines[] = '🌐 IP: <code>' . safe_html($ip) . '</code>';
 $lines[] = '⏰ ' . safe_html($nowKyiv) . ' (Kyiv)';
 if ($referer !== '') {
-    $lines[] = '🔗 Сторінка: ' . safe_html($referer);
+    $lines[] = '🔗 Сторінка: ' . safe_html(mb_substr($referer, 0, 500, 'UTF-8'));
 }
 
 $message = implode("\n", $lines);
@@ -363,10 +422,93 @@ if ($rateFp) {
     @fclose($rateFp);
 }
 
-// ─── Success ─────────────────────────────────────────────────────────────────
-log_submission($LOG_FILE, $ip, $formId, $name, $phoneRaw, 'ok');
+// ─── Success log (before CAPI, so nothing after Telegram can cost the record) ─
+$srcTag = '';
+if ($attr) {
+    $srcRaw = ($attr['utm_source'] ?? '') . '/' . ($attr['utm_campaign'] ?? '')
+        . (isset($attr['gclid']) || isset($attr['gbraid']) || isset($attr['wbraid']) ? '/gclid' : '')
+        . (isset($attr['fbclid']) ? '/fbclid' : '');
+    $srcTag = ' src=' . (preg_replace('~[\s|\x00-\x1F\x7F]+~u', '_', $srcRaw) ?? '');
+}
+log_submission($LOG_FILE, $ip, $formId . ($formPlace !== '' ? ':' . $formPlace : ''), $name, $phoneRaw, 'ok' . $srcTag);
 
+// ─── Meta Conversions API (server-side Lead) — runs AFTER the user got the response ─
+// Registered as a shutdown function: respond() below sends the JSON and exits, then this
+// flushes the connection (LiteSpeed / PHP-FPM) and talks to Meta, so a slow or failing
+// Graph API never delays or breaks the lead. Same event_id as the browser Pixel Lead.
+$capiToken = (string) ($CONF['META_CAPI_TOKEN'] ?? '');
+$pixelId   = (string) ($CONF['META_PIXEL_ID']   ?? '');
+if ($capiToken !== '' && preg_match('~^\d{10,20}$~', $pixelId)) {
+    register_shutdown_function(static function () use (
+        $CONF, $capiToken, $pixelId, $phoneDigits, $ip, $attr, $attrTsMs, $eventId, $referer, $formId, $formPlace
+    ): void {
+        try {
+            // Detached = the browser already has its response, so Meta may take its time.
+            // Without a finish function (e.g. mod_php) the user would wait on Meta, so keep it short.
+            $detached = false;
+            if (function_exists('litespeed_finish_request')) {
+                $detached = (bool) litespeed_finish_request();
+            } elseif (function_exists('fastcgi_finish_request')) {
+                $detached = fastcgi_finish_request();
+            }
+
+            $userData = [
+                'ph'                => [hash('sha256', $phoneDigits)],
+                'country'           => [hash('sha256', 'ua')],
+                'client_ip_address' => $ip,
+                'client_user_agent' => substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 500),
+            ];
+            $fbp = (string) ($_COOKIE['_fbp'] ?? '');
+            $fbc = (string) ($_COOKIE['_fbc'] ?? '');
+            if ($fbc === '' && isset($attr['fbclid'])) {
+                $fbc = 'fb.1.' . $attrTsMs . '.' . $attr['fbclid'];
+            }
+            if (preg_match('~^fb\.\d\.\d+\.[A-Za-z0-9._\-]+$~', $fbp)) $userData['fbp'] = $fbp;
+            if (preg_match('~^fb\.\d\.\d+\.[A-Za-z0-9._\-]+$~', $fbc)) $userData['fbc'] = $fbc;
+
+            $capiBody = [
+                'data' => [[
+                    'event_name'       => 'Lead',
+                    'event_time'       => time(),
+                    'event_id'         => $eventId,
+                    'action_source'    => 'website',
+                    'event_source_url' => $referer !== '' ? mb_substr($referer, 0, 1000, 'UTF-8') : 'https://www.lakeview.com.ua/',
+                    'user_data'        => $userData,
+                    'custom_data'      => ['form_id' => $formId, 'form_place' => $formPlace, 'content_name' => $formPlace],
+                ]],
+                'access_token' => $capiToken,
+            ];
+            $testCode = (string) ($CONF['META_TEST_EVENT_CODE'] ?? '');
+            if ($testCode !== '') $capiBody['test_event_code'] = $testCode;
+
+            $graphVer = (string) ($CONF['META_GRAPH_VERSION'] ?? 'v26.0');
+            $ch = curl_init('https://graph.facebook.com/' . $graphVer . '/' . $pixelId . '/events');
+            if ($ch === false) throw new RuntimeException('curl_init failed');
+            curl_setopt_array($ch, [
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => (string) json_encode($capiBody, JSON_INVALID_UTF8_SUBSTITUTE | JSON_UNESCAPED_SLASHES),
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT        => $detached ? 8 : 3,
+                CURLOPT_CONNECTTIMEOUT => $detached ? 4 : 2,
+                CURLOPT_SSL_VERIFYPEER => true,
+                CURLOPT_SSL_VERIFYHOST => 2,
+                CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+            ]);
+            $capiResp = curl_exec($ch);
+            $capiCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($capiResp === false || $capiCode !== 200) {
+                // The token travels in the POST body, never the URL, and the response doesn't echo it.
+                error_log(sprintf('[lakeview/submit] CAPI fail: code=%d resp=%s',
+                    $capiCode, is_string($capiResp) ? substr($capiResp, 0, 300) : '(none)'));
+            }
+        } catch (\Throwable $e) {
+            error_log('[lakeview/submit] CAPI exception: ' . $e->getMessage());
+        }
+    });
+}
+
+// ─── Success ─────────────────────────────────────────────────────────────────
 $thanksKey = $THANKS_KEY[$formId] ?? 'fCB';
 $redirect  = '/thanks.html?form=' . urlencode($thanksKey);
 
-respond(200, true, '', $redirect);
+respond(200, true, '', $redirect, ['lead_id' => $eventId]);

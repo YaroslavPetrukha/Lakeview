@@ -3,6 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Ad-click attribution → lead source in Telegram (CRM #72). Kept 90 days so a lead
+     sent on a later visit still carries it. First campaign touch wins, EXCEPT a fresh
+     ad click (gclid/gbraid/wbraid/fbclid) always replaces it: the newest click is the
+     one Google/Meta can still attribute. -->
+<script>
+(function(){
+  var KEY='lv_attr',TTL=90*864e5,CLICK=['gclid','gbraid','wbraid','fbclid'],
+      KEYS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].concat(CLICK);
+  try{
+    var q=new URLSearchParams(location.search),a={},hit=false,click=false;
+    KEYS.forEach(function(k){
+      var v=q.get(k);
+      if(v&&v.length<=500){a[k]=v;hit=true;if(CLICK.indexOf(k)>-1)click=true}
+    });
+    if(!hit)return;
+    var saved=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(saved&&Date.now()-saved.t<TTL&&!click)return;
+    a.t=Date.now();localStorage.setItem(KEY,JSON.stringify(a));
+  }catch(_){}
+})();
+</script>
+
+<!-- Google Tag Manager — GA4 + Google Ads + Meta Pixel are configured inside the container -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NMZFC3XN');</script>
+
 <title>ЖК Lakeview — Квартири біля озера у Львові | Вигода</title>
 <meta name="description" content="ЖК Lakeview — бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1700/м². Розстрочка від забудовника Вигода. Здача 2027.">
 
@@ -10,6 +40,7 @@
 <link rel="canonical" href="https://www.lakeview.com.ua/">
 <meta name="theme-color" content="#0F4C3A">
 <meta name="format-detection" content="telephone=no">
+<meta name="facebook-domain-verification" content="uol2wfa6zhwuyvbq0zfbcnfz8572r4">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -643,6 +674,8 @@ body.modal-active .hero-bg img{transform:none!important}
 .ftr-ci{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:14px}
 .ftr-ci svg{width:16px;height:16px;color:var(--gold);flex-shrink:0}
 .ftr-fm{display:flex;gap:8px}
+.ftr-consent{font-size:12px;line-height:1.5;color:rgba(255,255,255,.72);margin-top:8px}
+.apt-consent{margin-top:6px;line-height:1.5}
 .ftr-fm input{flex:1;padding:12px 14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:14px;outline:none}
 .ftr-fm input::placeholder{color:rgba(255,255,255,.6)}.ftr-fm input:focus{border-color:var(--gold)}
 .ftr-fm button{padding:12px 18px;background:var(--gold-aa);color:#fff;border-radius:10px;font-size:14px;font-weight:600;transition:background var(--t)}.ftr-fm button:hover{background:var(--gold-aa-d)}
@@ -1266,6 +1299,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
 </script>
 </head>
 <body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NMZFC3XN" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
 
 <a href="#main" class="skip-link">Перейти до контенту</a>
 
@@ -1297,7 +1331,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       <button type="submit" class="btn-modal">Зателефонуйте мені</button>
     </form>
     <div class="fs" id="fCB-s" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зателефонуємо найближчим часом.</div>
-    <p class="privacy" style="color:var(--txt3);margin-top:12px">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a></p>
+    <p class="privacy" style="color:var(--txt3);margin-top:12px">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a>, зокрема з передачею даних Google і Meta для вимірювання реклами.</p>
   </div>
 </div>
 
@@ -1330,6 +1364,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
           <div class="apt-field"><label for="fApt-tel" class="visually-hidden">Телефон</label><input id="fApt-tel" type="tel" name="phone" inputmode="tel" maxlength="20" placeholder="+380 __ ___ __ __" required aria-required="true" pattern="^\+?[0-9\s\-]{10,20}$" autocomplete="tel"></div>
           <button type="submit" class="apt-submit">Отримати консультацію</button>
           <p class="apt-note">Менеджер зателефонує протягом 15 хвилин</p>
+          <p class="apt-note apt-consent">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a>, зокрема з передачею даних Google і Meta для вимірювання реклами.</p>
         </form>
         <div class="fs" id="fApt-s" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зв'яжемось найближчим часом.</div>
       </div>
@@ -1370,6 +1405,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
           <div class="apt-field"><label for="fCU-tel" class="visually-hidden">Телефон</label><input id="fCU-tel" type="tel" name="phone" inputmode="tel" maxlength="20" placeholder="+380 __ ___ __ __" required aria-required="true" pattern="^\+?[0-9\s\-]{10,20}$" autocomplete="tel"></div>
           <button type="submit" class="apt-submit">Отримати умови</button>
           <p class="apt-note">Менеджер зателефонує протягом 30 хвилин</p>
+          <p class="apt-note apt-consent">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a>, зокрема з передачею даних Google і Meta для вимірювання реклами.</p>
         </form>
         <div class="fs" id="fCU-s" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зв'яжемось найближчим часом.</div>
       </div>
@@ -1569,7 +1605,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         </form>
         <div class="fs" id="fR-s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Каталог надійде протягом кількох хвилин.</div>
         <div class="cta-proof"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Вже 53 сім'ї отримали каталог цього місяця</div>
-        <p style="font-size:12px;color:rgba(255,255,255,.7);margin-top:8px">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a></p>
+        <p style="font-size:12px;color:rgba(255,255,255,.7);margin-top:8px">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a>, зокрема з передачею даних Google і Meta для вимірювання реклами.</p>
       </div>
     </div>
   </div>
@@ -1968,7 +2004,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         <button type="submit" class="bf">Отримати умови</button>
       </form>
       <div class="fs" id="fC-s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Менеджер зв'яжеться протягом 30 хвилин.</div>
-      <p class="privacy">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a></p>
+      <p class="privacy">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a>, зокрема з передачею даних Google і Meta для вимірювання реклами.</p>
     </div>
   </div>
 </section>
@@ -2196,6 +2232,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
           <input id="fF-tel" name="phone" type="tel" inputmode="tel" maxlength="20" placeholder="+380 __ ___ __ __" required pattern="^\+?[0-9\s\-]{10,20}$" autocomplete="tel" aria-label="Телефон">
           <button type="submit">Надіслати</button>
         </form>
+        <p class="ftr-consent">Надсилаючи номер, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Політикою конфіденційності</a>, зокрема з передачею даних Google і Meta для вимірювання реклами.</p>
         <div class="fs" id="fF-s" style="margin-top:10px;font-size:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо!</div>
       </div>
     </div>
@@ -2432,14 +2469,67 @@ function openApt(el){
 function closeApt(){_closeA11y('aptModal');document.getElementById('apt-img').src=''}
 document.getElementById('aptModal').addEventListener('click',function(e){if(e.target===this)closeApt()});
 
+/* ─── Analytics micro-events → dataLayer (GTM maps them to GA4 / Pixel) ── */
+function _track(ev,params){
+  window.dataLayer=window.dataLayer||[];
+  var o={event:ev};for(var k in params)o[k]=params[k];
+  window.dataLayer.push(o);
+}
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;
+  var h=a.getAttribute('href');
+  /* Nearest labelled container: data-loc, else id, else first class, else tag name */
+  var c=a.closest('[data-loc],header,nav,footer,section,[role=dialog],.sticky-mob');
+  var where=c?(c.getAttribute('data-loc')||c.id||((c.getAttribute('class')||'').split(' ')[0])||c.tagName.toLowerCase()):'page';
+  where=String(where).slice(0,60);
+  if(h.indexOf('tel:')===0)_track('phone_click',{link_location:where});
+  else if(/instagram\.com|facebook\.com|t\.me|viber|wa\.me/.test(h))_track('social_click',{link_url:h,link_location:where});
+});
+
 /* ─── Form submit handler — POSTs to /api/submit.php, redirects on success ── */
 function _setTs(form){
   var t=form.querySelector('input[name=ts]');
   if(t&&!t.value)t.value=String(Date.now());
 }
+/* Form id → place on the page. Two forms share _form=commercial (modal fCU and
+   section fC), so reports need this to tell all six apart. */
+var _FORM_PLACE={fCB:'callback',fApt:'apartment',fCU:'commercial_modal',fR:'catalog',fC:'commercial_section',fF:'footer'};
+function _hidden(form,name,value){
+  var i=form.querySelector('input[name="'+name+'"]');
+  if(!i){i=document.createElement('input');i.type='hidden';i.name=name;form.appendChild(i)}
+  i.value=value;
+}
+/* Stored ad source (≤90 days) → hidden fields. Falls back to the current URL when
+   localStorage is blocked (private mode, some in-app browsers). The event_id for
+   Meta dedup is minted by the server per lead and comes back as lead_id. */
+function _readAttr(){
+  var a=null;
+  try{
+    a=JSON.parse(localStorage.getItem('lv_attr')||'null');
+    if(a&&!(Date.now()-a.t<90*864e5)){localStorage.removeItem('lv_attr');a=null}
+  }catch(_){a=null}
+  if(!a){
+    a={};
+    try{var q=new URLSearchParams(location.search);
+      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','gbraid','wbraid','fbclid'].forEach(function(k){
+        var v=q.get(k);if(v&&v.length<=500)a[k]=v;
+      });
+      if(Object.keys(a).length)a.t=Date.now();
+    }catch(_){}
+  }
+  return a;
+}
+function _stampAttr(form,id){
+  _hidden(form,'form_place',_FORM_PLACE[id]||'');
+  var a=_readAttr();
+  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','gbraid','wbraid','fbclid'].forEach(function(k){
+    if(a[k])_hidden(form,k,a[k]);
+  });
+  if(a.t)_hidden(form,'attr_ts',String(a.t));
+}
 function _stampAllForms(){
-  ['fCB','fApt','fR','fC','fF','fCU'].forEach(function(id){
-    var f=document.getElementById(id);if(f)_setTs(f);
+  Object.keys(_FORM_PLACE).forEach(function(id){
+    var f=document.getElementById(id);if(f){_setTs(f);_stampAttr(f,id)}
   });
 }
 if(document.readyState==='loading'){
@@ -2448,12 +2538,16 @@ if(document.readyState==='loading'){
   _stampAllForms();
 }
 
-/* Refresh ts when tab returns from background — prevents silent backend reject after long idle */
+/* Refresh ts when the tab returns from background — but ONLY once it is stale (>1h).
+   Resetting it on every return made a real lead look like a bot: on a phone people
+   switch apps to copy their number, come back and send within the 2-second time-trap,
+   and the backend silently fake-succeeded — thanks page shown, no lead delivered. */
 document.addEventListener('visibilitychange',function(){
   if(document.visibilityState==='visible'){
-    ['fCB','fApt','fR','fC','fF','fCU'].forEach(function(id){
+    Object.keys(_FORM_PLACE).forEach(function(id){
       var f=document.getElementById(id);if(!f)return;
-      var t=f.querySelector('input[name=ts]');if(t)t.value=String(Date.now());
+      var t=f.querySelector('input[name=ts]');
+      if(t&&Date.now()-(+t.value||0)>3600e3)t.value=String(Date.now()-5000);
     });
   }
 });
@@ -2462,9 +2556,13 @@ document.addEventListener('visibilitychange',function(){
 (function(){
   function formatPhone(input){
     var clean=input.value.replace(/[^\d+]/g,'');
-    /* Generic international (non-UA prefix) — keep digits + leading +, cap 16 chars */
-    if(clean.charAt(0)==='+'&&clean.charAt(1)&&clean.charAt(1)!=='3'){
-      input.value=clean.slice(0,16);return;
+    /* Leading '+': format as UA only for +380. While the prefix is still being typed
+       ('+', '+3', '+38') keep it verbatim; any other country code (+48, +39, +34, +375…)
+       stays exactly as typed. The old check only looked at the 2nd char, so a lone '+'
+       was erased and '+48 601…' was rewritten into a wrong '+380 48…' number. */
+    if(clean.charAt(0)==='+'){
+      if(clean.length<4&&'+380'.indexOf(clean)===0){input.value=clean;return}
+      if(clean.indexOf('+380')!==0){input.value='+'+clean.slice(1).replace(/\+/g,'').slice(0,15);return}
     }
     var d=clean.replace(/\D/g,'');
     if(d.indexOf('380')===0)d=d.slice(0,12);
@@ -2498,6 +2596,10 @@ document.addEventListener('visibilitychange',function(){
 
 async function _submitForm(form,id){
   _setTs(form);
+  /* Page left open for hours (tab visible the whole time) — a stale ts would trip the
+     backend's max-age time-trap and the lead would be silently fake-succeeded */
+  var tsEl=form.querySelector('input[name=ts]');
+  if(tsEl&&Date.now()-(+tsEl.value||0)>3600e3)tsEl.value=String(Date.now()-5000);
   var btn=form.querySelector('button[type=submit]');
   if(btn)btn.disabled=true;
   try{
@@ -2514,7 +2616,25 @@ async function _submitForm(form,id){
       form.style.display='none';
       var s=document.getElementById(id+'-s');if(s)s.classList.add('vis');
       var to=data.redirect||('/thanks.html?form='+encodeURIComponent(id));
-      window.location.href=to;
+      var go=function(){window.location.href=to};
+      /* lead_id comes back only for a real lead — the honeypot/time-trap fake-success
+         omits it, so bots never count as conversions. Fired here, not on thanks.html,
+         so reloading the thanks page can't double-count. */
+      if(data.lead_id){
+        var done=false,once=function(){if(!done){done=true;go()}};
+        window.dataLayer=window.dataLayer||[];
+        window.dataLayer.push({
+          event:'generate_lead',
+          form_id:(form.querySelector('input[name=_form]')||{}).value||'',
+          form_place:_FORM_PLACE[id]||'',
+          event_id:data.lead_id,
+          eventCallback:once,
+          eventTimeout:1500
+        });
+        setTimeout(once,1800); /* GTM blocked or not loaded — still reach the thanks page */
+      }else{
+        go();
+      }
       return;
     }
     var msg=(data&&data.error)?data.error:'Виникла помилка. Спробуйте ще раз або зателефонуйте: +38 096 990 03 90';
@@ -2801,6 +2921,7 @@ function openPlanLbDirect(src,alt,title,sub){
   document.getElementById('planLbTitle').textContent=title||'';
   document.getElementById('planLbSub').textContent=sub||'';
   _openA11y('planLb');
+  _track('plan_open',{plan:((title||'')+(sub?' · '+sub:'')).slice(0,100)});
 }
 function closePlanLb(){
   _closeA11y('planLb');

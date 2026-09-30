@@ -26,6 +26,13 @@ return [
     'TIME_TRAP_MIN_SECONDS'      => 2,    // form filled too fast = bot
     'TIME_TRAP_MAX_SECONDS'      => 7200, // page sat 2h+ = stale/replay
 
+    // Meta Conversions API — server-side Lead, deduped with the browser Pixel by event_id.
+    // Leave the token empty to disable CAPI (the form keeps working).
+    'META_PIXEL_ID'        => '1109538811421547',
+    'META_CAPI_TOKEN'      => '',        // Events Manager → dataset → Settings → Conversions API
+    'META_GRAPH_VERSION'   => 'v26.0',   // latest per developers.facebook.com/docs/graph-api/changelog, checked 2026-09-30
+    'META_TEST_EVENT_CODE' => '',        // e.g. TEST12345 while QA-ing in Test Events; empty in production
+
     // Cloudflare Turnstile (v2 — disabled for v1)
     'TURNSTILE_ENABLED'    => false,
     'TURNSTILE_SECRET_KEY' => '',
