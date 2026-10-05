@@ -2497,6 +2497,29 @@ document.addEventListener('click',function(e){
   else if(/instagram\.com|facebook\.com|t\.me|viber|wa\.me/.test(h))_track('social_click',{link_url:h,link_location:where});
 });
 
+/* ─── engaged_visit — once per page load: ≥30 s with the tab visible AND scrolled ≥50%.
+   A quality-visit signal Meta can optimise on while real leads are too few (GTM →
+   Pixel custom event EngagedVisit + GA4). Time only counts while the tab is visible,
+   so a background tab or an in-app browser left open doesn't qualify. ── */
+(function(){
+  var NEED_MS=30000,NEED_SCROLL=0.5,shown=0,since=document.hidden?0:Date.now(),deep=false,done=false,timer;
+  function visibleMs(){return shown+(since?Date.now()-since:0)}
+  function check(){
+    if(done||!deep||visibleMs()<NEED_MS)return;
+    done=true;clearInterval(timer);removeEventListener('scroll',onScroll);
+    _track('engaged_visit',{engaged_seconds:Math.round(visibleMs()/1000)});
+  }
+  function onScroll(){
+    var h=document.documentElement.scrollHeight-innerHeight;
+    if(h>0&&scrollY/h>=NEED_SCROLL){deep=true;check()}
+  }
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){if(since){shown+=Date.now()-since;since=0}}else if(!since)since=Date.now();
+  });
+  addEventListener('scroll',onScroll,{passive:true});
+  timer=setInterval(check,2000);
+})();
+
 /* ─── Binotel sync — icon-only call buttons (mobile sticky «Зателефонувати», modal
    buttons) can't carry the binct class: Binotel rewrites the element's whole innerHTML
    with the number and would wipe the icon/label. They get [data-binct-sync] instead and
