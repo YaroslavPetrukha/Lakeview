@@ -33,6 +33,12 @@ return [
     'META_GRAPH_VERSION'   => 'v26.0',   // latest per developers.facebook.com/docs/graph-api/changelog, checked 2026-09-30
     'META_TEST_EVENT_CODE' => '',        // e.g. TEST12345 while QA-ing in Test Events; empty in production
 
+    // Lead journal — Google Sheet "Журнал лідів Lakeview" via its Apps Script web app
+    // (tools/lead-journal/Code.gs). Secret must equal the script property WEBHOOK_SECRET.
+    // Leave empty to disable (Telegram + log keep working).
+    'LEAD_SHEET_WEBHOOK_URL'    => '',   // https://script.google.com/macros/s/…/exec
+    'LEAD_SHEET_WEBHOOK_SECRET' => '',
+
     // Cloudflare Turnstile (v2 — disabled for v1)
     'TURNSTILE_ENABLED'    => false,
     'TURNSTILE_SECRET_KEY' => '',

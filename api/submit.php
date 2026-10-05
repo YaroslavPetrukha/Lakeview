@@ -52,6 +52,24 @@ function client_ip(): string {
     return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 }
 
+/**
+ * Send the response to the browser now and keep running (LiteSpeed / PHP-FPM).
+ * Memoised: several shutdown tasks share one detach, and a second finish call would
+ * report false and make the later task think the user is still waiting.
+ */
+function detach_response(): bool {
+    static $detached = null;
+    if ($detached === null) {
+        $detached = false;
+        if (function_exists('litespeed_finish_request')) {
+            $detached = (bool) litespeed_finish_request();
+        } elseif (function_exists('fastcgi_finish_request')) {
+            $detached = fastcgi_finish_request();
+        }
+    }
+    return $detached;
+}
+
 /** Append a structured line to /logs/submissions.log. */
 function log_submission(string $logFile, string $ip, string $form, string $name, string $phone, string $result): void {
     $line = sprintf(
@@ -432,6 +450,60 @@ if ($attr) {
 }
 log_submission($LOG_FILE, $ip, $formId . ($formPlace !== '' ? ':' . $formPlace : ''), $name, $phoneRaw, 'ok' . $srcTag);
 
+// ─── Lead journal (Google Sheet via Apps Script) — runs AFTER the user got the response ─
+// Sales work the lead in the sheet (status, manager, next step); Telegram stays the alert.
+// A failing or slow Google never costs the lead: it is already in Telegram and the log.
+$sheetUrl    = (string) ($CONF['LEAD_SHEET_WEBHOOK_URL']    ?? '');
+$sheetSecret = (string) ($CONF['LEAD_SHEET_WEBHOOK_SECRET'] ?? '');
+if ($sheetSecret !== '' && preg_match('~^https://script\.google\.com/macros/s/[A-Za-z0-9_\-]+/exec$~', $sheetUrl)) {
+    register_shutdown_function(static function () use (
+        $sheetUrl, $sheetSecret, $nowKyiv, $FORM_LABELS, $formId, $formPlace, $name, $phoneDigits,
+        $messenger, $apartment, $bizType, $attr, $referer, $eventId
+    ): void {
+        try {
+            $detached = detach_response();
+            $ua = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
+            $refPath = $referer !== '' ? (string) (parse_url($referer, PHP_URL_PATH) ?? '') : '';
+            $row = [
+                'secret'     => $sheetSecret,
+                'time'       => $nowKyiv,
+                'form'       => $FORM_LABELS[$formId],
+                'form_place' => $formPlace,
+                'name'       => $name,
+                'phone'      => $phoneDigits,
+                'messenger'  => $messenger,
+                'apartment'  => $apartment,
+                'biz_type'   => $bizType,
+                'device'     => preg_match('~Mobi|Android|iPhone|iPad~i', $ua) ? 'мобільний' : 'десктоп',
+                'page'       => mb_substr($refPath, 0, 200, 'UTF-8'),
+                'lead_id'    => $eventId,
+            ] + $attr;
+
+            $ch = curl_init($sheetUrl);
+            if ($ch === false) throw new RuntimeException('curl_init failed');
+            curl_setopt_array($ch, [
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => (string) json_encode($row, JSON_INVALID_UTF8_SUBSTITUTE | JSON_UNESCAPED_UNICODE),
+                CURLOPT_RETURNTRANSFER => true,
+                // Apps Script answers with a 302 to googleusercontent.com once doPost has run.
+                CURLOPT_FOLLOWLOCATION => false,
+                CURLOPT_TIMEOUT        => $detached ? 15 : 4,
+                CURLOPT_CONNECTTIMEOUT => $detached ? 5 : 2,
+                CURLOPT_SSL_VERIFYPEER => true,
+                CURLOPT_SSL_VERIFYHOST => 2,
+                CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+            ]);
+            $sheetResp = curl_exec($ch);
+            $sheetCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($sheetResp === false || ($sheetCode !== 200 && $sheetCode !== 302)) {
+                error_log(sprintf('[lakeview/submit] Lead sheet fail: code=%d lead=%s', $sheetCode, $eventId));
+            }
+        } catch (\Throwable $e) {
+            error_log('[lakeview/submit] Lead sheet exception: ' . $e->getMessage());
+        }
+    });
+}
+
 // ─── Meta Conversions API (server-side Lead) — runs AFTER the user got the response ─
 // Registered as a shutdown function: respond() below sends the JSON and exits, then this
 // flushes the connection (LiteSpeed / PHP-FPM) and talks to Meta, so a slow or failing
@@ -445,12 +517,7 @@ if ($capiToken !== '' && preg_match('~^\d{10,20}$~', $pixelId)) {
         try {
             // Detached = the browser already has its response, so Meta may take its time.
             // Without a finish function (e.g. mod_php) the user would wait on Meta, so keep it short.
-            $detached = false;
-            if (function_exists('litespeed_finish_request')) {
-                $detached = (bool) litespeed_finish_request();
-            } elseif (function_exists('fastcgi_finish_request')) {
-                $detached = fastcgi_finish_request();
-            }
+            $detached = detach_response();
 
             $userData = [
                 'ph'                => [hash('sha256', $phoneDigits)],
