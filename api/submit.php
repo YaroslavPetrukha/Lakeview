@@ -276,7 +276,7 @@ $requires = [
     'catalog'    => ['name', 'phone', 'messenger'],
     'commercial' => ['name', 'phone'],
     'footer'     => ['phone'],
-    'landing'    => ['name', 'phone'],
+    'landing'    => ['phone'],  // name optional on the ad landing — fewer fields on a phone
 ];
 
 foreach ($requires[$formId] as $req) {
@@ -287,8 +287,8 @@ foreach ($requires[$formId] as $req) {
     }
 }
 
-// Name validation (skip if not required for this form)
-if (in_array('name', $requires[$formId], true)) {
+// Name validation — when required, or when an optional name was typed anyway
+if (in_array('name', $requires[$formId], true) || $name !== '') {
     $nameLen = mb_strlen($name, 'UTF-8');
     if ($nameLen < 2 || $nameLen > 50) {
         log_submission($LOG_FILE, $ip, $formId, $name, $phoneRaw, 'reject:name-length');
