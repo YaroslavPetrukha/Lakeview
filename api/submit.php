@@ -245,6 +245,7 @@ $FORM_LABELS = [
     'catalog'    => 'Каталог планувань (PDF)',
     'commercial' => 'Комерційні приміщення',
     'footer'     => 'Швидкий контакт (футер)',
+    'landing'    => 'Посадкова для реклами (/lp/)',
 ];
 $THANKS_KEY = [
     'callback'   => 'fCB',
@@ -252,6 +253,7 @@ $THANKS_KEY = [
     'catalog'    => 'fR',
     'commercial' => 'fC',
     'footer'     => 'fF',
+    'landing'    => 'fL',
 ];
 
 $formId = (string) $get('_form', '');
@@ -274,6 +276,7 @@ $requires = [
     'catalog'    => ['name', 'phone', 'messenger'],
     'commercial' => ['name', 'phone'],
     'footer'     => ['phone'],
+    'landing'    => ['name', 'phone'],
 ];
 
 foreach ($requires[$formId] as $req) {
@@ -319,7 +322,7 @@ $phonePretty = '+' . $phoneDigits;
 // delimited log, so: whitelist form_place, reduce UTMs to a safe charset (no newlines,
 // no "://" → no forged fields or clickable links), and drop — not truncate — click ids
 // that don't fit, since a truncated fbclid produces a corrupt fbc.
-$FORM_PLACES = ['callback', 'apartment', 'commercial_modal', 'catalog', 'commercial_section', 'footer'];
+$FORM_PLACES = ['callback', 'apartment', 'commercial_modal', 'catalog', 'commercial_section', 'footer', 'landing_meta'];
 $formPlace = (string) $get('form_place', '');
 if (!in_array($formPlace, $FORM_PLACES, true)) $formPlace = '';
 
@@ -359,7 +362,7 @@ if ($name !== '')   $lines[] = '👤 <b>Імʼя:</b> ' . safe_html($name);
 $lines[] = '📞 <b>Телефон:</b> <code>' . safe_html($phonePretty) . '</code>';
 if ($messenger !== '') $lines[] = '💬 <b>Месенджер:</b> ' . safe_html($messenger);
 if ($bizType   !== '') $lines[] = '🏢 <b>Тип бізнесу:</b> ' . safe_html($bizType);
-if ($apartment !== '' && in_array($formId, ['apartment', 'commercial'], true)) {
+if ($apartment !== '' && in_array($formId, ['apartment', 'commercial', 'landing'], true)) {
     $label = $formId === 'commercial' ? '🏢 <b>Приміщення:</b> ' : '🏠 <b>Квартира:</b> ';
     $lines[] = $label . safe_html($apartment);
 }
