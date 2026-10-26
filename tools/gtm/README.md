@@ -15,10 +15,13 @@
 | GA4 - Event - phone_click | GA4 Event | CE - phone_click | Тап по `tel:`. Параметр `link_location`. |
 | GA4 - Event - social_click | GA4 Event | CE - social_click | Клік на Instagram / Facebook / Telegram / Viber / WhatsApp. Параметри `link_url`, `link_location`. |
 | GA4 - Event - plan_open | GA4 Event | CE - plan_open | Відкриття збільшеного планування. Параметр `plan`. |
+| GA4 - Event - engaged_visit | GA4 Event | CE - engaged_visit | Залучений візит. Без параметрів. |
+| GA4 - Event - parking_bay_click | GA4 Event | CE - parking_bay_click | Клік на паркомісце на інтерактивному плані. Параметри `parking_level` = `{{DLV - level}}`, `parking_bay` = `{{DLV - bay}}`. Тега Meta для цієї події немає. |
 | Google Ads - Conversion Linker | Conversion Linker | All Pages | Зберігає `gclid` у first-party cookie `_gcl_aw`, щоб Google Ads зіставляв конверсії з кліками. |
 | Meta - Pixel - Base (PageView) | Custom HTML | All Pages, **Once per page** | Ініціалізує Pixel `1109538811421547`, шле `PageView`. Має захист від повторної ініціалізації. Автоматичні події Meta вимкнено (`autoConfig false`). Розширене зіставлення (advanced matching) не використовується. |
 | Meta - Pixel - Lead | Custom HTML | CE - generate_lead | `Lead` з `eventID` = `event_id` з dataLayer. Server-side CAPI в `api/submit.php` шле такий самий `Lead` з тим самим `event_id`, тож Meta рахує заявку **один раз**. Спочатку спрацьовує тег Base (tag sequencing). |
 | Meta - Pixel - PhoneClick (custom) | Custom HTML | CE - phone_click | **Кастомна** подія `PhoneClick`, а не стандартна `Contact`. Стандартну `Contact` можна випадково обрати подією оптимізації в оголошенні, а тап по номеру ще не означає заявку. `PhoneClick` підходить лише для аудиторій і для custom conversion, якщо її створити свідомо. |
+| Meta - Pixel - EngagedVisit (custom) | Custom HTML | CE - engaged_visit | **Кастомна** подія `EngagedVisit` (див. JSON). |
 
 Тег конверсій Google Ads **навмисно відсутній**: конверсію імпортуємо з GA4 (`generate_lead`). Якщо додати ще й тег Ads, заявка порахується двічі.
 
@@ -30,17 +33,21 @@
 | CE - phone_click | Подія `phone_click` |
 | CE - social_click | Подія `social_click` |
 | CE - plan_open | Подія `plan_open` |
+| CE - engaged_visit | Подія `engaged_visit` |
+| CE - parking_bay_click | Подія `parking_bay_click` |
 
 ### Змінні
 
 - `Const - GA4 Measurement ID` = `G-YLEXBZ88BW`
 - `Const - Meta Pixel ID` = `1109538811421547`
-- Змінні шару даних (Data Layer Variables, v2): `DLV - form_id`, `DLV - form_place`, `DLV - event_id`, `DLV - link_location`, `DLV - link_url`, `DLV - plan`
+- Змінні шару даних (Data Layer Variables, v2): `DLV - form_id`, `DLV - form_place`, `DLV - event_id`, `DLV - link_location`, `DLV - link_url`, `DLV - plan`, `DLV - level` (ключ `level`), `DLV - bay` (ключ `bay`)
 - Вбудовані змінні (вмикаються імпортом): Page URL, Page Hostname, Page Path, Referrer, Event, Container ID, HTML ID. Тег Lead використовує Container ID і HTML ID, щоб повідомити GTM про завершення лише через 300 мс після відправлення Pixel і запит встиг піти до переходу на `/thanks.html`.
 
 ## Чому без `value` / `currency` у generate_lead
 
 Надійної цінності заявки поки немає: заявка на комерцію і на однокімнатну квартиру коштують зовсім по-різному, а даних CRM про конверсію в угоду ще немає. Якщо передавати вигадану суму, Google Ads і Meta почнуть оптимізувати на хибну цінність. На старті стратегія ставок — «Максимум конверсій» або tCPA, їм цінність не потрібна. Коли з CRM з'явиться частка угод за `form_place`, можна додати таблицю підстановки (Lookup Table) `form_place → value` і параметри `value` + `currency: USD`.
+
+**Жива версія 6, 2026-10-26** («Parking bay click → GA4»): додано `DLV - level`, `DLV - bay`, `CE - parking_bay_click`, `GA4 - Event - parking_bay_click`.
 
 ## Імпорт
 
@@ -48,7 +55,7 @@
 2. Файл: `lakeview-gtm-container.json`.
 3. Workspace: **Existing** → Default Workspace (або новий, наприклад «Launch 2026-10»).
 4. Режим: **Merge** → **Rename conflicting tags, triggers, and variables**. Контейнер порожній, тож конфліктів не буде.
-5. Перевірити попередній перегляд імпорту: 9 тегів, 4 тригери, 8 змінних, 7 вбудованих змінних → **Confirm**.
+5. Перевірити попередній перегляд імпорту: 12 тегів, 6 тригерів, 10 змінних, 7 вбудованих змінних → **Confirm**.
 6. Ще **не публікувати**: спершу пройти перевірку нижче.
 
 ## Перевірка
@@ -59,7 +66,8 @@
 3. Клік на телефон (header / мобільна кнопка) → `phone_click`: спрацьовують `GA4 - Event - phone_click` і `Meta - Pixel - PhoneClick`, у Variables видно `link_location`.
 4. Відкрити планування → `plan_open` → `GA4 - Event - plan_open`.
 5. **Справжня тестова заявка** (позначити в Telegram-групі як тест): подія `generate_lead` → `GA4 - Event - generate_lead` і `Meta - Pixel - Lead` зі статусом *Succeeded*. У Variables `DLV - event_id` має бути UUID.
-6. Відправити форму з консолі без справжнього `event_id` (`dataLayer.push({event:'generate_lead'})`) → теги **не** мають спрацювати.
+6. Клік на паркомісце на плані → `parking_bay_click`: спрацьовує `GA4 - Event - parking_bay_click`, у Variables видно `parking_level` / `parking_bay`.
+7. Відправити форму з консолі без справжнього `event_id` (`dataLayer.push({event:'generate_lead'})`) → теги **не** мають спрацювати.
 
 ### GA4 DebugView
 Admin → DebugView. Коли відкрито Tag Assistant, події приходять разом із `debug_mode`. Перевірити параметри `generate_lead`.
@@ -74,7 +82,7 @@ Admin → DebugView. Коли відкрито Tag Assistant, події при�
 ## GA4: що налаштувати після публікації
 
 - **Admin → Events → Key events**: позначити `generate_lead` (метод підрахунку — *Once per event*). `phone_click` ключовою подією **не** робити: тап по `tel:` на десктопі нічого не означає, а дзвінки рахуватиме Бінотел (CRM #76).
-- **Admin → Custom definitions** → Custom dimensions (Event scope): `form_id`, `form_place`, `link_location`, `plan`. `event_id` **не реєструвати**: у кожної заявки унікальне значення, звіт одразу впреться в «(other)».
+- **Admin → Custom definitions** → Custom dimensions (Event scope): `form_id`, `form_place`, `link_location`, `plan`, `parking_level` («Паркінг рівень»), `parking_bay` («Паркінг номер місця»). Назви в GA4 допускають лише літери, цифри, пробіли та підкреслення (без «:» і «-»). `event_id` **не реєструвати**: у кожної заявки унікальне значення, звіт одразу впреться в «(other)».
 - Google Ads → Goals → Conversions → Import → GA4 → `generate_lead` (Web): **Primary**, Count = **One**, вікно 30–90 днів. Інші імпортовані події, якщо з'являться, — лише **Secondary**.
 - GA4 → Data streams → Configure tag settings → **Define internal traffic** (IP офісу) + Data filter, щоб тести команди не йшли в звіти.
 
