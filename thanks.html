@@ -301,8 +301,33 @@ p.thx-sub{
   try{
     var p=new URLSearchParams(window.location.search);
     var f=p.get('form');
-    if(f&&subs[f]){
+    if(f&&Object.prototype.hasOwnProperty.call(subs,f)){
       document.getElementById('thxSub').textContent=subs[f];
+    }
+    if(f==='fPK'){
+      var pkSteps=[
+        "Заявку вже передано у відділ продажу.",
+        "Менеджер уточнить, чи паркомісце ще вільне, і назве точну ціну.",
+        "Розповість про умови купівлі та відповість на ваші запитання."
+      ];
+      var lis=document.querySelectorAll('.thx-steps li');
+      if(lis.length===pkSteps.length){
+        for(var i=0;i<lis.length;i++){
+          var t=lis[i].querySelector('span:not(.n)');
+          if(t){t.textContent=pkSteps[i];}
+        }
+        var sec=document.querySelector('.thx-cta .thx-btn-s');
+        if(sec){
+          sec.setAttribute('href','/#parking');
+          for(var j=0;j<sec.childNodes.length;j++){
+            var nd=sec.childNodes[j];
+            if(nd.nodeType===3&&nd.nodeValue.trim()){
+              nd.nodeValue=nd.nodeValue.replace(nd.nodeValue.trim(),'Переглянути паркомісця');
+              break;
+            }
+          }
+        }
+      }
     }
   }catch(e){}
 })();
