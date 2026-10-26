@@ -141,6 +141,9 @@ input,select{font-family:inherit}
 .logo{font-family:var(--f1);font-size:26px;font-weight:600;letter-spacing:.14em;color:#fff;transition:color var(--t)}
 .hdr.sc .logo{color:var(--em)}
 .nav{display:flex;gap:24px}
+.hdr-ph,.btn-cb{white-space:nowrap}
+@media(min-width:769px) and (max-width:1279px){.nav{gap:14px}.nav a{letter-spacing:0}.hdr-r{gap:12px}}
+@media(min-width:769px) and (max-width:1139px){.nav,.hdr-ph,.btn-cb{display:none}.mob-tog{display:flex}}
 .nav a{font-size:14px;font-weight:500;letter-spacing:.02em;color:rgba(255,255,255,.95);transition:color var(--t);position:relative;text-shadow:0 1px 8px rgba(0,0,0,.3)}
 .nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--gold);transition:width var(--t)}
 .nav a:hover::after{width:100%}
@@ -223,6 +226,68 @@ body.modal-active .hero-bg img{transform:none!important}
 .fc h3{font-family:var(--f1);font-size:20px;font-weight:600;margin-bottom:8px}
 .fc p{font-size:15px;color:var(--txt2);line-height:1.6}
 
+/* ═══ PARKING SALE ═══ */
+.pk-grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"tabs" "chips" "plan" "legend" "cta" "note";column-gap:40px}
+.pk-tabs{grid-area:tabs;display:flex;gap:8px;margin:28px 0 20px;flex-wrap:wrap}
+.pk-tab{padding:10px 22px;border-radius:100px;font-size:14px;font-weight:600;color:var(--txt2);background:var(--card);border:1.5px solid var(--border);transition:all var(--t)}
+.pk-tab.act,.pk-tab:hover{background:var(--em);color:#fff;border-color:var(--em)}
+.pk-tab:focus-visible,.pk-chip:focus-visible,.pk-bay:focus-visible,.pk-zoom-btn:focus-visible{outline:3px solid var(--em);outline-offset:2px}
+.pk-planbox{grid-area:plan;min-width:0}
+.pk-plan{position:relative;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;container-type:inline-size}
+.pk-plan picture,.pk-plan img{display:block;width:100%;height:auto}
+.pk-bay{position:absolute;display:flex;align-items:center;justify-content:center;padding:0;background:rgba(15,76,58,.88);border:1.5px solid var(--em);border-radius:3px;cursor:pointer;color:#fff;font-weight:700;line-height:1;font-size:clamp(8px,1.5cqw,16px);font-variant-numeric:tabular-nums;transition:background var(--t),box-shadow var(--t)}
+.pk-bay:hover,.pk-bay:focus-visible,.pk-bay:active{background:var(--gold-aa);border-color:var(--gold-aa);box-shadow:0 0 0 3px rgba(133,102,31,.35);z-index:2}
+.pk-legend{grid-area:legend;display:flex;gap:22px;flex-wrap:wrap;margin:16px 0 0;font-size:14px;color:var(--txt2)}
+.pk-legend span{display:inline-flex;align-items:center;gap:8px}
+.pk-legend i{display:inline-block;width:22px;height:14px;border-radius:3px;background:rgba(15,76,58,.88);border:1.5px solid var(--em)}
+.pk-legend i.off{background:#fff;border:2px solid #9A9A9E}
+.pk-chipbox{grid-area:chips}
+.pk-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;padding:0;list-style:none}
+.pk-chip{min-width:56px;min-height:44px;padding:8px 16px;border-radius:100px;font-size:16px;font-weight:600;color:var(--txt);background:var(--card);border:1.5px solid var(--em);transition:all var(--t)}
+.pk-chip:hover{background:var(--gold-aa);border-color:var(--gold-aa);color:#fff}
+.pk-chips-l{font-size:14px;font-weight:600;color:var(--txt2);margin-bottom:10px}
+.pk-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.pk-cta{grid-area:cta;margin-top:22px}
+.pk-zoom-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 22px;border-radius:100px;font-size:14px;font-weight:600;color:var(--em);background:var(--card);border:1.5px solid var(--em);transition:all var(--t)}
+.pk-zoom-btn:hover{background:var(--em);color:#fff}
+.pk-note{grid-area:note;font-size:13px;line-height:1.6;color:#66666B;margin-top:18px;max-width:760px}
+.pk-note a{color:inherit;text-decoration:underline}
+.pk-aside{display:contents}
+.pk-sum{display:none}
+@media(min-width:1024px){
+  .pk-grid{grid-template-columns:minmax(0,2fr) minmax(280px,1fr);grid-template-areas:"tabs aside" "plan aside"}
+  #parking.sec{padding-top:72px}
+  .pk-grid .pk-tabs{margin:4px 0 12px}
+  .pk-aside{display:block;grid-area:aside;grid-row:1 / span 2;align-self:start;position:sticky;top:96px;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:26px 26px 22px}
+  .pk-sum{display:block;padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--border)}
+  .pk-sum-l{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--txt2)}
+  .pk-sum-n{font-family:var(--f1);font-size:34px;line-height:1.15;font-weight:600;color:var(--em);margin:4px 0}
+  .pk-sum-p{font-size:16px;font-weight:600;color:var(--txt)}
+  .pk-aside .pk-legend{margin:0 0 18px}
+  .pk-aside .pk-chips{margin-bottom:6px}
+  .pk-aside .pk-cta{margin-top:14px}
+  .pk-aside .pk-note{margin-top:16px;max-width:none}
+}
+.fc-link{display:inline-block;margin-top:12px;font-size:14px;font-weight:600;color:var(--gold-aa);border-bottom:1px solid currentColor}
+.fc-link:hover{color:var(--gold-aa-d)}
+.pk-mini{position:relative;width:100%;aspect-ratio:4/3;border-radius:10px;background-color:#fff;background-repeat:no-repeat;border:1px solid var(--border)}
+.pk-mini b{position:absolute;display:block;border:3px solid var(--em);background:rgba(15,76,58,.45);border-radius:3px;transform:translate(-50%,-50%)}
+#planLb.pk-zoom .lb-content{max-width:96vw;width:96vw}
+#planLb.pk-zoom .lb-img{display:none}
+#pkZoomBox{display:none;width:100%;max-height:calc(100vh - 150px);max-height:calc(100dvh - 150px);overflow:auto;border-radius:8px;overscroll-behavior:contain}
+#planLb.pk-zoom #pkZoomBox{display:block}
+#pkZoomBox .pk-plan{width:max(1100px,100%);border-radius:0}
+@media(max-width:768px){
+  .pk-plan:not(.pk-big) .pk-bay{display:none}
+  .pk-plan:not(.pk-big){cursor:zoom-in}
+  .pk-plan:not(.pk-big) .pk-deco{display:block;position:absolute;pointer-events:none;background:rgba(15,76,58,.88);border:1px solid var(--em);border-radius:2px}
+  .pk-tab{padding:10px 16px}
+}
+@media (prefers-reduced-motion: reduce){.pk-tab,.pk-chip,.pk-bay,.pk-zoom-btn{transition:none}}
+/* decorative bays on the inline plan: mobile only (chips + lightbox are the controls) */
+.pk-deco{display:none}
+#pkZoomBox .pk-bay{font-size:clamp(11px,1.5cqw,18px)}
+
 /* ═══ PLANS TABS ═══ */
 .tabs{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
 .tab{padding:10px 22px;border-radius:100px;font-size:14px;font-weight:600;color:var(--txt2);background:var(--card);border:1.5px solid var(--border);transition:all var(--t)}
@@ -281,6 +346,7 @@ body.modal-active .hero-bg img{transform:none!important}
 .apt-field input{width:100%;padding:13px 16px;background:var(--bg2);border:1.5px solid var(--border);border-radius:11px;font-size:15px;color:var(--txt);outline:none;transition:border-color var(--t)}
 .apt-field input::placeholder{color:var(--txt3)}
 .apt-field input:focus{border-color:var(--em)}
+@media(max-width:768px){.apt-field input{font-size:16px}}
 .apt-submit{width:100%;padding:15px;background:var(--gold-aa);color:#fff;font-size:15px;font-weight:600;border-radius:11px;border:none;cursor:pointer;transition:all var(--t);margin-top:4px}
 .apt-submit:hover{background:var(--gold-aa-d);transform:translateY(-1px);box-shadow:0 6px 20px rgba(140,109,42,.35)}
 .apt-note{font-size:12px;color:#66666B;text-align:center;margin-top:8px} /* was --txt3: below AA */
@@ -1240,6 +1306,23 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       "isRelatedTo": { "@id": "https://www.lakeview.com.ua/#residence" }
     },
     {
+      "@type": "Product",
+      "@id": "https://www.lakeview.com.ua/#parking-spaces",
+      "name": "Машиномісця в підземному паркінгу ЖК Lakeview",
+      "description": "Машиномісця у двоповерховому підземному паркінгу ЖК Lakeview у Львові (вул. Володимира Великого, 2а). Вартість від $30 000. Наявність станом на 26.10.2026; розміри проєктні, не є публічною офертою.",
+      "category": "Машиномісце",
+      "brand": { "@id": "https://www.lakeview.com.ua/#org" },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": 30000,
+        "availability": "https://schema.org/PreOrder",
+        "seller": { "@id": "https://www.lakeview.com.ua/#org" },
+        "url": "https://www.lakeview.com.ua/#parking"
+      },
+      "isRelatedTo": { "@id": "https://www.lakeview.com.ua/#residence" }
+    },
+    {
       "@type": "BreadcrumbList",
       "@id": "https://www.lakeview.com.ua/#breadcrumb",
       "itemListElement": [
@@ -1270,7 +1353,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         {
           "@type": "Question",
           "name": "Чи є паркінг?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Так — двоповерховий підземний паркінг на 138 машиномісць. Місця можна придбати окремо." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Так — двоповерховий підземний паркінг на 138 машиномісць. Частина машиномісць — у продажу, вартість від $30 000." }
         },
         {
           "@type": "Question",
@@ -1318,6 +1401,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
   <button class="mob-x" onclick="cmn()" aria-label="Закрити меню" type="button">&times;</button>
   <a href="#apartments" onclick="cmn()">Квартири</a>
   <a href="#conditions" onclick="cmn()">Умови</a>
+  <a href="#parking" onclick="cmn()">Паркінг</a>
   <a href="#location" onclick="cmn()">Локація</a>
   <a href="#construction" onclick="cmn()">Будівництво</a>
   <a href="#developer" onclick="cmn()">Забудовник</a>
@@ -1434,6 +1518,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
     <nav class="nav" aria-label="Головна навігація">
       <a href="#apartments">Квартири</a>
       <a href="#conditions">Умови</a>
+      <a href="#parking">Паркінг</a>
       <a href="#location">Локація</a>
       <a href="#construction">Будівництво</a>
       <a href="#developer">Забудовник</a>
@@ -1504,6 +1589,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 010 6H9"/></svg></div>
         <h3>Підземний паркінг</h3>
         <p>138 машино-місць на 2 підземних рівнях. Прямий ліфтовий вихід у секцію — авто захищене від негоди та поза очима.</p>
+        <a class="fc-link" href="#parking">Машиномісця в продажу</a>
       </div>
       <div class="fc rv rv2">
         <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
@@ -1659,6 +1745,37 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
   </div>
 </section>
 
+<!-- ═══ PARKING SALE ═══ -->
+<section class="sec" id="parking" aria-labelledby="pk-h">
+  <div class="ctn">
+    <div class="rv"><div class="sl">Паркінг</div>
+    <h2 class="st" id="pk-h">Машиномісце у <em>підземному паркінгу</em></h2>
+    <p class="sd" id="pk-lead">Машиномісця в продажу, вартість від $30&nbsp;000. Оберіть місце на плані й дізнайтеся точну ціну та умови купівлі.</p></div>
+
+    <div class="pk-grid">
+      <div class="pk-tabs" id="pk-tabs" role="group" aria-label="Рівень паркінгу"></div>
+
+      <div class="pk-planbox">
+        <div class="pk-plan" id="pk-plan"></div>
+        <div class="pk-actions">
+          <button type="button" class="pk-zoom-btn" id="pk-zoom">Збільшити схему паркінгу</button>
+        </div>
+      </div>
+
+      <div class="pk-aside">
+        <div class="pk-sum"><div class="pk-sum-l">У продажу</div><div class="pk-sum-n" id="pk-sum-n"></div><div class="pk-sum-p" id="pk-sum-p"></div></div>
+        <div class="pk-chipbox">
+          <div class="pk-chips-l" id="pk-chips-l"></div>
+          <ul class="pk-chips" id="pk-chips" aria-labelledby="pk-chips-l"></ul>
+        </div>
+        <div class="pk-legend" aria-hidden="true"><span><i></i>У продажу</span><span><i class="off"></i>Не в продажу</span></div>
+        <div class="pk-cta"><button type="button" class="bp" id="pk-cta">Дізнатися точну ціну</button></div>
+        <p class="pk-note">Наявність станом на 26.10.2026. Розміри машиномісць проєктні. Інформація не є публічною офертою. Актуальну наявність і ціну уточнюйте за телефоном <a class="binct-phone-number-1" href="tel:+380979900390">+38 097 990 03 90</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ PARTNER (A. Flat Lab) ═══ -->
 <section class="partner-sec" id="partner-aflatlab" aria-labelledby="partner-h">
   <div class="ctn">
@@ -1761,11 +1878,43 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
   </div>
 </section>
 
+<!-- PARKING MODAL -->
+<div class="apt-modal-ov" id="pkModal" role="dialog" aria-modal="true" aria-labelledby="pk-m-title" aria-hidden="true">
+  <div class="apt-modal">
+    <button class="apt-close" onclick="closePk()" aria-label="Закрити вікно" type="button">&times;</button>
+    <div class="apt-left"><div class="pk-mini" id="pk-mini" role="img" aria-label="Фрагмент плану паркінгу з виділеним машиномісцем"><b id="pk-mini-m" hidden></b></div></div>
+    <div class="apt-right">
+      <div class="apt-type" id="pk-m-type">Паркінг</div>
+      <h3 class="apt-title" id="pk-m-title"></h3>
+      <div class="apt-details">
+        <div class="apt-det"><span class="apt-det-l">Рівень</span><span class="apt-det-v" id="pk-m-level"></span></div>
+        <div class="apt-det apt-det-price"><span class="apt-det-l">Вартість</span><span class="apt-det-v">від $30&nbsp;000</span></div>
+      </div>
+      <div class="apt-form-wrap">
+        <h4>Дізнатися точну ціну</h4>
+        <form id="fPK" action="/api/submit.php" method="POST" onsubmit="return hs(event,'fPK')">
+          <input type="hidden" name="_form" value="parking">
+          <input type="hidden" name="ts" value="">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+          <input type="hidden" id="pk-hidden" name="apartment" value="">
+          <div class="apt-field"><label for="fPK-name" class="visually-hidden">Ваше ім'я</label><input id="fPK-name" type="text" name="name" placeholder="Ваше ім'я" required aria-required="true" autocomplete="name"></div>
+          <div class="apt-field"><label for="fPK-tel" class="visually-hidden">Телефон</label><input id="fPK-tel" type="tel" name="phone" inputmode="tel" maxlength="20" placeholder="+380 __ ___ __ __" required aria-required="true" pattern="^\+?[0-9\s\-]{10,20}$" autocomplete="tel"></div>
+          <button type="submit" class="apt-submit">Дізнатися точну ціну</button>
+          <p class="apt-note">Наявність станом на 26.10.2026. Розміри проєктні, не є публічною офертою.</p>
+          <p class="apt-note apt-consent">Натискаючи кнопку, ви погоджуєтесь з <a href="/privacy.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">обробкою персональних даних</a>, зокрема з передачею даних Google і Meta для вимірювання реклами.</p>
+        </form>
+        <div class="fs" id="fPK-s" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Дякуємо! Зв'яжемось найближчим часом.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Plan Lightbox -->
 <div class="lb-ov" id="planLb" style="z-index:10002" role="dialog" aria-modal="true" aria-labelledby="planLbTitle" aria-hidden="true">
   <button class="lb-close" onclick="closePlanLb()" aria-label="Закрити вікно" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
   <div class="lb-content">
     <img class="lb-img" id="planLbImg" src="" alt="" width="1600" height="1029">
+    <div id="pkZoomBox" tabindex="0" role="region" aria-label="Схема паркінгу, прокручується"></div>
     <div class="lb-caption"><h4 id="planLbTitle"></h4><span id="planLbSub"></span></div>
   </div>
 </div>
@@ -2117,7 +2266,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
               <span class="faq-qa-n" aria-hidden="true">04</span>
               <div class="faq-qa-body">
                 <h4 class="faq-qa-q">Чи є паркінг?</h4>
-                <p class="faq-qa-a">Так — двоповерховий підземний паркінг на 138 машиномісць. Місця можна придбати окремо.</p>
+                <p class="faq-qa-a">Так — двоповерховий підземний паркінг на 138 машиномісць. Частина машиномісць — у продажу, вартість від $30 000.</p>
               </div>
             </article>
             <article class="faq-qa">
@@ -2291,7 +2440,7 @@ document.querySelectorAll('.gal-scroll').forEach(function(g){
 
 /* Body lock — sync class + overflow when ANY modal/lightbox is open */
 function _anyOpen(){
-  return ['cbModal','aptModal','cuModal','conLb','planLb','mn'].some(function(id){
+  return ['cbModal','aptModal','cuModal','pkModal','conLb','planLb','mn'].some(function(id){
     var el=document.getElementById(id);return el&&el.classList.contains('open');
   });
 }
@@ -2346,7 +2495,7 @@ function _closeA11y(id){
 }
 /* Initialize inert on hidden modals/menus at load */
 document.addEventListener('DOMContentLoaded',function(){
-  ['cbModal','aptModal','cuModal','conLb','planLb','mn'].forEach(function(id){
+  ['cbModal','aptModal','cuModal','pkModal','conLb','planLb','mn'].forEach(function(id){
     var el=document.getElementById(id);
     if(el&&!el.classList.contains('open'))el.setAttribute('inert','');
   });
@@ -2480,6 +2629,133 @@ function openApt(el){
 function closeApt(){_closeA11y('aptModal');document.getElementById('apt-img').src=''}
 document.getElementById('aptModal').addEventListener('click',function(e){if(e.target===this)closeApt()});
 
+/* ═══ Parking sale (#parking) ═══════════════════════════════════════════════
+   PARKING is the single source of truth for what is on sale — tab counts, the lead
+   sentence and the chips are all computed from it. Geometry (bay rect in % of the
+   image) comes from img/parking/spots.json; if that fetch fails the chips still work. */
+var PARKING={price:'від $30 000',asof:'26.10.2026',sale:{'-2':[23,24,28,29,32,34,35,37,39,40,43,48,56,59,61,62,63,67],'-1':[110,117,118,127,130,134,135,138]}};
+var _PK_GEO=null,_PK_LEVEL='-2';
+function _pkLbl(l){return 'рівень '+String(l).replace('-','−')}
+function _pkPlural(n){var a=n%10,b=n%100;return (a===1&&b!==11)?'машиномісце':(a>=2&&a<=4&&(b<12||b>14))?'машиномісця':'машиномісць'}
+function _pkSpots(n){var a=n%10,b=n%100;return (a===1&&b!==11)?'місце':(a>=2&&a<=4&&(b<12||b>14))?'місця':'місць'}
+function _pkTotal(){return Object.keys(PARKING.sale).reduce(function(s,k){return s+PARKING.sale[k].length},0)}
+function _pkPlan(box,level,big){
+  var f='img/parking/level-'+Math.abs(level)+'.';
+  box.className='pk-plan'+(big?' pk-big':'');
+  box.innerHTML='<picture><source srcset="'+f+'avif" type="image/avif"><source srcset="'+f+'webp" type="image/webp"><img src="'+f+'png" width="2400" height="1711" alt="План підземного паркінгу, '+_pkLbl(level)+'" loading="lazy" decoding="async"></picture>';
+  var lv=_PK_GEO&&_PK_GEO.levels&&_PK_GEO.levels[level];if(!lv)return;
+  PARKING.sale[level].forEach(function(n){
+    var r=lv.spots[String(n)];if(!r)return;
+    var b=document.createElement('button');b.type='button';b.className='pk-bay';
+    b.style.cssText='left:'+r[0]+'%;top:'+r[1]+'%;width:'+r[2]+'%;height:'+r[3]+'%';
+    b.textContent=n;b.setAttribute('aria-label','Машиномісце №'+n+', '+_pkLbl(level)+', у продажу');
+    b.addEventListener('click',function(){openPk(level,n)});
+    box.appendChild(b);
+    if(!big){var d=document.createElement('span');d.className='pk-deco';d.setAttribute('aria-hidden','true');d.style.cssText=b.style.cssText;box.appendChild(d)}
+  });
+}
+var _pkChipsFor=null;
+function _pkRender(){
+  var tabs=document.getElementById('pk-tabs'),chips=document.getElementById('pk-chips');
+  if(!tabs)return;
+  /* Tabs are built once and only toggled afterwards, so keyboard focus stays on the clicked tab. */
+  if(!tabs.children.length){
+    Object.keys(PARKING.sale).forEach(function(l){
+      var t=document.createElement('button');t.type='button';t.className='pk-tab';t.setAttribute('data-l',l);
+      var n=PARKING.sale[l].length;
+      t.textContent='Рівень '+l.replace('-','−')+' · '+n+' '+_pkSpots(n);
+      t.addEventListener('click',function(){_PK_LEVEL=l;_pkRender()});
+      tabs.appendChild(t);
+    });
+  }
+  Array.prototype.forEach.call(tabs.children,function(t){
+    var on=t.getAttribute('data-l')===_PK_LEVEL;
+    t.classList.toggle('act',on);t.setAttribute('aria-pressed',on?'true':'false');
+  });
+  if(_pkChipsFor!==_PK_LEVEL){
+    _pkChipsFor=_PK_LEVEL;
+    document.getElementById('pk-chips-l').textContent='Машиномісця в продажу, '+_pkLbl(_PK_LEVEL)+':';
+    chips.innerHTML='';
+    PARKING.sale[_PK_LEVEL].forEach(function(n){
+      var li=document.createElement('li'),c=document.createElement('button');
+      c.type='button';c.className='pk-chip';c.textContent='№'+n;
+      c.setAttribute('aria-label','Машиномісце №'+n+', '+_pkLbl(_PK_LEVEL)+', у продажу');
+      c.addEventListener('click',function(){openPk(_PK_LEVEL,n)});
+      li.appendChild(c);chips.appendChild(li);
+    });
+  }
+  _pkPlan(document.getElementById('pk-plan'),_PK_LEVEL,false);
+}
+function _pkMini(level,n){
+  var m=document.getElementById('pk-mini'),mk=document.getElementById('pk-mini-m');
+  var lv=_PK_GEO&&_PK_GEO.levels&&_PK_GEO.levels[level],r=lv&&n&&lv.spots[String(n)];
+  if(!r){m.style.display='none';return}
+  m.style.display='';
+  /* view window = 25% of the image width; box is 4:3, so its height is .1875*W = .263*H of the image */
+  var cx=(r[0]+r[2]/2)/100,cy=(r[1]+r[3]/2)/100,vw=.25,vh=.1875*(2400/1711);
+  var px=Math.min(1,Math.max(0,(cx-vw/2)/(1-vw))),py=Math.min(1,Math.max(0,(cy-vh/2)/(1-vh)));
+  m.style.backgroundImage='url(img/parking/level-'+Math.abs(level)+'.webp)';
+  m.style.backgroundSize=(100/vw)+'% auto';
+  m.style.backgroundPosition=(px*100)+'% '+(py*100)+'%';
+  var left=(cx-px*(1-vw))/vw*100,top=(cy-py*(1-vh))/vh*100;
+  mk.style.left=left+'%';mk.style.top=top+'%';
+  mk.style.width=(r[2]/100/vw*100)+'%';mk.style.height=(r[3]/100/vh*100)+'%';mk.hidden=false;
+}
+function openPk(level,n,noTrack){
+  var f=document.getElementById('fPK');
+  if(n&&!noTrack)_track('parking_bay_click',{level:level,bay:String(n)});
+  var title=n?'Машиномісце №'+n:'Машиномісце в Lakeview';
+  document.getElementById('pk-m-title').textContent=title;
+  document.getElementById('pk-m-type').textContent=n?'Паркінг · '+_pkLbl(level):'Паркінг';
+  document.getElementById('pk-m-level').textContent=n?_pkLbl(level).replace('рівень','Рівень'):'−2 або −1';
+  document.getElementById('pk-hidden').value=n?'Паркомісце №'+n+', '+_pkLbl(level):'Паркомісце: загальний запит (місце не обрано)';
+  document.getElementById('pk-mini-m').hidden=true;
+  _pkMini(level,n);
+  if(f){_setTs(f);f.style.display=''}
+  var s=document.getElementById('fPK-s');if(s)s.classList.remove('vis');
+  var z=document.getElementById('planLb');
+  if(z&&z.classList.contains('open'))closePlanLb();
+  _openA11y('pkModal');
+}
+function closePk(){_closeA11y('pkModal')}
+function _pkZoom(){
+  var box=document.getElementById('pkZoomBox'),lb=document.getElementById('planLb');
+  var inner=document.createElement('div');box.innerHTML='';box.appendChild(inner);
+  _pkPlan(inner,_PK_LEVEL,true);
+  document.getElementById('planLbTitle').textContent='Паркінг, '+_pkLbl(_PK_LEVEL);
+  document.getElementById('planLbSub').textContent='Машиномісця в продажу виділено. Натисніть на місце, щоб дізнатися ціну.';
+  lb.classList.add('pk-zoom');
+  _openA11y('planLb');
+  _track('plan_open',{plan:'Паркінг, '+_pkLbl(_PK_LEVEL)});
+}
+function _pkHash(){
+  var m=/^#parking-(\d+)$/.exec(location.hash||'');if(!m)return;
+  var n=+m[1],lvl=null;
+  Object.keys(PARKING.sale).forEach(function(l){if(PARKING.sale[l].indexOf(n)>-1)lvl=l});
+  var sec=document.getElementById('parking');if(sec)sec.scrollIntoView();
+  if(lvl){_PK_LEVEL=lvl;_pkRender();openPk(lvl,n)}
+}
+(function(){
+  if(!document.getElementById('pk-tabs'))return;
+  var tot=_pkTotal();
+  document.getElementById('pk-lead').innerHTML='Вартість '+PARKING.price.replace(/ /g,'&nbsp;')+'. У продажу '+tot+'&nbsp;'+_pkPlural(tot)+' на двох рівнях — оберіть місце на плані й дізнайтеся точну ціну та умови купівлі.';
+  var sn=document.getElementById('pk-sum-n');if(sn)sn.textContent=tot+' '+_pkPlural(tot);
+  var sp=document.getElementById('pk-sum-p');if(sp)sp.textContent=PARKING.price;
+  _pkRender();
+  document.getElementById('pk-zoom').addEventListener('click',_pkZoom);
+  document.getElementById('pk-plan').addEventListener('click',function(e){
+    if(window.matchMedia('(max-width:768px)').matches&&!e.target.closest('.pk-bay'))_pkZoom();
+  });
+  document.getElementById('pk-cta').addEventListener('click',function(){openPk(_PK_LEVEL,0)});
+  document.getElementById('pkModal').addEventListener('click',function(e){if(e.target===this)closePk()});
+  window.addEventListener('hashchange',_pkHash);
+  /* Geometry is tiny (~6 KB); fetch it once, then add the bay buttons to the plan */
+  fetch('img/parking/spots.json').then(function(r){return r.ok?r.json():null}).then(function(g){
+    if(g&&g.levels){_PK_GEO=g;_pkRender()}
+    _pkHash();
+  }).catch(function(){_pkHash()});
+})();
+
 /* ─── Analytics micro-events → dataLayer (GTM maps them to GA4 / Pixel) ── */
 function _track(ev,params){
   window.dataLayer=window.dataLayer||[];
@@ -2548,8 +2824,8 @@ function _setTs(form){
   if(t&&!t.value)t.value=String(Date.now());
 }
 /* Form id → place on the page. Two forms share _form=commercial (modal fCU and
-   section fC), so reports need this to tell all six apart. */
-var _FORM_PLACE={fCB:'callback',fApt:'apartment',fCU:'commercial_modal',fR:'catalog',fC:'commercial_section',fF:'footer'};
+   section fC), so reports need this to tell all seven apart. */
+var _FORM_PLACE={fCB:'callback',fApt:'apartment',fCU:'commercial_modal',fR:'catalog',fC:'commercial_section',fF:'footer',fPK:'parking_modal'};
 function _hidden(form,name,value){
   var i=form.querySelector('input[name="'+name+'"]');
   if(!i){i=document.createElement('input');i.type='hidden';i.name=name;form.appendChild(i)}
@@ -2983,7 +3259,11 @@ function openPlanLbDirect(src,alt,title,sub){
 }
 function closePlanLb(){
   _closeA11y('planLb');
-  setTimeout(function(){document.getElementById('planLbImg').src=''},350);
+  setTimeout(function(){
+    document.getElementById('planLbImg').src='';
+    document.getElementById('planLb').classList.remove('pk-zoom');
+    document.getElementById('pkZoomBox').innerHTML='';
+  },350);
 }
 document.getElementById('planLb').addEventListener('click',function(e){if(e.target===this)closePlanLb()});
 
@@ -2993,6 +3273,7 @@ document.addEventListener('keydown',function(e){
     if(document.getElementById('planLb').classList.contains('open')){closePlanLb();return}
     if(document.getElementById('conLb').classList.contains('open')){closeLb();return}
     if(document.getElementById('aptModal').classList.contains('open')){closeApt();return}
+    if(document.getElementById('pkModal').classList.contains('open')){closePk();return}
     if(document.getElementById('cuModal').classList.contains('open')){closeCu();return}
     if(document.getElementById('cbModal').classList.contains('open')){closeModal();return}
     if(document.getElementById('mn').classList.contains('open')){cmn();return}

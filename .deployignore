@@ -77,6 +77,7 @@
 # would also match `img/plans/` and clobber floor plan images.
 /plans/
 /progress/
+/docs/
 /specs/
 /thoughts/
 /.planning/
