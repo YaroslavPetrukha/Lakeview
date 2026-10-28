@@ -39,7 +39,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script src="https://widgets.binotel.com/calltracking/widgets/rzcpzaqf132c1k50zt14.js" async></script>
 
 <title>ЖК Lakeview — Квартири біля озера у Львові | Вигода</title>
-<meta name="description" content="ЖК Lakeview — бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1700/м². Розстрочка від забудовника Вигода. Здача 2027.">
+<meta name="description" content="ЖК Lakeview — бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1700/м². Розстрочка до 2 років без відсотків. Орієнтовна здача — 2027.">
 
 <!-- Canonical + identity -->
 <link rel="canonical" href="https://www.lakeview.com.ua/">
@@ -53,7 +53,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:locale" content="uk_UA">
 <meta property="og:url" content="https://www.lakeview.com.ua/">
 <meta property="og:title" content="ЖК Lakeview — Квартири біля озера у Львові | Вигода">
-<meta property="og:description" content="Бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1700/м². Розстрочка від забудовника Вигода. Здача 2027.">
+<meta property="og:description" content="Бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1700/м². Розстрочка до 2 років без відсотків. Орієнтовна здача — 2027.">
 <meta property="og:image" content="https://www.lakeview.com.ua/img/og-cover.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -62,7 +62,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ЖК Lakeview — Квартири біля озера у Львові | Вигода">
-<meta name="twitter:description" content="Бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1700/м². Розстрочка. Здача 2027.">
+<meta name="twitter:description" content="Бізнес-клас біля озера у Львові, вул. В. Великого. Квартири 44–183 м² від $1700/м². Розстрочка до 2 років без відсотків. Орієнтовна здача — 2027.">
 <meta name="twitter:image" content="https://www.lakeview.com.ua/img/og-cover.jpg">
 
 <!-- Geo -->
@@ -293,6 +293,7 @@ body.modal-active .hero-bg img{transform:none!important}
 .tab{padding:10px 22px;border-radius:100px;font-size:14px;font-weight:600;color:var(--txt2);background:var(--card);border:1.5px solid var(--border);transition:all var(--t)}
 .tab.act,.tab:hover{background:var(--em);color:#fff;border-color:var(--em)}
 .plans-g{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(min-width:769px) and (max-width:1023px){.plans-g{grid-template-columns:repeat(2,1fr)}}
 .pc{background:var(--card);border-radius:var(--r2);overflow:hidden;border:1px solid var(--border);transition:all var(--t);cursor:pointer}
 .pc:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
 .pc-img{aspect-ratio:4/3;overflow:hidden;position:relative;cursor:zoom-in;background:var(--bg2)}
@@ -316,8 +317,22 @@ body.modal-active .hero-bg img{transform:none!important}
 .pc-b h3{font-family:var(--f1);font-size:22px;font-weight:600;margin-bottom:2px}
 .pc-b span{font-size:14px;color:var(--txt2)}
 .pc-f{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-top:1px solid var(--border)}
+/* installment terms: ONE quiet italic line under «Секція · поверх» (no pill: pills on this card are status/CTA). Footer pinned so price rows align across the grid */
+.plans-g .pc{display:flex;flex-direction:column}
+.plans-g .pc-b{flex:1;display:flex;flex-wrap:wrap;align-items:baseline;align-content:flex-start;column-gap:12px}
+/* body = one spec row (area left, «Секція · поверх» right, shared baseline; same left/right rhythm as .pc-f) + the terms line under it. DOM order untouched; if the row ever cannot fit, the section label drops under the area, left-aligned */
+.plans-g .pc-b h3{flex:1 1 auto;margin-bottom:0}
+.plans-g .pc-b span{flex:0 0 auto;white-space:nowrap}
+.plans-g .pc-b .pc-inst{flex:0 0 100%;margin-top:8px}
+.plans-g .pc-f{min-height:59px}
+.pc-inst{margin:6px 0 0;font-family:var(--f1);font-style:italic;font-size:17px;font-weight:500;line-height:1.25;color:var(--em)}
+.pc-inst-0{color:var(--txt2)}
+#apt-inst{display:none;margin:0 0 12px;white-space:normal}
+#apt-inst.on{display:block}
+.plans-note{margin-top:20px;font-size:13px;line-height:1.55;color:var(--txt2);text-align:center}
 .pc-price{font-family:var(--f1);font-size:18px;font-weight:600;color:var(--em)}
 .pc-promo{position:absolute;top:12px;right:12px;display:inline-flex;align-items:center;gap:5px;padding:5px 11px;background:var(--gold-aa);color:#fff;font-size:11px;font-weight:600;letter-spacing:.02em;border-radius:100px;z-index:2;box-shadow:0 2px 8px rgba(133,102,31,.35)}
+.pc-price.ask{font-size:15px;color:var(--txt2)}
 .pc-price.promo{color:var(--gold-aa)}
 .pc-link{font-size:13px;font-weight:600;color:var(--gold-aa);display:flex;align-items:center;gap:4px;transition:gap var(--t);background:none;border:none;padding:0;cursor:pointer;font-family:inherit}
 .pc-link:hover{gap:8px;color:var(--gold-aa-d)}
@@ -367,6 +382,22 @@ body.modal-active .hero-bg img{transform:none!important}
 .cond-card h3{font-family:var(--f1);font-size:20px;font-weight:600;margin-bottom:6px}
 .cond-card p{font-size:15px;color:var(--txt2);line-height:1.55}
 .cond-card .val{font-family:var(--f1);font-size:28px;font-weight:600;color:var(--em);margin-bottom:4px}
+
+/* installment terms strip: card keeps the headline terms, the full who-lists sit in a panel under the 3 cards */
+.cond-terms{grid-column:1/-1;display:grid;grid-template-columns:3fr 2fr;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+.ct{padding:28px 32px}
+.ct+.ct{border-left:1px solid var(--border)}
+.ct h3{font-family:var(--f1);font-size:26px;font-weight:600;line-height:1.15;color:var(--txt);margin-bottom:14px}
+.ct h3 em{font-style:italic;color:var(--em)}
+.ct-for{display:flex;gap:14px;align-items:baseline;font-size:15px;line-height:1.5;color:var(--txt2)}
+.ct-for>span{flex:none;font-family:var(--f1);font-style:italic;font-size:17px;color:var(--gold-aa)}
+.ct-for ul{flex:1;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:4px 24px}
+.ct-for li{position:relative;padding-left:16px}
+.ct-for li::before{content:'';position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--em)}
+.ct-note{grid-column:1/-1;padding:16px 32px;background:var(--bg2);border-top:1px solid var(--border);font-size:14px;line-height:1.55;color:var(--txt2)}
+@media(min-width:1025px){.cond-terms~.cond-card{grid-row:1;grid-column:3}.cond-terms{grid-row:2}}
+@media(min-width:769px) and (max-width:1024px){.cond-terms{grid-template-columns:1fr 1fr}.cond-terms~.cond-card{grid-column:1/-1}}
+@media(max-width:768px){.cond-terms{grid-template-columns:1fr}.ct{padding:22px 20px}.ct+.ct{border-left:0;border-top:1px solid var(--border)}.ct-note{padding:14px 20px}}
 
 /* ═══ LEAD FORMS ═══ */
 .lfw{background:linear-gradient(135deg,var(--em-d),var(--em));border-radius:var(--r2);padding:48px;position:relative;overflow:hidden}
@@ -1373,7 +1404,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
         {
           "@type": "Question",
           "name": "Чи є розстрочка?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Так. Перший внесок — від 30%, далі графік платежів без процентної ставки на період будівництва. Розстрочка надається безпосередньо забудовником, без залучення банку. Деталі — у відділі продажу: +38 097 990 03 90." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Так. Перший внесок — 30–40%. Розстрочка до 2 років — для 2- та 3-кімнатних квартир, квартир з терасами, акційних 1-кімнатних і комерційних приміщень; до 1 року — для решти 1-кімнатних. Без відсотків і без подорожчання. Розстрочка надається безпосередньо забудовником, без залучення банку. Не діє на квартири, що продаються за договором відступлення права вимоги (переуступки). Деталі — у відділі продажу: +38 097 990 03 90." }
         },
         {
           "@type": "Question",
@@ -1440,6 +1471,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
     </div>
     <div class="apt-right">
       <div class="apt-type" id="apt-type"></div>
+      <div class="pc-inst pc-inst-0" id="apt-inst"></div>
       <h3 class="apt-title" id="apt-title"></h3>
       <div class="apt-details">
         <div class="apt-det"><span class="apt-det-l">Секція</span><span class="apt-det-v" id="apt-section"></span></div>
@@ -1550,7 +1582,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       <div class="hero-tag gold">від $1700/м²</div>
     </div>
     <h1>Сімейний ЖК<br>бізнес-класу<br>біля <em>озера</em></h1>
-    <p class="hero-p">Від 44 м² з видом на озеро. Розстрочка від забудовника. Броньовані двері, вікна та штукатурка вже включені в ціну.</p>
+    <p class="hero-p">Від 44 м² з видом на озеро. Розстрочка до 2 років без відсотків. Броньовані двері, вікна та штукатурка вже включені в ціну.</p>
     <div class="hero-ctas">
       <a href="#res-form" class="bp">Отримати каталог планувань <svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
       <a href="#commercial" class="bs">Комерційні приміщення <svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
@@ -1571,7 +1603,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
     <div class="rv">
       <div class="qf-prose">
         <span class="qf-prose-l">Опис об'єкта</span>
-        <p><strong>ЖК Lakeview</strong> — сімейний житловий комплекс бізнес-класу у Львові на <strong>вул. Володимира Великого, 2а</strong>, за 50 метрів від озера та 10 хвилинах від центру. Забудовник — <strong>Вигода</strong>. Комплекс складається з 4 секцій до 16 поверхів, з двоповерховим підземним паркінгом на 138 місць. У продажі 1–3-кімнатні квартири площею <strong>44–183 м² від $1700/м²</strong>. У вартість входять штукатурка, броньовані двері, енергоефективні вікна, лічильники та електророзведення. Оплата: 30% перший внесок, далі безвідсоткова розстрочка. Завершення — <strong>2027 рік</strong>.</p>
+        <p><strong>ЖК Lakeview</strong> — сімейний житловий комплекс бізнес-класу у Львові на <strong>вул. Володимира Великого, 2а</strong>, за 50 метрів від озера та 10 хвилинах від центру. Забудовник — <strong>Вигода</strong>. Комплекс складається з 4 секцій до 16 поверхів, з двоповерховим підземним паркінгом на 138 місць. У продажі 1–3-кімнатні квартири площею <strong>44–183 м² від $1700/м²</strong>. У вартість входять штукатурка, броньовані двері, енергоефективні вікна, лічильники та електророзведення. Оплата: перший внесок 30–40%, розстрочка без відсотків: до 2 років — для 2- та 3-кімнатних квартир, квартир з терасами, акційних 1-кімнатних і комерційних приміщень; до 1 року — для решти 1-кімнатних; не діє на квартири за договором відступлення права вимоги. Завершення — <strong>2027 рік</strong>.</p>
       </div>
     </div>
   </div>
@@ -1619,52 +1651,53 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
     </div>
 
     <div class="plans-g" id="plans-all">
-      <div class="pc rv rv1" data-type="1k" onclick="openApt(this)">
+      <div class="pc rv rv1" data-type="1k" data-inst="1" onclick="openApt(this)">
         <div class="pc-img"><picture><source type="image/avif" srcset="img/plans/s1-039-1k-53m2-720.avif 720w, img/plans/s1-039-1k-53m2.avif 1600w" sizes="(max-width:768px) 100vw, 360px"><source type="image/webp" srcset="img/plans/s1-039-1k-53m2-720.webp 720w, img/plans/s1-039-1k-53m2.webp 1600w" sizes="(max-width:768px) 100vw, 360px"><img src="img/plans/s1-039-1k-53m2.jpg" alt="1-кімнатна 53.19 м², секція 1" width="1600" height="1029" loading="lazy"></picture><div class="pc-badge">1-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
-        <div class="pc-b"><h3>53.19 м²</h3><span>Секція 1 · поверх 10</span></div>
+        <div class="pc-b"><h3>53.19 м²</h3><span>Секція 1 · поверх 10</span><div class="pc-inst">Розстрочка до 1 року</div></div>
         <div class="pc-f"><span class="pc-price">$90 423</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
       </div>
-      <div class="pc rv rv2" data-type="1k" data-plan-full="img/plans/s4-177-1k-63m2-full.jpg" onclick="openApt(this)">
+      <div class="pc rv rv2" data-type="1k" data-plan-full="img/plans/s4-177-1k-63m2-full.jpg" data-inst="2" onclick="openApt(this)">
         <div class="pc-img"><picture><source type="image/avif" srcset="img/plans/s4-177-1k-63m2-720.avif 720w, img/plans/s4-177-1k-63m2.avif 1600w" sizes="(max-width:768px) 100vw, 360px"><source type="image/webp" srcset="img/plans/s4-177-1k-63m2-720.webp 720w, img/plans/s4-177-1k-63m2.webp 1600w" sizes="(max-width:768px) 100vw, 360px"><img src="img/plans/s4-177-1k-63m2.jpg" alt="1-кімнатна 63.6 м², секція 4" width="1600" height="1029" loading="lazy"></picture><div class="pc-promo">★ Акційна ціна</div><div class="pc-badge">1-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
-        <div class="pc-b"><h3>63.6 м²</h3><span>Секція 4 · поверх 3</span></div>
+        <div class="pc-b"><h3>63.6 м²</h3><span>Секція 4 · поверх 3</span><div class="pc-inst">Розстрочка до 2 років</div></div>
         <div class="pc-f"><span class="pc-price promo">$97 603,50</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
       </div>
-      <div class="pc rv rv1" data-type="2k" onclick="openApt(this)">
+      <div class="pc rv rv1" data-type="2k" data-inst="2" onclick="openApt(this)">
         <div class="pc-img"><picture><source type="image/avif" srcset="img/plans/s2-074-2k-68m2-720.avif 720w, img/plans/s2-074-2k-68m2.avif 1600w" sizes="(max-width:768px) 100vw, 360px"><source type="image/webp" srcset="img/plans/s2-074-2k-68m2-720.webp 720w, img/plans/s2-074-2k-68m2.webp 1600w" sizes="(max-width:768px) 100vw, 360px"><img src="img/plans/s2-074-2k-68m2.jpg" alt="2-кімнатна 68.08 м², секція 2" width="1600" height="1029" loading="lazy"></picture><div class="pc-badge">2-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
-        <div class="pc-b"><h3>68.08 м²</h3><span>Секція 2 · поверх 8</span></div>
+        <div class="pc-b"><h3>68.08 м²</h3><span>Секція 2 · поверх 8</span><div class="pc-inst">Розстрочка до 2 років</div></div>
         <div class="pc-f"><span class="pc-price">$122 544</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
       </div>
-      <div class="pc rv rv2" data-type="2k" onclick="openApt(this)">
+      <div class="pc rv rv2" data-type="2k" data-inst="0" onclick="openApt(this)">
         <div class="pc-img"><picture><source type="image/avif" srcset="img/plans/s1-001-2k-70m2-720.avif 720w, img/plans/s1-001-2k-70m2.avif 1600w" sizes="(max-width:768px) 100vw, 360px"><source type="image/webp" srcset="img/plans/s1-001-2k-70m2-720.webp 720w, img/plans/s1-001-2k-70m2.webp 1600w" sizes="(max-width:768px) 100vw, 360px"><img src="img/plans/s1-001-2k-70m2.jpg" alt="2-кімнатна 70.56 м², секція 1" width="1600" height="1029" loading="lazy"></picture><div class="pc-badge">2-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
-        <div class="pc-b"><h3>70.56 м²</h3><span>Секція 1 · поверх 3</span></div>
-        <div class="pc-f"><span class="pc-price">$119 952</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
+        <div class="pc-b"><h3>70.56 м²</h3><span>Секція 1 · поверх 3</span><div class="pc-inst pc-inst-0">Відступлення права вимоги (переуступка)</div></div>
+        <div class="pc-f"><span class="pc-price ask">Ціна — за запитом</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
       </div>
-      <div class="pc rv rv3" data-type="3k" onclick="openApt(this)">
+      <div class="pc rv rv3" data-type="3k" data-inst="0" onclick="openApt(this)">
         <div class="pc-img"><picture><source type="image/avif" srcset="img/plans/s4-236-3k-89m2-720.avif 720w, img/plans/s4-236-3k-89m2.avif 1600w" sizes="(max-width:768px) 100vw, 360px"><source type="image/webp" srcset="img/plans/s4-236-3k-89m2-720.webp 720w, img/plans/s4-236-3k-89m2.webp 1600w" sizes="(max-width:768px) 100vw, 360px"><img src="img/plans/s4-236-3k-89m2.jpg" alt="3-кімнатна 89.98 м², секція 4" width="1600" height="1131" loading="lazy"></picture><div class="pc-badge">3-кімнатна</div><div class="pc-avail">Вільна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
-        <div class="pc-b"><h3>89.98 м²</h3><span>Секція 4 · поверх 11</span></div>
-        <div class="pc-f"><span class="pc-price">$152 966</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
+        <div class="pc-b"><h3>89.98 м²</h3><span>Секція 4 · поверх 11</span><div class="pc-inst pc-inst-0">Відступлення права вимоги (переуступка)</div></div>
+        <div class="pc-f"><span class="pc-price ask">Ціна — за запитом</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
       </div>
       <div class="pc rv rv2 is-sold" data-type="3k">
         <div class="pc-img" onclick="openPlanLb(event,this.closest('.pc'))"><picture><source type="image/avif" srcset="img/plans/s2-092-3k-119m2-720.avif 720w, img/plans/s2-092-3k-119m2.avif 1600w" sizes="(max-width:768px) 100vw, 360px"><source type="image/webp" srcset="img/plans/s2-092-3k-119m2-720.webp 720w, img/plans/s2-092-3k-119m2.webp 1600w" sizes="(max-width:768px) 100vw, 360px"><img src="img/plans/s2-092-3k-119m2.jpg" alt="3-кімнатна 119.70 м², секція 2" width="1600" height="1013" loading="lazy"></picture><div class="pc-badge">3-кімнатна</div><div class="pc-sold">Продано</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
         <div class="pc-b"><h3>119.70 м²</h3><span>Секція 2 · поверх 13</span></div>
         <div class="pc-f"><span class="pc-price">$239 400</span><span class="pc-soldnote">Продано</span></div>
       </div>
-      <div class="pc rv rv1" data-type="2k" onclick="openApt(this)">
+      <div class="pc rv rv1" data-type="2k" data-inst="2" onclick="openApt(this)">
         <div class="pc-img"><picture><source type="image/avif" srcset="img/plans/s3-168-2k-78m2-720.avif 720w, img/plans/s3-168-2k-78m2.avif 1600w" sizes="(max-width:768px) 100vw, 360px"><source type="image/webp" srcset="img/plans/s3-168-2k-78m2-720.webp 720w, img/plans/s3-168-2k-78m2.webp 1600w" sizes="(max-width:768px) 100vw, 360px"><img src="img/plans/s3-168-2k-78m2.jpg" alt="2-кімнатна 78.35 м², секція 3" width="1600" height="1029" loading="lazy"></picture><div class="pc-badge">2-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
-        <div class="pc-b"><h3>78.35 м²</h3><span>Секція 3 · поверх 15</span></div>
+        <div class="pc-b"><h3>78.35 м²</h3><span>Секція 3 · поверх 15</span><div class="pc-inst">Розстрочка до 2 років</div></div>
         <div class="pc-f"><span class="pc-price">$156 700</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
       </div>
-      <div class="pc rv rv3" data-type="2k" onclick="openApt(this)">
+      <div class="pc rv rv3" data-type="2k" data-inst="2" onclick="openApt(this)">
         <div class="pc-img"><picture><source type="image/avif" srcset="img/plans/s3-133-2k-64m2-720.avif 720w, img/plans/s3-133-2k-64m2.avif 1600w" sizes="(max-width:768px) 100vw, 360px"><source type="image/webp" srcset="img/plans/s3-133-2k-64m2-720.webp 720w, img/plans/s3-133-2k-64m2.webp 1600w" sizes="(max-width:768px) 100vw, 360px"><img src="img/plans/s3-133-2k-64m2.jpg" alt="2-кімнатна 64.58 м², секція 3" width="1600" height="1029" loading="lazy"></picture><div class="pc-badge">2-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
-        <div class="pc-b"><h3>64.58 м²</h3><span>Секція 3 · поверх 9</span></div>
+        <div class="pc-b"><h3>64.58 м²</h3><span>Секція 3 · поверх 9</span><div class="pc-inst">Розстрочка до 2 років</div></div>
         <div class="pc-f"><span class="pc-price">$109 786</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
       </div>
-      <div class="pc rv rv1" data-type="2k" onclick="openApt(this)">
+      <div class="pc rv rv1" data-type="2k" data-inst="0" onclick="openApt(this)">
         <div class="pc-img"><picture><source type="image/avif" srcset="img/plans/s3-123-2k-77m2-720.avif 720w, img/plans/s3-123-2k-77m2.avif 1600w" sizes="(max-width:768px) 100vw, 360px"><source type="image/webp" srcset="img/plans/s3-123-2k-77m2-720.webp 720w, img/plans/s3-123-2k-77m2.webp 1600w" sizes="(max-width:768px) 100vw, 360px"><img src="img/plans/s3-123-2k-77m2.jpg" alt="2-кімнатна 77.72 м², секція 3" width="1600" height="1131" loading="lazy"></picture><div class="pc-badge">2-кімнатна</div><button type="button" class="pc-zoom" aria-label="Збільшити план квартири" onclick="event.stopPropagation();openPlanLb(event,this.closest('.pc'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button></div>
-        <div class="pc-b"><h3>77.72 м²</h3><span>Секція 3 · поверх 8</span></div>
-        <div class="pc-f"><span class="pc-price">$132 124</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
+        <div class="pc-b"><h3>77.72 м²</h3><span>Секція 3 · поверх 8</span><div class="pc-inst pc-inst-0">Відступлення права вимоги (переуступка)</div></div>
+        <div class="pc-f"><span class="pc-price ask">Ціна — за запитом</span><button type="button" class="pc-link" onclick="event.stopPropagation();openApt(this)">Дізнатись деталі →</button></div>
       </div>
     </div>
+    <p class="plans-note">Квартири, позначені «Відступлення права вимоги (переуступка)», продаються за договором відступлення права вимоги. Сторони договору, ціну, порядок оплати та умови уточнюйте у відділі продажів. Розстрочка забудовника на ці квартири не поширюється. Ціна «від $1700/м²» стосується квартир від забудовника. Інформація не є публічною офертою.</p>
 
     <div class="cta-split rv" id="res-form" style="margin-top:48px">
       <div class="cta-split-img">
@@ -1712,20 +1745,31 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
   <div class="ctn">
     <div class="rv"><div class="sl">Умови купівлі</div>
     <h2 class="st">Прозорі <em>умови</em> від забудовника</h2>
-    <p class="sd">Купуйте напряму від забудовника «Вигода» — без посередників та прихованих комісій.</p></div>
+    <p class="sd">Купуйте напряму від забудовника «Вигода» — без посередників та прихованих комісій. Виняток — квартири, що продаються за договором відступлення права вимоги.</p></div>
 
     <div class="cond-grid">
       <div class="cond-card rv rv1">
         <div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
         <div class="val">від $1700/м²</div>
-        <h3>Ціна без комісій</h3>
-        <p>Пряма ціна від забудовника. Без додаткових комісій та посередників.</p>
+        <h3>Ціна від забудовника без комісій</h3>
+        <p>Пряма ціна від забудовника. Без додаткових комісій та посередників. Виняток — квартири, що продаються за договором відступлення права вимоги.</p>
       </div>
       <div class="cond-card rv rv2">
         <div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
         <div class="val">Розстрочка</div>
         <h3>Гнучкі умови оплати</h3>
-        <p>Перший внесок від 30%. Розстрочка на період будівництва без переплат. Деталі — за запитом.</p>
+        <p>Перший внесок 30–40%. Без відсотків і без подорожчання.</p>
+      </div>
+      <div class="cond-terms rv rv3">
+        <div class="ct">
+          <h3>Розстрочка <em>до 2 років</em></h3>
+          <div class="ct-for"><span>для</span><ul role="list"><li>2- та 3-кімнатних квартир</li><li>квартир з терасами</li><li>акційних 1-кімнатних</li><li>комерційних приміщень</li></ul></div>
+        </div>
+        <div class="ct">
+          <h3>Розстрочка <em>до 1 року</em></h3>
+          <div class="ct-for"><span>для</span><ul role="list"><li>решти 1-кімнатних</li></ul></div>
+        </div>
+        <p class="ct-note">Не діє на квартири за договором відступлення права вимоги (переуступки). Деталі — за запитом.</p>
       </div>
       <div class="cond-card rv rv3">
         <div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
@@ -1943,7 +1987,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
       <div class="dev-panel rv rv1">
         <div class="dev-panel-h">Доказова база</div>
         <div class="dev-nums">
-          <div><div class="dev-num-v">0%</div><div class="dev-num-l">комісій посередників — продаж напряму від забудовника</div></div>
+          <div><div class="dev-num-v">0%</div><div class="dev-num-l">комісій посередників — продаж напряму від забудовника (крім квартир за договором відступлення права вимоги)</div></div>
           <div><div class="dev-num-v">0%</div><div class="dev-num-l">річних — розстрочка напряму від забудовника, без банку</div></div>
           <div><div class="dev-num-v">100%</div><div class="dev-num-l">контроль циклу: проектування → будівництво → передача</div></div>
           <div><div class="dev-num-v">100%</div><div class="dev-num-l">юридичний трек відкритий у публічних реєстрах</div></div>
@@ -2303,7 +2347,7 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
               <span class="faq-qa-n" aria-hidden="true">08</span>
               <div class="faq-qa-body">
                 <h4 class="faq-qa-q">Чи є розстрочка?</h4>
-                <p class="faq-qa-a">Так. Перший внесок — від 30%, далі графік платежів без процентної ставки на період будівництва. Розстрочка надається безпосередньо забудовником, без залучення банку. Деталі — у відділі продажу: <a class="binct-phone-number-1" href="tel:+380979900390">+38 097 990 03 90</a>.</p>
+                <p class="faq-qa-a">Так. Перший внесок — 30–40%. Розстрочка до 2 років — для 2- та 3-кімнатних квартир, квартир з терасами, акційних 1-кімнатних і комерційних приміщень; до 1 року — для решти 1-кімнатних. Без відсотків і без подорожчання. Розстрочка надається безпосередньо забудовником, без залучення банку. Не діє на квартири, що продаються за договором відступлення права вимоги (переуступки). Деталі — у відділі продажу: <a class="binct-phone-number-1" href="tel:+380979900390">+38 097 990 03 90</a>.</p>
               </div>
             </article>
           </div>
@@ -2336,8 +2380,8 @@ input:user-invalid:focus,select:user-invalid:focus,textarea:user-invalid:focus{o
 
     <aside class="faq-disclaimer rv" role="note" aria-label="Інформаційне застереження">
       <span class="faq-disclaimer-l">Інформаційне застереження</span>
-      <p>Інформація на цій сторінці має ознайомчий характер і не є публічною офертою у розумінні ст. 641 Цивільного кодексу України. Характеристики об'єкта, планування, площі, строки введення в експлуатацію та умови оплати визначаються проектною декларацією, дозвільною документацією та фіксуються у договорі, що укладається між покупцем і забудовником. Зображення є візуалізаціями і можуть відрізнятися від кінцевого результату в межах проектних рішень.</p>
-      <p><strong>Умови розстрочки</strong>, графік платежів та валюта розрахунків встановлюються індивідуально та закріплюються у договорі. Розстрочка надається безпосередньо забудовником, без залучення банку. Дозвільні документи на будівництво (проектна декларація, дозвіл на виконання будівельних робіт, відомості про забудовника) надаються до укладення договору відповідно до ст. 15 ЗУ «Про захист прав споживачів» та ст. 25 ЗУ «Про рекламу».</p>
+      <p>Інформація на цій сторінці має ознайомчий характер і не є публічною офертою у розумінні ст. 641 Цивільного кодексу України. Характеристики об'єкта, планування, площі, строки введення в експлуатацію та умови оплати визначаються проектною декларацією, дозвільною документацією та фіксуються у договорі, що укладається між покупцем і забудовником (для квартир за договором відступлення права вимоги — у договорі відступлення). Зображення є візуалізаціями і можуть відрізнятися від кінцевого результату в межах проектних рішень.</p>
+      <p><strong>Умови розстрочки</strong>, графік платежів та валюта розрахунків встановлюються індивідуально та закріплюються у договорі. Розстрочка надається безпосередньо забудовником, без залучення банку; на квартири, що продаються за договором відступлення права вимоги (переуступки), вона не поширюється. Дозвільні документи на будівництво (проектна декларація, дозвіл на виконання будівельних робіт, відомості про забудовника) надаються до укладення договору відповідно до ст. 15 ЗУ «Про захист прав споживачів».</p>
     </aside>
 
     <div class="faq-foot rv">
@@ -2609,6 +2653,9 @@ function openApt(el){
   var area=card.querySelector('.pc-b h3').textContent;
   var info=card.querySelector('.pc-b span').textContent;
   var price=card.querySelector('.pc-price').textContent;
+  var instEl=card.querySelector('.pc-inst');
+  var neutral=card.dataset.inst==='0';
+  var instTxt=instEl?instEl.textContent.trim():'';
   var parts=info.split('·');
   var section=parts[0]?parts[0].trim():'';
   var floor=parts[1]?parts[1].trim():'';
@@ -2621,7 +2668,9 @@ function openApt(el){
   document.getElementById('apt-floor').textContent=floor;
   document.getElementById('apt-area').textContent=area;
   document.getElementById('apt-price').textContent=price;
-  document.getElementById('apt-hidden').value=badge+', '+area+', '+info;
+  var _ai=document.getElementById('apt-inst');_ai.textContent=instTxt;_ai.classList.toggle('on',!!instTxt);_ai.classList.toggle('pc-inst-0',!!instTxt&&neutral);
+  var _al=document.querySelector('#aptModal .apt-det-price .apt-det-l');if(_al)_al.style.display=(instTxt&&neutral)?'none':'';
+  document.getElementById('apt-hidden').value=(instTxt&&neutral)?(instTxt+', '+badge+', '+area+', '+info+', '+price):(badge+', '+area+', '+info);
   document.getElementById('fApt').style.display='';
   document.getElementById('fApt-s').classList.remove('vis');
   _openA11y('aptModal');
